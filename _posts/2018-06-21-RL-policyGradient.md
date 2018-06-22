@@ -1,10 +1,7 @@
 ---
-title: "Policy Gradient Tutorial"
+title: "Actor-Critic using Policy Gradient"
 date: 2018-06-21 13:00:00 -0400
 ---
-
-
-## Learning Goals
 
 ### Understand Actor-Critic (AC) algorithms
  - Learned Value Function
@@ -103,16 +100,35 @@ def actor_critic(env, estimator_policy, estimator_value, num_episodes, discount_
         discount_factor: Time-discount factor
     
     Returns:
-        An EpisodeStats object with two numpy arrays for episode_lengths and episode_rewards.
+        An EpisodeStats object with two numpy arrays for episode_lengths
+        and episode_rewards.
     """
 
     # Keeps track of useful statistics
     stats = plotting.EpisodeStats(
         episode_lengths=np.zeros(num_episodes),
         episode_rewards=np.zeros(num_episodes))    
-    
-    Transition = collections.namedtuple("Transition", ["state", "action", "reward", "next_state", "done"])
-    
+    '''
+    >>> # collections.namedtuple Basic example
+    >>> Point = namedtuple('Point', ['x', 'y'])
+    >>> p = Point(11, y=22)     # instantiate with positional or keyword arguments
+    >>> p[0] + p[1]             # indexable like the plain tuple (11, 22)
+    33
+    >>> x, y = p                # unpack like a regular tuple
+    >>> x, y
+    (11, 22)
+    >>> p.x + p.y               # fields also accessible by name
+    33
+    >>> p                       # readable __repr__ with a name=value style
+    Point(x=11, y=22)
+    '''
+    Transition = collections.namedtuple("Transition", ["state", "action", "reward",
+     "next_state", "done"])
+    '''
+     t = Transition(state=state, action=action, reward=reward, next_state=next_state,
+     done=done)
+     t.state, t.action
+    '''
     for i_episode in range(num_episodes):
         # Reset the environment and pick the fisrst action
         state = env.reset()
