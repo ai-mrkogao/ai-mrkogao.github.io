@@ -18,10 +18,6 @@ Monte Carlo Policy Gradient sill has high variance so critic estimates the actio
  - critic updates action-value function parameters w
  - actor updates policy parameter
 
-$$
-K(a,b) = \int \mathcal{D}x(t) \exp(2\pi i S[x]/\hbar)
-$$
-
 
 
 ### `Example cliff-walk with Actor-Critic algo`
@@ -258,27 +254,96 @@ class PolicyEstimator():
         return loss
 ```
 
-{% highlight python linenos %}
+
+```python
+class ValueEstimator():
+    """
+    Value Function approximator. 
+    """
+    
+    def __init__(self, learning_rate=0.1, scope="value_estimator"):
+        with tf.variable_scope(scope):
+            self.state = tf.placeholder(tf.int32, [], "state")
+            self.target = tf.placeholder(dtype=tf.float32, name="target")
+
+            # This is just table lookup estimator
+            state_one_hot = tf.one_hot(self.state, int(env.observation_space.n))
+            self.output_layer = tf.contrib.layers.fully_connected(
+                inputs=tf.expand_dims(state_one_hot, 0),
+                num_outputs=1,
+                activation_fn=None,
+                weights_initializer=tf.zeros_initializer)
+
+            self.value_estimate = tf.squeeze(self.output_layer)
+            self.loss = tf.squared_difference(self.value_estimate, self.target)
+
+            self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+            self.train_op = self.optimizer.minimize(
+                self.loss, global_step=tf.contrib.framework.get_global_step())        
+    
+    def predict(self, state, sess=None):
+        sess = sess or tf.get_default_session()
+        return sess.run(self.value_estimate, { self.state: state })
+
+    def update(self, state, target, sess=None):
+        sess = sess or tf.get_default_session()
+        feed_dict = { self.state: state, self.target: target }
+        _, loss = sess.run([self.train_op, self.loss], feed_dict)
+        return loss
+```
+
+## `below code snippet is actor-critic algorithm flow`
+
+- loop in each episode
+  - current state, take current action, run environment 
+  - take next state, next reward, game done signal from environment
+  - calculate estimated value of next state
+  - calculate td_target = reward + discount_factor* next estimated value
+  - calculate td_error = td_target - current estimated value 
+  - update state value with current state and td_target
+  - update policy weight with current state, td_error and current action
+  - loop goes until game is done
+  - state update with next state
+
+
+```python
+# Take a step
+action_probs = estimator_policy.predict(state)
+action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
+next_state, reward, done, _ = env.step(action)
+```
+
+### action_probs is estimated action lists of current state.  action_prob is an output from softmax probabilities regarding 4 actions(self.action_probs = tf.squeeze(tf.nn.softmax(self.output_layer)). And action is the selected value in action lists
+[np.random.choice](../../python_api/nprandomchoice)
+### env.step(action) generates next_state,next reward, done signal
+
+```python
 # Calculate TD Target
 value_next = estimator_value.predict(next_state)
 td_target = reward + discount_factor * value_next
 # td_target - current state's value => td_error
 td_error = td_target - estimator_value.predict(state)
-# Update the policy estimator
-# using the td error as our advantage estimate
-estimator_policy.update(state, td_error, action)
-# PolicyEstimator()
-# softmax output : picked_action_prob, target: td_error
-self.loss = -tf.log(self.picked_action_prob) * self.target
 
 # Update the value estimator
 estimator_value.update(state, td_target)
-# ValueEstimator()
-self.value_estimate = tf.squeeze(self.output_layer)
-self.loss = tf.squared_difference(self.value_estimate, self.target)
-{% endhighlight %}
+    # ValueEstimator()
+    # self.value_estimate = tf.squeeze(self.output_layer)
+    # self.loss = tf.squared_difference(self.value_estimate, self.target)
 
-value_next is the esitmation value of next state. and td_target is reward of next state + discount_factor* estimation value of next state. td_error is td_target - estimation value of current state.
+# Update the policy estimator
+# using the td error as our advantage estimate
+estimator_policy.update(state, td_error, action)
+    # PolicyEstimator()
+    # softmax output : picked_action_prob, target: td_error
+    # self.loss = -tf.log(self.picked_action_prob) * self.target
+
+```
+[tf.squared_difference](../../tensorflow/tfsquareddifference)
+
+### value_next is the esitmation value of next state. and td_target is reward of next state + discount_factor* estimation value of next state. td_error is td_target - estimation value of current state. to calculate policy gradient, log(softmax_output) multiplied by td_error.
+### Q(S,a) of advatage function update is td_target and V(t) is estimated value of current state
+
+
 > Estimating the Advantage Actor-Critic  
 
 ![TD target and TD Error](../../pictures/policy_gradient/advatage_actor_critic.png){:height="50%" width="50%"}
