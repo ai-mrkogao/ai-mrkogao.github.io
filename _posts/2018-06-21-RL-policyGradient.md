@@ -1,18 +1,27 @@
 ---
-title: "Actor-Critic using Policy Gradient"
+title: "Advantage Actor-Critic Example"
 date: 2018-06-21 13:00:00 -0400
 classes: wide
+use_math: true
 tag: reinforcement learning
 category: reinforcement learning
 ---
 
+  
+
 ### Understand Actor-Critic (AC) algorithms
  - Learned Value Function
  - Learned Policy 
+ - this example uses Advantage Actor(policy weight)-Critic(Value Weight) Algorithm
  
 Monte Carlo Policy Gradient sill has high variance so critic estimates the action-value function
  - critic updates action-value function parameters w
  - actor updates policy parameter
+
+$$
+K(a,b) = \int \mathcal{D}x(t) \exp(2\pi i S[x]/\hbar)
+$$
+
 
 
 ### `Example cliff-walk with Actor-Critic algo`
@@ -249,18 +258,44 @@ class PolicyEstimator():
         return loss
 ```
 
+{% highlight python linenos %}
+# Calculate TD Target
+value_next = estimator_value.predict(next_state)
+td_target = reward + discount_factor * value_next
+# td_target - current state's value => td_error
+td_error = td_target - estimator_value.predict(state)
+# Update the policy estimator
+# using the td error as our advantage estimate
+estimator_policy.update(state, td_error, action)
+# PolicyEstimator()
+# softmax output : picked_action_prob, target: td_error
+self.loss = -tf.log(self.picked_action_prob) * self.target
 
+# Update the value estimator
+estimator_value.update(state, td_target)
+# ValueEstimator()
+self.value_estimate = tf.squeeze(self.output_layer)
+self.loss = tf.squared_difference(self.value_estimate, self.target)
+{% endhighlight %}
 
+value_next is the esitmation value of next state. and td_target is reward of next state + discount_factor* estimation value of next state. td_error is td_target - estimation value of current state.
+> Estimating the Advantage Actor-Critic  
+
+![TD target and TD Error](../../pictures/policy_gradient/advatage_actor_critic.png){:height="50%" width="50%"}
+---
+
+![TD target and TD Error](../../pictures/policy_gradient/policy_gradient_algo_summary.png){:height="50%" width="50%"}
+---
 
 ![TD target and TD Error](../../pictures/policy_gradient/MC_TD_learning.png){:height="50%" width="50%"}
-
+---
 {% highlight python linenos %}
 self.action_probs = tf.squeeze(tf.nn.softmax(self.output_layer))
 self.picked_action_prob = tf.gather(self.action_probs, self.action)
 {% endhighlight %}
-
+---
 ![Softmax policy for discrete actions](../../pictures/policy_gradient/softmax_policy.png){:height="50%" width="50%"}
-
+---
 ### openAI gym DiscreteEnv 
 ```python
 class DiscreteEnv(Env):
