@@ -1,6 +1,8 @@
 ---
 title: "Memory Augmented RL"
 date: 2018-06-22
+tag: reinforcement learning
+category: reinforcement learning
 ---
 
 ### Understand Memory Augmented Reinforcement Learning

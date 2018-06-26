@@ -1,6 +1,9 @@
 ---
 title: "Actor-Critic using Policy Gradient"
 date: 2018-06-21 13:00:00 -0400
+classes: wide
+tag: reinforcement learning
+category: reinforcement learning
 ---
 
 ### Understand Actor-Critic (AC) algorithms
@@ -16,7 +19,7 @@ Monte Carlo Policy Gradient sill has high variance so critic estimates the actio
 
 > The cliff-walking task. The results are from a single run, but smoothed by averaging the reward sums from 10 successive episodes.
 
-![cliff walk](../pictures/cliffwalk.png)
+![cliff walk](../../pictures/policy_gradient/cliffwalk.png)
 
 ```python
 from lib.envs.cliff_walking import CliffWalkingEnv 
@@ -66,6 +69,11 @@ class CliffWalkingEnv(discrete.DiscreteEnv):
 
         super(CliffWalkingEnv, self).__init__(nS, nA, P, isd)
 ```
+- - -
+tensorflow main code 
+1. initialize tensorflow graph
+2. create session 
+3. run actor_critic function  
 
 ```python
 # reset tensor flow graph 
@@ -94,8 +102,8 @@ def actor_critic(env, estimator_policy, estimator_value, num_episodes, discount_
     
     Args:
         env: OpenAI environment. => class CliffWalkingEnv
-        estimator_policy: Policy Function to be optimized 
-        estimator_value: Value function approximator, used as a critic
+        estimator_policy: Policy Function to be optimized ,class PolicyEstimator
+        estimator_value: Value function approximator, used as a critic, class ValueEstimator
         num_episodes: Number of episodes to run for
         discount_factor: Time-discount factor
     
@@ -129,13 +137,16 @@ def actor_critic(env, estimator_policy, estimator_value, num_episodes, discount_
      done=done)
      t.state, t.action
     '''
+    # for example, num_episodes = 300
     for i_episode in range(num_episodes):
         # Reset the environment and pick the fisrst action
-        state = env.reset()
+        state = env.reset() # class CliffWalkingEnv
         
         episode = []
         
         # One step in the environment
+        # itertools example http://jmduke.com/posts/a-gentle-introduction-to-itertools/
+        # itertools.count() from 0 to unlimited count, if done is true, this loop stops
         for t in itertools.count():
             
             # Take a step
@@ -174,3 +185,108 @@ def actor_critic(env, estimator_policy, estimator_value, num_episodes, discount_
     
     return stats
 ```
+
+
+[itertools](../../python_api/itertools)
+[tf.one_hot](../../tensorflow/tfonehot)
+[tf.placeholder](../../tensorflow/tfplaceholder)
+[tf.squeeze](../../tensorflow/tfsqueeze)
+
+```python
+class PolicyEstimator():
+    """
+    Policy Function approximator. 
+    """
+    def __init__():
+        # state 4 X 12 
+        # action UP=0 RIGHT=1 DOWN=2 LEFT=3
+        # target is td_error => td_target - estimator_value.predict(state)
+        self.state = tf.placeholder(tf.int32, [], "state")
+        self.action = tf.placeholder(dtype=tf.int32, name="action")
+        self.target = tf.placeholder(dtype=tf.float32, name="target")
+
+        # This is just table lookup estimator
+        # openai gym class CliffWalkingEnv(discrete.DiscreteEnv)
+        # refer to the below code self.observation_space = spaces.Discrete(self.nS) 
+        # env.observation_space.n => 4 X 12 = 48
+        state_one_hot = tf.one_hot(self.state, int(env.observation_space.n))
+        # state_one_hot => (48,)
+        # env.action_space.n => 4 UP=0 RIGHT=1 DOWN=2 LEFT=3
+        self.output_layer = tf.contrib.layers.fully_connected(
+            inputs=tf.expand_dims(state_one_hot, 0),
+            num_outputs=env.action_space.n,
+            activation_fn=None,
+            weights_initializer=tf.zeros_initializer)
+
+        # selected action from softmax layer
+        # softmax(self.output_layer) is softmax policy for discrete actions
+        # refer to below softmax policy figure
+        # output_layer => (1,4)
+        # softmax => (1,4)
+        # squeeze => (4,)
+        # action_probs = (4,)
+        # picked_action_prob : gather ()-> float32
+        self.action_probs = tf.squeeze(tf.nn.softmax(self.output_layer))
+        self.picked_action_prob = tf.gather(self.action_probs, self.action)
+
+        # Loss and train op
+        self.loss = -tf.log(self.picked_action_prob) * self.target
+
+        self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+        self.train_op = self.optimizer.minimize(
+            self.loss, global_step=tf.contrib.framework.get_global_step())
+
+    def predict(self, state, sess=None):
+        # sess or use default tensorflow session
+        sess = sess or tf.get_default_session()
+        # run self.action_prob with {state}
+        return sess.run(self.action_probs, { self.state: state })
+
+    def update(self, state, target, action, sess=None):
+        sess = sess or tf.get_default_session()
+        feed_dict = { self.state: state, self.target: target, self.action: action  }
+        _, loss = sess.run([self.train_op, self.loss], feed_dict)
+        return loss
+```
+
+
+
+
+![TD target and TD Error](../../pictures/policy_gradient/MC_TD_learning.png){:height="50%" width="50%"}
+
+{% highlight python linenos %}
+self.action_probs = tf.squeeze(tf.nn.softmax(self.output_layer))
+self.picked_action_prob = tf.gather(self.action_probs, self.action)
+{% endhighlight %}
+
+![Softmax policy for discrete actions](../../pictures/policy_gradient/softmax_policy.png){:height="50%" width="50%"}
+
+### openAI gym DiscreteEnv 
+```python
+class DiscreteEnv(Env):
+    
+        """
+        Has the following members
+        - nS: number of states
+        - nA: number of actions
+        - P: transitions (*)
+        - isd: initial state distribution (**)
+    
+        (*) dictionary dict of dicts of lists, where
+          P[s][a] == [(probability, nextstate, reward, done), ...]
+        (**) list or array of length nS
+    
+    
+        """
+        def __init__(self, nS, nA, P, isd):
+            self.P = P
+            self.isd = isd
+            self.lastaction=None # for rendering
+            self.nS = nS
+            self.nA = nA
+    
+            self.action_space = spaces.Discrete(self.nA)
+            self.observation_space = spaces.Discrete(self.nS)
+```
+
+
