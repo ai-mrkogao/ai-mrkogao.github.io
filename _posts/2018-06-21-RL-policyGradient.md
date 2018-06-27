@@ -3,7 +3,7 @@ title: "Advantage Actor-Critic Example"
 date: 2018-06-21 13:00:00 -0400
 classes: wide
 use_math: true
-tag: reinforcement learning
+tags: reinforcement_learning actor_critic policy_gradient
 category: reinforcement learning
 ---
 
@@ -19,61 +19,6 @@ Monte Carlo Policy Gradient sill has high variance so critic estimates the actio
  - actor updates policy parameter
 
 
-
-### `Example cliff-walk with Actor-Critic algo`
-
-> The cliff-walking task. The results are from a single run, but smoothed by averaging the reward sums from 10 successive episodes.
-
-![cliff walk](../../pictures/policy_gradient/cliffwalk.png)
-
-```python
-from lib.envs.cliff_walking import CliffWalkingEnv 
-#this example test cliff walking
-from lib import plotting
-
-#create openai gym 
-env = CliffWalkingEnv()
-
-```
-
-```python
-# CliffWalking Environment
-class CliffWalkingEnv(discrete.DiscreteEnv):
-	
-    metadata = {'render.modes': ['human', 'ansi']}
-
-    def __init__(self):
-    	# maze size is 4 X 12 matrix
-        self.shape = (4, 12)
-        # np.prod => Return the product of array elements over a given axis.
-        nS = np.prod(self.shape) # nS => 4*12 
-        nA = 4
-
-        # Cliff Location
-        self._cliff = np.zeros(self.shape, dtype=np.bool)
-        self._cliff[3, 1:-1] = True # cliff postion 
-
-        # Calculate transition probabilities
-        P = {}
-        for s in range(nS):
-            # Converts a flat index or array of flat indices
-            # into a tuple of coordinate arrays.
-            # s = 47 , temp_shape = (4 ,12)
-            # position = np.unravel_index(s, temp_shape)
-            # position = (3 ,11)
-            position = np.unravel_index(s, self.shape)
-            P[s] = { a : [] for a in range(nA) }
-            P[s][UP] = self._calculate_transition_prob(position, [-1, 0])
-            P[s][RIGHT] = self._calculate_transition_prob(position, [0, 1])
-            P[s][DOWN] = self._calculate_transition_prob(position, [1, 0])
-            P[s][LEFT] = self._calculate_transition_prob(position, [0, -1])
-
-        # We always start in state (3, 0)
-        isd = np.zeros(nS)
-        isd[np.ravel_multi_index((3,0), self.shape)] = 1.0
-
-        super(CliffWalkingEnv, self).__init__(nS, nA, P, isd)
-```
 - - -
 tensorflow main code 
 1. initialize tensorflow graph
@@ -306,6 +251,9 @@ class ValueEstimator():
   - state update with next state
 
 
+![advantage_actor_critic_flow](../../pictures/policy_gradient/advantage_actor_critic_flow.png){:height="50%" width="50%"}
+
+
 ```python
 # Take a step
 action_probs = estimator_policy.predict(state)
@@ -340,9 +288,19 @@ estimator_policy.update(state, td_error, action)
 ```
 [tf.squared_difference](../../tensorflow/tfsquareddifference)
 
-### value_next is the esitmation value of next state. and td_target is reward of next state + discount_factor* estimation value of next state. td_error is td_target - estimation value of current state. to calculate policy gradient, log(softmax_output) multiplied by td_error.
-### Q(S,a) of advatage function update is td_target and V(t) is estimated value of current state
+> ## Explain Critic Algo
+#### estimator_value.update(state,td_target) runs critic algorithm, self.loss tensor in update function related with tf.squared_difference(self.value_estimate, self.target),self.value_estimate is the current value from current state and this is ![V_vs](../../pictures/policy_gradient/V_vs.png){:height="4%" width="4%"} in the TD(0) Critic Algo. Critic can esitmate value function ![V_vs](../../pictures/policy_gradient/V_vs.png){:height="4%" width="4%"} from various target.
+### Basic TD(0) Critic Algo is below formula
+![basic_critic_TD(0)](../../pictures/policy_gradient/basic_critic_TD_0.png){:height="50%" width="50%"}
+#### ![V_vs](../../pictures/policy_gradient/V_vs.png){:height="4%" width="4%"} can be a deep neural network with parameter W, so self.train_op tries to minimize loss function with self.optimizer.minimize. And here we used self.output_layer where we used one tf.contrib.layers.fully_connected layer. This fully connected layer has one state input and one output(current estimated state value with parameter W)
+#### td_target is ![critic_td_target](../../pictures/policy_gradient/critic_td_target.png){:height="10%" width="10%"} and self.target means this td_target.
+#### so critic is updated to minimize MSE with regard to target given by MC or TD(0)![critic_loss_function](../../pictures/policy_gradient/critic_loss_function.png){:height="20%" width="20%"} =>tf.squared_difference(self.value_estimate, self.target)
 
+> ## Explain Actor Algo
+#### the policy gradient can also be estimated as follows:![policy_gradient_formula](../../pictures/policy_gradient/policy_gradient_formula.png){:height="30%" width="30%"} Actor-Critic policy gradient uses the one-step TD error ![actor_td_formula](../../pictures/policy_gradient/actor_td_formula.png){:height="30%" width="30%"} , from the code -tf.log(self.picked_action_prob) * self.target where self.target is td_error and self.picked_action_prob is softmax output.
+#### Q: how to explain about ![gradient_theta](../../pictures/policy_gradient/gradient_theta.png){:height="5%" width="5%"} in score function ![score_function](../../pictures/policy_gradient/score_function.png){:height="30%" width="30%"}(softmax policy : discrete actions) ![softmax_dnn_policy](../../pictures/policy_gradient/softmax_dnn_policy.png){:height="30%" width="30%"}
+
+- - - 
 
 > Estimating the Advantage Actor-Critic  
 
@@ -361,7 +319,110 @@ self.picked_action_prob = tf.gather(self.action_probs, self.action)
 ---
 ![Softmax policy for discrete actions](../../pictures/policy_gradient/softmax_policy.png){:height="50%" width="50%"}
 ---
-### openAI gym DiscreteEnv 
+
+
+### `Example cliff-walk with Actor-Critic algo`
+
+> The cliff-walking task. The results are from a single run, but smoothed by averaging the reward sums from 10 successive episodes.
+
+![cliff walk](../../pictures/policy_gradient/cliffwalk.png)
+
+```python
+from lib.envs.cliff_walking import CliffWalkingEnv 
+#this example test cliff walking
+from lib import plotting
+
+#create openai gym 
+env = CliffWalkingEnv()
+
+```
+
+```python
+# CliffWalking Environment
+class CliffWalkingEnv(discrete.DiscreteEnv):
+    
+    metadata = {'render.modes': ['human', 'ansi']}
+
+    def __init__(self):
+        # maze size is 4 X 12 matrix
+        self.shape = (4, 12)
+        # np.prod => Return the product of array elements over a given axis.
+        nS = np.prod(self.shape) # nS => 4*12 
+        nA = 4
+
+        # Cliff Location
+        self._cliff = np.zeros(self.shape, dtype=np.bool)
+        self._cliff[3, 1:-1] = True # cliff postion 
+
+        # Calculate transition probabilities
+        P = {}
+        # nS = 4*12 = 48
+        for s in range(nS):
+            # Converts a flat index or array of flat indices
+            # into a tuple of coordinate arrays.
+            # s = 47 , temp_shape = (4 ,12)
+            # position = np.unravel_index(s, temp_shape)
+            # position = (3 ,11)
+            position = np.unravel_index(s, self.shape)
+            P[s] = { a : [] for a in range(nA) }
+            P[s][UP] = self._calculate_transition_prob(position, [-1, 0])
+            P[s][RIGHT] = self._calculate_transition_prob(position, [0, 1])
+            P[s][DOWN] = self._calculate_transition_prob(position, [1, 0])
+            P[s][LEFT] = self._calculate_transition_prob(position, [0, -1])
+
+        # We always start in state (3, 0)
+        isd = np.zeros(nS)
+        isd[np.ravel_multi_index((3,0), self.shape)] = 1.0
+
+        super(CliffWalkingEnv, self).__init__(nS, nA, P, isd)
+```
+
+```python
+env._cliff
+>>>
+array([[False, False, False, False, False, False, False, False, False,
+        False, False, False],
+       [False, False, False, False, False, False, False, False, False,
+        False, False, False],
+       [False, False, False, False, False, False, False, False, False,
+        False, False, False],
+       [False,  True,  True,  True,  True,  True,  True,  True,  True,
+         True,  True, False]])
+env.P[0] # 0:UP,1:RIGHT,2:DOWN,3:LEFT :{(1.0,new_state(0~47),reward(-1 or -100),is_done)}
+>>>
+{0: [(1.0, 0, -1.0, False)],
+ 1: [(1.0, 1, -1.0, False)],
+ 2: [(1.0, 12, -1.0, False)],
+ 3: [(1.0, 0, -1.0, False)]}
+```
+
+```python
+def _calculate_transition_prob(self, current, delta):
+        new_position = np.array(current) + np.array(delta)
+        new_position = self._limit_coordinates(new_position).astype(int)
+        new_state = np.ravel_multi_index(tuple(new_position), self.shape)
+        reward = -100.0 if self._cliff[tuple(new_position)] else -1.0
+        is_done = self._cliff[tuple(new_position)] or (tuple(new_position) == (3,11))
+        return [(1.0, new_state, reward, is_done)]
+
+# current =(0,0), delta =[-1,0]
+new_position = np.array(current) + np.array(delta)
+>> new_position [-1,0]
+# check shape limit size (4,12)
+new_position = self._limit_coordinates(new_position).astype(int)
+>> new_position [0,0]
+
+print((tuple(new_position)))
+>>(0,0)
+# self.shape = (4,12), tuple(new_position) = (0,0)
+new_state = np.ravel_multi_index(tuple(new_position), self.shape)
+>> 0 # new_state is index of (4*12) array (0,0)->0 , (1,0) -> 12
+reward = -100.0 if self._cliff[tuple(new_position)] else -1.0 # reward -1 or -100(cliff)
+# is_done is true if position is cliff or arrives goal(3,11)
+is_done = self._cliff[tuple(new_position)] or (tuple(new_position) == (3,11))
+```
+
+### openAI gym DiscreteEnv super(CliffWalkingEnv, self).__init__(nS, nA, P, isd) initializes below open ai environment 
 ```python
 class DiscreteEnv(Env):
     
@@ -389,4 +450,14 @@ class DiscreteEnv(Env):
             self.observation_space = spaces.Discrete(self.nS)
 ```
 
-
+```python
+#episode plotting
+#episode size 300
+print(len(stats.episode_lengths))
+>> 300
+cumsum = np.cumsum(stats.episode_lengths)
+print(stats.episode_lengths[:10])
+print(cumsum[:10])
+>>[ 3.  1.  8.  0.  1. 31.  4.  6.  2. 33.]
+>>[ 3.  4. 12. 12. 13. 44. 48. 54. 56. 89.]
+```
