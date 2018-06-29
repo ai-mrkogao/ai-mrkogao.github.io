@@ -102,8 +102,8 @@ analytics:
 author:
   name             : "Mr Ko"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am learning and developing the AI projects. AI is my favorite interesting domain as an professional SW Researcher"
-  location         : ""
+  bio              : "I am learning and developing the AI projects. AI is my favorite domain as a professional Researcher. What I am doing is RL,Autonomous Driving,Deep Learning and Time series Analysis."
+  location         : "Korea/China"
   email            : "ihome911@gmail.com"
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
