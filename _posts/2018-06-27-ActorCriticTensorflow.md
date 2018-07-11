@@ -25,7 +25,7 @@ then it can increase the probability of the good actions.
 ## Actor-Critic Algorithms
 ![actor_critic_architecture](../../pictures/policy_gradient/actor_critic_architecture.png){:height="50%" width="50%"}
 
-the policy function is known as the actor, and the value function is referred to as the critic.
+The policy function is known as the actor, and the value function is referred to as the critic.
 The actor produces an action given the current state of the environment, and the critic produces a TD error signal given the state and resultant reward.
 If the critic is estimating the action-value function, it will also need the output of the actor. ***critic uses next state value(td target) in which is generated from current action*** . The output of the critic drives learning in both the actor and the critic.
 
@@ -61,13 +61,13 @@ Policy gradient algorithms utilize a form of policy iteration;***they evaluate t
   - directly updating actor and critic network with gradient from TD error causes divergence.
   - using a set of target network to generate the target for your TD error and increases stability
 
-here are the equations for the TD target ![y_i](../../pictures/policy_gradient/y_i.png){:height="2%" width="2%"} and the losss function for the critic network:
+here are the equations for the TD target ![y_i](../../pictures/policy_gradient/y_i.png){:height="2%" width="2%"} and the loss function for the critic network:
 
 ![td_target_y_i](../../pictures/policy_gradient/td_target_y_i.png){:height="60%" width="60%"}
 
-a minibatch of size N has been sampled from the replay buffer, with i index referring to the i th sample. tha TD target ![y_i](../../pictures/policy_gradient/y_i.png){:height="2%" width="2%"} is computed from target actor and critic network having weights.
+a minibatch of size N has been sampled from the replay buffer, with i index referring to the i th sample. The TD target ![y_i](../../pictures/policy_gradient/y_i.png){:height="2%" width="2%"} is computed from target actor and critic network having weights.
 
-the weights of the critic network can be updated with the gradients obtained from the loss function in Eq.2. Also, the actor network is updated with the Deterministic Policy Gradient.  
+The weights of the critic network can be updated with the gradients obtained from the loss function in Eq.2. Also, the actor network is updated with the Deterministic Policy Gradient.  
 ![actor_policy_gradient](../../pictures/policy_gradient/actor_policy_gradient.png){:height="80%" width="80%"}  
 ![actor_policy_gradient2](../../pictures/policy_gradient/actor_policy_gradient2.png){:height="10%" width="10%"}
 
@@ -130,6 +130,7 @@ import tflearn
 
 class ActorNetwork(object):
     def create_actor_network(self):
+        # s_dim = state_dim
         inputs = tflearn.input_data(shape=[None, self.s_dim])
         net = tflearn.fully_connected(inputs, 400)
         net = tflearn.layers.normalization.batch_normalization(net)
@@ -376,7 +377,9 @@ def train(sess, env, args, actor, critic, actor_noise):
     # This hurts the performance on Pendulum but could be useful
     # in other environments.
     # tflearn.is_training(True)
-
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo1.png){:height="40%" width="40%"}
+```python
     for i in range(int(args['max_episodes'])):
 
         s = env.reset()
@@ -391,20 +394,40 @@ def train(sess, env, args, actor, critic, actor_noise):
 
             # Added exploration noise
             #a = actor.predict(np.reshape(s, (1, 3))) + (1. / (1. + i))
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo2.png){:height="60%" width="60%"}
+```python          
+            # self.sess.run(self.scaled_out, feed_dict={self.inputs: inputs})  
+            # input is current state and scaled_out is estimated action output including bound
             a = actor.predict(np.reshape(s, (1, actor.s_dim))) + actor_noise()
-
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo3.png){:height="50%" width="50%"}
+```python        
             s2, r, terminal, info = env.step(a[0])
-
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo4.png){:height="30%" width="30%"}
+```python
             replay_buffer.add(np.reshape(s, (actor.s_dim,)), np.reshape(a, (actor.a_dim,)), r,
                               terminal, np.reshape(s2, (actor.s_dim,)))
 
             # Keep adding experience to the memory until
             # there are at least minibatch size samples
             if replay_buffer.size() > int(args['minibatch_size']):
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo5.png){:height="50%" width="50%"}
+```python            
                 s_batch, a_batch, r_batch, t_batch, s2_batch = \
                     replay_buffer.sample_batch(int(args['minibatch_size']))
-
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo6.png){:height="40%" width="40%"}  
+![DDPG_algo](../../pictures/policy_gradient/DDPG_critic_target_network.png){:height="5%" width="5%"} : critic target network
+![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_target_network.png){:height="4.5%" width="4.5%"} : actor target network
+```python
                 # Calculate targets
+                # critic.predict_target => self.sess.run(self.target_out,
+                # feed_dict={self.target_inputs: inputs,self.target_action: action})
+                # self.target_action => actor.predict_target(s2_batch) => 
+                # self.sess.run(self.target_scaled_out, feed_dict={self.target_inputs: inputs})
                 target_q = critic.predict_target(
                     s2_batch, actor.predict_target(s2_batch))
 
@@ -414,19 +437,55 @@ def train(sess, env, args, actor, critic, actor_noise):
                         y_i.append(r_batch[k])
                     else:
                         y_i.append(r_batch[k] + critic.gamma * target_q[k])
-
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo7.png){:height="50%" width="50%"}
+```python
                 # Update the critic given the targets
+                # self.sess.run([self.out, self.optimize], feed_dict={  
+                # self.inputs: inputs,  
+                # self.action: action,  
+                # self.predicted_q_value: predicted_q_value})
+                # predicted_q_value is y_i : td_target
+                # critic train minimizes the loss function
                 predicted_q_value, _ = critic.train(
                     s_batch, a_batch, np.reshape(y_i, (int(args['minibatch_size']), 1)))
 
                 ep_ave_max_q += np.amax(predicted_q_value)
-
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo8.png){:height="50%" width="50%"}
+```python
                 # Update the actor policy using the sampled gradient
+                # a_outs is below:
+                # self.sess.run(self.scaled_out, feed_dict={  
+                # self.inputs: inputs}) 
+                # s_batch is current state
                 a_outs = actor.predict(s_batch)
+                # self.sess.run(self.action_grads, feed_dict={  
+                # self.inputs: inputs,self.action: actions})
+                # self.action_grads = tf.gradients(self.out, self.action)
                 grads = critic.action_gradients(s_batch, a_outs)
-                actor.train(s_batch, grads[0])
 
+                # self.sess.run(self.optimize, feed_dict={
+                # self.inputs: inputs,self.action_gradient: a_gradient})
+                # self.optimize = tf.train.AdamOptimizer(self.learning_rate).\
+                # apply_gradients(zip(self.actor_gradients, self.network_params))
+                # Combine the gradients here
+                # self.unnormalized_actor_gradients = tf.gradients(  
+                # self.scaled_out, self.network_params, -self.action_gradient)  
+                # self.actor_gradients = list(map(lambda x: tf.div(x,self.batch_size), 
+                # self.unnormalized_actor_gradients))
+
+                actor.train(s_batch, grads[0])
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_algo9.png){:height="50%" width="50%"}
+```python
                 # Update target networks
+                # # weights
+                # self.update_target_network_params = \  
+                # [self.target_network_params[i].assign(tf.multiply(  
+                # self.network_params[i], self.tau) +  
+                # tf.multiply(self.target_network_params[i], 1. - self.tau))  
+                # for i in range(len(self.target_network_params))]
                 actor.update_target_network()
                 critic.update_target_network()
 
@@ -450,3 +509,45 @@ def train(sess, env, args, actor, critic, actor_noise):
 
 ```            
 
+[tf.trainable_variables](../../tensorflow/tftrainablevariables)
+
+* * *
+```python
+def main(args):
+
+    with tf.Session() as sess:
+
+        env = gym.make(args['env'])
+        np.random.seed(int(args['random_seed']))
+        tf.set_random_seed(int(args['random_seed']))
+        env.seed(int(args['random_seed']))
+
+        state_dim = env.observation_space.shape[0]
+        action_dim = env.action_space.shape[0]
+        action_bound = env.action_space.high
+        # Ensure action bound is symmetric
+        assert (env.action_space.high == -env.action_space.low)
+
+        actor = ActorNetwork(sess, state_dim, action_dim, action_bound,
+                             float(args['actor_lr']), float(args['tau']),
+                             int(args['minibatch_size']))
+
+        critic = CriticNetwork(sess, state_dim, action_dim,
+                               float(args['critic_lr']), float(args['tau']),
+                               float(args['gamma']),
+                               actor.get_num_trainable_vars())
+        
+        actor_noise = OrnsteinUhlenbeckActionNoise(mu=np.zeros(action_dim))
+
+        if args['use_gym_monitor']:
+            if not args['render_env']:
+                env = wrappers.Monitor(
+                    env, args['monitor_dir'], video_callable=False, force=True)
+            else:
+                env = wrappers.Monitor(env, args['monitor_dir'], force=True)
+
+        train(sess, env, args, actor, critic, actor_noise)
+
+        if args['use_gym_monitor']:
+            env.monitor.close()
+```            

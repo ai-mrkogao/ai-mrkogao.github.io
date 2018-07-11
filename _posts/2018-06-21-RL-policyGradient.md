@@ -288,6 +288,11 @@ estimator_policy.update(state, td_error, action)
 ```
 [tf.squared_difference](../../tensorflow/tfsquareddifference)
 
+
+> ## Summarize Actor-Critic Algo
+### Critic minimized the this loss function: (estimated value of current state from DNN - td_target)
+### Actor estimates the td_error plus current estimated action from policy network
+
 > ## Explain Critic Algo
 #### estimator_value.update(state,td_target) runs critic algorithm, self.loss tensor in update function related with tf.squared_difference(self.value_estimate, self.target),self.value_estimate is the current value from current state and this is ![V_vs](../../pictures/policy_gradient/V_vs.png){:height="4%" width="4%"} in the TD(0) Critic Algo. Critic can esitmate value function ![V_vs](../../pictures/policy_gradient/V_vs.png){:height="4%" width="4%"} from various target.
 ### Basic TD(0) Critic Algo is below formula
