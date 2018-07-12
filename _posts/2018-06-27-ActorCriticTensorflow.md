@@ -459,10 +459,16 @@ def train(sess, env, args, actor, critic, actor_noise):
                 # self.sess.run(self.scaled_out, feed_dict={  
                 # self.inputs: inputs}) 
                 # s_batch is current state
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient1.png){:height="6%" width="6%"} => a_outs from actor.predict(s_batch)
+```python                
                 a_outs = actor.predict(s_batch)
                 # self.sess.run(self.action_grads, feed_dict={  
                 # self.inputs: inputs,self.action: actions})
                 # self.action_grads = tf.gradients(self.out, self.action)
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient2.png){:height="20%" width="20%"} => action grdients of critic Q(s,a) => grads
+```python                
                 grads = critic.action_gradients(s_batch, a_outs)
 
                 # self.sess.run(self.optimize, feed_dict={
@@ -474,7 +480,16 @@ def train(sess, env, args, actor, critic, actor_noise):
                 # self.scaled_out, self.network_params, -self.action_gradient)  
                 # self.actor_gradients = list(map(lambda x: tf.div(x,self.batch_size), 
                 # self.unnormalized_actor_gradients))
-
+                # [self.scaled_out -> ys in tf.gradients]
+                # [-self.action_gradient -> initial gradients for each y in ys in tf.gradients]
+                # [self.network_params -> xs in tf.gradients]
+                # grads_and_vars: List of (gradient, variable) in apply_gradients 
+                # => zip(self.actor_gradients, self.network_params)
+```
+![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient3.png){:height="15%" width="15%"} => ![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient4.png){:height="15%" width="15%"} : actor network output(scaled_out) and ![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient5.png){:height="6%" width="6%"} : self.network_params(network weights) gradients
+![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient2.png){:height="20%" width="20%"}: grad_ys input in tf.gradients(grad_ys) ,-self.action_gradient in code  
+![DDPG_algo](../../pictures/policy_gradient/DDPG_actor_gradient6.png){:height="14%" width="14%"} => self.actor_gradients = list(map(lambda x: tf.div(x, self.batch_size), self.unnormalized_actor_gradients))
+```python                
                 actor.train(s_batch, grads[0])
 ```
 ![DDPG_algo](../../pictures/policy_gradient/DDPG_algo9.png){:height="50%" width="50%"}
@@ -510,6 +525,8 @@ def train(sess, env, args, actor, critic, actor_noise):
 ```            
 
 [tf.trainable_variables](../../tensorflow/tftrainablevariables)
+[python map_function](../../python_api/pythonmap)
+[tf.AdamOptimizer](../../tensorflow/tfAdamOptimizer)
 
 * * *
 ```python
