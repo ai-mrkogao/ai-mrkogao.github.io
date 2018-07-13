@@ -1,5 +1,5 @@
 ---
-title: "Actor-Critic Policy Gradient in Tensorflow"
+title: "DDPG Actor-Critic Policy Gradient in Tensorflow"
 date: 2018-06-27
 classes: wide
 use_math: true
@@ -40,7 +40,7 @@ But Model-free methods generally require a large number of training examples.
 
 ## DDPG(Deep Deterministic Policy Gradient)
 ***policy gradient actor-critic***
-DDPG is a plicy gradient algorithm that uses a stochastic behavior policy for good exploration but estimates a deterministic target policy.
+DDPG is a policy gradient algorithm that uses a stochastic behavior policy for good exploration but estimates a deterministic target policy.
 Policy gradient algorithms utilize a form of policy iteration;***they evaluate the policy, and then follow the policy gradient to maximize performance.***  
 
 - DDPG is 
