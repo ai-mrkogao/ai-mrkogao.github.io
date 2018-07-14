@@ -114,7 +114,7 @@ the expectation of some scalar values score function ![PG network](../../picture
 - model processes an image with a sequence of low-resolution foveal glances
 - at every iteration RNN receives a small piece of the image and sample a location to look at next
   - RNN look at position(5,30) then decide to look at (24,50) next
-  - this operation is non-differentiable because we don't know what would have happened if we sampled a different location
+  - this operation is non-differentiable because we don't know what would have happened if we sampled a different location  
 ![PG network](../../pictures/policy_gradient/Karpathy_nondiff.png){:height="80%" width="80%"}
 - ***non-differentiable computation(red) can't be backprop through***
 - during training we will produce several samples and then we'll encourage samples that eventually led to good outcomes
