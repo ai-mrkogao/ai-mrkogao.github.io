@@ -44,3 +44,53 @@ category: reinforcement learning
 
   While the core functionality is fully implemented and tested, the codebase is a work in progress. See the FAQ for information on planned future additions to the code.  
   ![GPS](../../pictures/topic/Guided_policy_search.png){:height="80%" width="80%"}
+
+- ### [Imitation Learning Driving](https://www.clipzui.com/video/54g326e4b4q5r3e4b4j5q3.html)
+  > End-to-end Driving via Conditional Imitation Learning  
+  ![Imitation Learning Driving](../../pictures/topic/Imitation_driving.png){:height="80%" width="80%"}  
+  Conditional Imitation Learning at CARLA  
+  [Carla simulator](https://github.com/carla-simulator/carla)  
+  ![CARLA](../../pictures/topic/carla_simulator.png){:height="80%" width="80%"}
+  Repository to store the conditional imitation learning based AI that runs on carla. The trained model is the one used on "CARLA: An Open Urban Driving Simulator" paper.
+  [Conditional Imitation Learning at CARLA github](https://github.com/carla-simulator/imitation-learning)  
+  [End-to-end  Driving  via  Conditional  Imitation  Learning paper](vladlen.info/papers/conditional-imitation.pdf)
+  ![Imitation Learning Driving](../../pictures/topic/Imitation_driving_paper.png){:height="80%" width="80%"}
+
+- ### [Inverse Reinforcement Learning](https://jangirrishabh.github.io/2016/07/09/virtual-car-IRL/)
+  > ![Inverse RL](../../pictures/topic/InverseRL.png){:height="80%" width="80%"}
+
+- ### [ATLAS AI training environment](https://becominghuman.ai/building-intelligence-by-learning-to-act-4b2ca0351e25)
+  > ![ATLAS](../../pictures/topic/ATLAS.png){:height="80%" width="80%"}
+
+- ### [Deep Reinforcement : Imitation Learning](https://medium.com/@parthasen/deep-reinforcement-learning-imitation-learning-5173267b22fa)  
+  > ![ImitationDrivingPaper](../../pictures/topic/ImitationDrivingPaper.png){:height="80%" width="80%"}
+  [Imitation pdf](http://www.yisongyue.com/courses/cs159/lectures/imitation-learning-3.pdf)
+- ### [A Course in Machine Learning](http://ciml.info/)
+  > ![MLcourse](../../pictures/topic/MLcourse.png){:height="30%" width="30%"}
+  [MLcourse pdf](http://ciml.info/dl/v0_99/ciml-v0_99-all.pdf)
+
+- ### [Imitation Learning by Coaching paper](https://papers.nips.cc/paper/4545-imitation-learning-by-coaching.pdf)
+  > Imitation Learning has been shown to be successful in solving many challenging
+	real-world problems.  Some recent approaches give strong performance guaran-
+	tees by training the policy iteratively.  However, it is important to note that these
+	guarantees depend on how well the policy we found can imitate the oracle on the
+	training data.   When there is a substantial difference between the oracle’s abil-
+	ity and the learner’s policy space, we may fail to find a policy that has low error
+	on the training set.  In such cases, we propose to use a coach that demonstrates
+	easy-to-learn actions for the learner and gradually approaches the oracle.  By a
+	reduction of learning by demonstration to online learning, we prove that coach-
+	ing can yield a lower regret bound than using the oracle. We apply our algorithm
+	to cost-sensitive dynamic feature selection, a hard decision problem that consid-
+	ers a user-specified accuracy-cost trade-off. Experimental results on UCI datasets
+	show that our method outperforms state-of-the-art imitation learning methods in
+	dynamic feature selection and two static feature selection methods  
+    > ![ILcoaching](../../pictures/topic/ILcoaching.png){:height="100%" width="100%"}  
+    [above picture](https://www.cs.jhu.edu/~jason/papers/he+al.nips12.poster.pdf)
+
+- ### [Just Another DAgger Implementation](https://github.com/jj-zhu/jadagger)    
+  > ![DAgger_human](../../pictures/topic/DAgger_human.png){:height="30%" width="30%"}
+
+
+- ### [Imitation Learning with Dataset Aggregation (DAGGER) on Torcs Env](https://github.com/zsdonghao/Imitation-Learning-Dagger-Torcs)
+  > ![DAgger_Torch](../../pictures/topic/DAgger_Torch.png){:height="50%" width="50%"}
+
