@@ -354,13 +354,13 @@ agent.run(num_episodes=2)
         # saved and reloaded along with the checkpoint.
         count_states = self.model.get_count_states()
 ```
-> count_states from class NeuralNetwork 
-```python
-class NeuralNetwork:
-	self.count_states = tf.Variable(initial_value=0,
-                            trainable=False, dtype=tf.int64,
-                            name='count_states')
-```        
+- 
+    ```python
+    class NeuralNetwork:
+    	self.count_states = tf.Variable(initial_value=0,
+                                trainable=False, dtype=tf.int64,
+                                name='count_states')
+    ```        
 
 ```python
         ...
@@ -380,37 +380,36 @@ class NeuralNetwork:
   - Above codes are
     - end_episode = True which cause a reset in the first iteration 
     - get the first img from gym.env and create class MotionTracer   
-
-```python
-
-def _pre_process_image(image):
-    """Pre-process a raw image from the game-environment."""
-    # Convert image to gray-scale.
-    img = _rgb_to_grayscale(image)
-
-    # Resize to the desired size using SciPy for convenience.
-    img = scipy.misc.imresize(img, size=state_img_size, interp='bicubic')
-    return img
-
-class MotionTracer:
-	def __init__(self, image, decay=0.75):
-	        """
-        :param image:
-            First image from the game-environment,
-            used for resetting the motion detector.
-
-        :param decay:
-            Parameter for how long the tail should be on the motion-trace.
-            This is a float between 0.0 and 1.0 where higher values means
-            the trace / tail is longer.
-        """
-        # Pre-process the image and save it for later use.
-        # The input image may be 8-bit integers but internally
-        # we need to use floating-point to avoid image-noise
-        # caused by recurrent rounding-errors.
-        img = _pre_process_image(image=image)
-        self.last_input = img.astype(np.float)
-```
+    - Reset the game-environment and Motion Tracer
+    ```python
+    def _pre_process_image(image):
+        """Pre-process a raw image from the game-environment."""
+        # Convert image to gray-scale.
+        img = _rgb_to_grayscale(image)
+        #
+        # Resize to the desired size using SciPy for convenience.
+        img = scipy.misc.imresize(img, size=state_img_size, interp='bicubic')
+        return img
+        #
+    class MotionTracer:
+    	def __init__(self, image, decay=0.75):
+            """
+            :param image:
+                First image from the game-environment,
+                used for resetting the motion detector.
+            # 
+            :param decay:
+                Parameter for how long the tail should be on the motion-trace.
+                This is a float between 0.0 and 1.0 where higher values means
+                the trace / tail is longer.
+            """
+            # Pre-process the image and save it for later use.
+            # The input image may be 8-bit integers but internally
+            # we need to use floating-point to avoid image-noise
+            # caused by recurrent rounding-errors.
+            img = _pre_process_image(image=image)
+            self.last_input = img.astype(np.float)
+    ```
 
 ```python
             # Get the state of the game-environment from the motion-tracer.
@@ -422,13 +421,41 @@ class MotionTracer:
             # Note that the function assumes an array of states and returns
             # a 2-dim array of Q-values, but we just have a single state here.
             q_values = self.model.get_q_values(states=[state])[0]
+```
+- [npdstack](../../python_api/npdstack)
+    ```python
+        class MotionTracer:
+            def get_state(self):
+                # Stack the last input and output images.
+                state = np.dstack([self.last_input, self.last_output])
+                state = state.astype(np.uint8)
+                return state
+    ```
 
+```python    
             # Determine the action that the agent must take in the game-environment.
             # The epsilon is just used for printing further below.
             action, epsilon = self.epsilon_greedy.get_action(q_values=q_values,
                                                              iteration=count_states,
                                                              training=self.training)
+```
+- class EpsilonGrddy get_action(...)
+    ```python
+        class EpsilonGreedy:
+        def get_action(self, q_values, iteration, training):
+            epsilon = self.get_epsilon(iteration=iteration, training=training)
+            #
+            # With probability epsilon.
+            if np.random.random() < epsilon:
+                # Select a random action.
+                action = np.random.randint(low=0, high=self.num_actions)
+            else:
+                # Otherwise select the action that has the highest Q-value.
+                action = np.argmax(q_values) 
+    ```
 
+
+```python    
             # Take a step in the game-environment using the given action.
             # Note that in OpenAI Gym, the step-function actually repeats the
             # action between 2 and 4 time-steps for Atari games, with the number
@@ -438,7 +465,19 @@ class MotionTracer:
             # Process the image from the game-environment in the motion-tracer.
             # This will first be used in the next iteration of the loop.
             motion_tracer.process(image=img)
+```
+- [npwhere](../../python_api/npwhere)    
+    ```python
+    class MotionTracer:
+        def process(self, image):
+            ...
+            img_dif = img - self.last_input
+            img_motion = np.where(np.abs(img_dif) > 20, 255.0, 0.0)
+            ...
+    ```
 
+
+```python
             # Add the reward for the step to the reward for the entire episode.
             reward_episode += reward
 
@@ -450,13 +489,7 @@ class MotionTracer:
             # Increase the counter for the number of states that have been processed.
             count_states = self.model.increase_count_states()
 
-            if not self.training and self.render:
-                # Render the game-environment to screen.
-                self.env.render()
-
-                # Insert a small pause to slow down the game,
-                # making it easier to follow for human eyes.
-                time.sleep(0.01)
+            ...
 
             # If we want to train the Neural Network to better estimate Q-values.
             if self.training:
@@ -467,7 +500,20 @@ class MotionTracer:
                                        reward=reward,
                                        end_life=end_life,
                                        end_episode=end_episode)
+```
+- 
+    ```python
+        class ReplayMemory:
+             # self.num_actions = self.env.action_space.n
+             ...
+             self.states = np.zeros(shape=[size] + state_shape, dtype=np.uint8)
+             self.q_values = np.zeros(shape=[size, num_actions], dtype=np.float)
+             self.actions = np.zeros(shape=size, dtype=np.int)
+             self.rewards = np.zeros(shape=size, dtype=np.float)
+             ...
+    ```
 
+```python    
                 # How much of the replay-memory should be used.
                 use_fraction = self.replay_fraction.get_value(iteration=count_states)
 
@@ -477,13 +523,39 @@ class MotionTracer:
 
                     # Update all Q-values in the replay-memory through a backwards-sweep.
                     self.replay_memory.update_all_q_values()
+```
+-     
+    ```python
+        class ReplayMemory:
+            ...
+            def update_all_q_values(self):
+                
+                # Copy old Q-values so we can print their statistics later.
+                # Note that the contents of the arrays are copied.
+                self.q_values_old[:] = self.q_values[:]
+                # num_used is total number of stored states
+                for k in reversed(range(self.num_used-1)):
+                    # Get the data for the k'th state in the replay-memory.
+                    action = self.actions[k]
+                    reward = self.rewards[k]
+                    end_life = self.end_life[k]
+                    end_episode = self.end_episode[k]
+                    
+                    # Calculate the Q-value for the action that was taken in this state.
+                    if end_life or end_episode:
+                        action_value = reward
+                    else:
+                        action_value = reward + self.discount_factor * np.max(self.q_values[k + 1])
+                    # Error of the Q-value that was estimated using the Neural Network.
+                    self.estimation_errors[k] = abs(action_value - self.q_values[k, action])
+                    
+                    # Update the Q-value with the better estimate.
+                    self.q_values[k, action] = action_value
+            ...
+    ```
 
-                    # Log statistics for the Q-values to file.
-                    if self.use_logging:
-                        self.log_q_values.write(count_episodes=count_episodes,
-                                                count_states=count_states,
-                                                q_values=self.replay_memory.q_values)
-
+```python
+                    ...
                     # Get the control parameters for optimization of the Neural Network.
                     # These are changed linearly depending on the state-counter.
                     learning_rate = self.learning_rate_control.get_value(iteration=count_states)
@@ -496,7 +568,88 @@ class MotionTracer:
                     self.model.optimize(learning_rate=learning_rate,
                                         loss_limit=loss_limit,
                                         max_epochs=max_epochs)
+```
+- 
+    ```python
+         class NeuralNetwork:
+             def optimize(self, min_epochs=1.0, max_epochs=10,
+                 batch_size=128, loss_limit=0.015,
+                 learning_rate=1e-3):
+                 ...
+                 # Prepare the probability distribution for sampling the replay-memory.
+                 self.replay_memory.prepare_sampling_prob(batch_size=batch_size)
+               
+                 # Number of optimization iterations corresponding to one epoch.
+                 iterations_per_epoch = self.replay_memory.num_used / batch_size
+          
+                 # Minimum number of iterations to perform.
+                 min_iterations = int(iterations_per_epoch * min_epochs)
+        
+                 # Maximum number of iterations to perform.
+                 max_iterations = int(iterations_per_epoch * max_epochs)
+       
+                 # Buffer for storing the loss-values of the most recent batches.
+                 loss_history = np.zeros(100, dtype=float)
+        
+                 for i in range(max_iterations):
+                     # Randomly sample a batch of states and target Q-values
+                     # from the replay-memory. These are the Q-values that we
+                     # want the Neural Network to be able to estimate.
+                     state_batch, q_values_batch = self.replay_memory.random_batch()
+    ```
+        
+    -  [nprandomchoice](../../python_api/nprandomchoice),[npconcatenate](../../python_api/npconcatenate)
 
+        ```python
+            class ReplayMemory:
+                def random_batch(self):
+                    ...
+                    idx_lo = np.random.choice(self.idx_err_lo,
+                                  size=self.num_samples_err_lo,
+                                  replace=False)
+                    idx_hi = np.random.choice(self.idx_err_hi,
+                                  size=self.num_samples_err_hi,
+                                  replace=False)
+                    idx = np.concatenate((idx_lo, idx_hi))
+                    
+                    states_batch = self.states[idx]
+                    q_values_batch = self.q_values[idx] 
+        ```
+
+    ```python     
+                     # Create a feed-dict for inputting the data to the TensorFlow graph.
+                     # Note that the learning-rate is also in this feed-dict.
+                     feed_dict = {self.x: state_batch,
+                                 self.q_values_new: q_values_batch,
+                                 self.learning_rate: learning_rate}
+        
+                     # Perform one optimization step and get the loss-value.
+                     loss_val, _ = self.session.run([self.loss, self.optimizer],
+                                                   feed_dict=feed_dict)
+      
+                     # Shift the loss-history and assign the new value.
+                     # This causes the loss-history to only hold the most recent values.
+                     loss_history = np.roll(loss_history, 1)
+                     loss_history[0] = loss_val
+      
+                     # Calculate the average loss for the previous batches.
+                     loss_mean = np.mean(loss_history)
+        
+                     # Print status.
+                     pct_epoch = i / iterations_per_epoch
+                     msg = "\tIteration: {0} ({1:.2f} epoch), Batch loss: {2:.4f}, Mean loss: {3:.4f}"
+                     msg = msg.format(i, pct_epoch, loss_val, loss_mean)
+                     print_progress(msg)
+         
+                     # Stop the optimization if we have performed the required number
+                     # of iterations and the loss-value is sufficiently low.
+                     if i > min_iterations and loss_mean < loss_limit:
+                        break
+    
+    ```
+
+
+```python
                     # Save a checkpoint of the Neural Network so we can reload it.
                     self.model.save_checkpoint(count_states)
 
