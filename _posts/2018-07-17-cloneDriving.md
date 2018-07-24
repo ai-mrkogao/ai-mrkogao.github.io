@@ -17,7 +17,7 @@ category: reinforcement learning
 ### Steps
 - Use the simulator to collect data(front camera frames and steering angles) of good driving behavior on track 1
 - Build a CNN in Keras that predicts steering angles from images
-- Train and validata the model with a training and validation set on track 1
+- Train and validate the model with a training and validation set on track 1
 - Test that the model successfully drives around on both trained track 1 and unseen track 2
 
 ### Codes
@@ -58,7 +58,7 @@ category: reinforcement learning
   - If we train the model to associate a given image from the center camera with a left turn, then we could also train the model to associate the left camera image with a somewhat softer left turn
   -And we could train the model to associate right camera image with an even harder left turn
   - To estimate the steering angle of the left and right images, it uses a correction value of 0.2(in radians) in model.py
-![turning](../../pictures/clonedriving/turning.png)
+![turning](../../pictures/clonedriving/turning.png){:height="40%" width="40%"}
   - It found this model doesn't perform well in sharp turns
 
 - ### Data Augmentation
@@ -190,9 +190,96 @@ validation_data=validation_generator, nb_val_samples=len(validation_samples))
      
     ```   
 
+- 
 
+    ```python
+    def balance_data(samples, visulization_flag ,N=60, K=1,  bins=100):
+        ...
+        """ Crop the top part of the steering angle histogram, by removing some images belong to those steering angels
 
+        :param images: images arrays
+        :param angles: angles arrays which
+        :param n:  The values of the histogram bins
+        :param bins: The edges of the bins. Length nbins + 1
+        :param K: maximum number of max bins to be cropped
+        :param N: the max number of the images which will be used for the bin
+        :return: images, angle
+        """ 
+        n, bins, patches = plt.hist(angles, bins=bins, color= 'orange', linewidth=0.1)
+        angles = np.array(angles)
+        n = np.array(n)
+        idx = n.argsort()[-K:][::-1]    # find the largest K bins
+        del_ind = []                    # collect the index which will be removed from the data
+        for i in range(K):
+            if n[idx[i]] > N:
+                ind = np.where((bins[idx[i]]<=angles) & (angles<bins[idx[i]+1]))
+                ind = np.ravel(ind)
+                np.random.shuffle(ind)
+                del_ind.extend(ind[:len(ind)-N])
+        
+        # angles = np.delete(angles,del_ind)
+        balanced_samples = [v for i, v in enumerate(samples) if i not in del_ind]
+        balanced_angles = np.delete(angles,del_ind)
+        ...
+    ```
 
+- plt.hist and numpy array example
+    ```python
+    mu, sigma = 100, 15
+    bins = 10
+    angles = mu+sigma*np.random.randn(1000)
+    ```
+    ![matplotlibexample](../../pictures/clonedriving/matplotlibexample.png){:height="40%" width="40%"}
+    ```python
+    n, bins, patches = plt.hist(angles, bins=bins, color= 'orange', linewidth=0.1)
+    angles = np.array(angles)
+    n = np.array(n)
+    # print(len(angles))
+    # >> 1000
+    # print(max(angles),min(angles))
+    # >> 144.74294725445378 57.47568825996446
+    # print (sum(n))
+    # >> 1000.0
+    # print(n) # y-axis
+    # >> [ 14.  38.  82. 151. 214. 225. 170.  68.  32.   6.]
+    # print(bins) # x-axis
+    # >> [ 57.47568826  66.20241416  74.92914006  83.65586596  92.38259186
+    #      101.10931776 109.83604366 118.56276956 127.28949546 136.01622136
+    #      144.74294725]
+
+    idx = n.argsort()[-K:][::-1]    # find the largest K bins
+    # idx -> array([5]) in this example
+    # idx = n.argsort()
+    # >> array([9, 0, 8, 1, 7, 2, 3, 6, 4, 5])
+    # K = 1
+    # idx = n.argsort()[-K:][::-1]
+    # idx
+    # >> array([5])
+    # idx[0]
+    # >> 5 
+    # n[5]
+    # >> 225
+    del_ind = [] # collect the index which will be removed from the data
+    for i in range(K):
+        if n[idx[i]] > N:
+            ind = np.where((bins[idx[i]]<=angles) & (angles<bins[idx[i]+1]))
+            ind = np.ravel(ind)
+            np.random.shuffle(ind)
+            del_ind.extend(ind[:len(ind)-N])
+    
+    # n[idx[0]] -> 225 : the most frequency number
+    # np.where((bins[idx[i]]<=angles) & (angles<bins[idx[i]+1])) returns 
+    # indexes of angles between bins[idx[0]] and bins[idx[0]+1]
+    # bins[idx[0]],bins[idx[0]+1] # in angles
+    # >> (101.10931775720913, 109.83604365665806)
+    # len(ind[0]) 
+    # >> 225
+    # angles[ind[0][0]] , angles[ind[0][-1]]
+    # >> (102.55220459373017, 109.5420984773099)
+    ```
+
+[matplotlib.plt.hist](../../matplotlib/matplotlibhist)
+[np.ravel](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ravel.html)
 [keras_fit_generator](../../keras/kerasfitgenerator)
 [keras fit_generator](https://keras.io/models/sequential/)
 
