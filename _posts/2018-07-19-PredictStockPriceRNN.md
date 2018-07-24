@@ -506,6 +506,171 @@ One common technique to visualize the clusters in embedding space is t-SNE (Maat
 - The loss function decreases fast at the beginning, but it suffers from occasional value explosion (a sudden peak happens and then goes back immediately). I suspect it is related to the form of loss function too. A updated and smarter loss function might be able to resolve the issue.
 
 
+## Code Analysis
+
+- first, build lstm rnn network
+- second, run training  
+```python
+def main(config=DEFAULT_CONFIG):
+    lstm_graph = build_lstm_graph_with_config(config=config)
+    train_lstm_graph('SP500', lstm_graph, config=config)
+```
+
+### build network
+```python
+class RNNConfig():
+    input_size = 1
+    num_steps = 30
+    lstm_size = 128
+    num_layers = 1
+    keep_prob = 0.8
+
+    batch_size = 64
+    init_learning_rate = 0.001
+    learning_rate_decay = 0.99
+    init_epoch = 5
+    max_epoch = 50
+
+def build_lstm_graph_with_config(config=None):
+    tf.reset_default_graph()
+    lstm_graph = tf.Graph()
+    ...
+    with lstm_graph.as_default():
+        ...
+        inputs = tf.placeholder(tf.float32, [None, config.num_steps, config.\
+          input_size], name="inputs")
+        targets = tf.placeholder(tf.float32, [None, config.input_size],\
+         name="targets")
+        ...
+        def _create_one_cell():
+          lstm_cell = tf.contrib.rnn.LSTMCell(config.lstm_size,state_is_tuple=True)
+        ...
+        cell = tf.contrib.rnn.MultiRNNCell([_create_one_cell() for _ \
+          in range(config.num_layers)],state_is_tuple=True)
+        val,_ = tf.nn.dynamic_rnn(cell,inputs,dtype=tf.float32,\
+          scope="lilian_rnn")
+
+        # Before transpose, val.get_shape() = (batch_size, num_steps, lstm_size)
+        # After transpose, val.get_shape() = (num_steps, batch_size, lstm_size)
+        val = tf.transpose(val, [1, 0, 2])
+
+        with tf.name_scope("output_layer"):
+            # last.get_shape() = (batch_size, lstm_size)
+            last = tf.gather(val, int(val.get_shape()[0]) - 1, name="last_lstm_output")
+
+            weight = tf.Variable(tf.truncated_normal([config.lstm_size, config.input_size]), name="lilian_weights")
+            bias = tf.Variable(tf.constant(0.1, shape=[config.input_size]), name="lilian_biases")
+            prediction = tf.matmul(last, weight) + bias
+
+            tf.summary.histogram("last_lstm_output", last)
+            tf.summary.histogram("weights", weight)
+            tf.summary.histogram("biases", bias)
+        ...
+            
+```
+```python
+prediction.get_shape()
+>> TensorShape([Dimension(None), Dimension(1)])
+
+last.get_shape()
+>> TensorShape([Dimension(None), Dimension(128)])
+
+val.get_shape()
+>> TensorShape([Dimension(30), Dimension(None), Dimension(128)])
+```
+
+- ### Adding Jupyter Notebook path, tf.transpose , tf.gather example, tensor example
+
+[tf.gather](../../tensorflow/tfgather)
+
+### tensor example
+
+```python
+# https://www.tensorflow.org/api_guides/python/array_ops
+import tensorflow as tf
+import numpy as np
+import pprint
+tf.set_random_seed(777)  # for reproducibility
+
+pp = pprint.PrettyPrinter(indent=4)
+sess = tf.InteractiveSession()
+
+t = tf.constant([1,2,3,4])
+print(tf.shape(t).eval())
+print(t.eval())
+
+>> [4]
+>> [1 2 3 4]
+
+t = tf.constant([[1,2,3,4]])
+print(tf.shape(t).eval())
+print(t.eval())
+>> [1 4]
+>> [[1 2 3 4]]
+
+x = [1, 4]
+y = [2, 5]
+z = [3, 6]
+
+# Pack along first dim.
+tarr = tf.stack([x, y, z],0).eval()
+
+tarr
+>> array([[1, 4],
+       [2, 5],
+       [3, 6]], dtype=int32)
+
+tarr = tf.gather(tarr,[2,0])
+# tf.shape(tarr).eval()
+tarr.eval()
+
+>> array([[3, 6],
+       [1, 4]], dtype=int32)
+
+t = np.array([[[0, 1, 2], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]])
+pp.pprint(t.shape)
+pp.pprint(t)
+
+>> (2, 2, 3)
+array([[[ 0,  1,  2],
+        [ 3,  4,  5]],
+
+       [[ 6,  7,  8],
+        [ 9, 10, 11]]])
+
+t1 = tf.transpose(t, [2, 1,0])
+pp.pprint(sess.run(t1).shape)
+pp.pprint(sess.run(t1))
+
+>> (3, 2, 2)
+array([[[ 0,  6],
+        [ 3,  9]],
+
+       [[ 1,  7],
+        [ 4, 10]],
+
+       [[ 2,  8],
+        [ 5, 11]]])
+
+t1.get_shape()[0]
+>> Dimension(3)
+
+last = tf.gather(t1,int(t1.get_shape()[0])-1,name="test_output")
+
+last
+>> <tf.Tensor 'test_output:0' shape=(2, 2) dtype=int64>
+
+pp.pprint(sess.run(last).shape)
+pp.pprint(sess.run(last))
+
+>> (2, 2)
+array([[ 2,  8],
+       [ 5, 11]])
+```
+
+
+
+
 ## Tutorial
 [Predict Stock Prices Using RNN: Part 1](https://lilianweng.github.io/lil-log/2017/07/08/predict-stock-prices-using-RNN-part-1.html) 
 
