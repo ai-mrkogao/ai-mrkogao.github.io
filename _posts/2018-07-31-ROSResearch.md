@@ -93,3 +93,11 @@ sudo apt-get autoremove
 # TIAGo ROS Simulation Tutorial 2 – Autonomous robot navigation
 [TIAGo ROS Simulation Tutorial 2 – Autonomous robot navigation](https://blog.pal-robotics.com/tiago-ros-simulation-tutorial-2-autonomous-robot-navigation/)  
 ![TIAGo ROS Simulation Tutorial](http://blog.pal-robotics.com/wp-content/uploads/2016/12/TIAGogmapping-1.gif){:height="40%" width="40%"}  
+
+
+# Gazebo 8 installation with ROS integration
+[Gazebo 8 installation with ROS integration](http://answers.gazebosim.org/question/17094/gazebo-8-installation-with-ros-integration/)
+![](http://blog.pal-robotics.com/wp-content/uploads/2016/12/TIAGogmapping-1.gif){:height="40%" width="40%"}  
+
+# UnInstalling ROS completely from system in Ubuntu 
+[UnInstalling ROS completely from system in Ubuntu ](http://yasirkiani.blogspot.com/2013/10/un-installing-ros-completely-from-system.html)
