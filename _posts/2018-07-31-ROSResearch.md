@@ -8,6 +8,11 @@ category: ros
 ---
 
 
+# An Introduction to Robot Operating System (ROS)
+[An Introduction to Robot Operating System (ROS)](https://www.allaboutcircuits.com/technical-articles/an-introduction-to-robot-operating-system-ros/)  
+![ROS goodbasic](https://www.allaboutcircuits.com/uploads/articles/Gazebo_moving_turt_thumb.jpg){:height="40%" width="40%"}  
+
+
 # ROS 기반 다중 객체 비전 인식 (pcl)
 ![ROS pclplane](../../pictures/ros/pclplane.png){:height="40%" width="40%"}  
 [ROS 기반 다중 객체 비전 인식 (pcl)](http://daddynkidsmakers.blogspot.com/2015/08/ros_27.html)
