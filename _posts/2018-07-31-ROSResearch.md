@@ -89,3 +89,7 @@ sudo apt-get autoremove
 
 # Installing OpenCV in Ubuntu for Python 3
 [Installing OpenCV in Ubuntu for Python 3](http://cyaninfinite.com/tutorials/installing-opencv-in-ubuntu-for-python-3/)
+
+# TIAGo ROS Simulation Tutorial 2 – Autonomous robot navigation
+[TIAGo ROS Simulation Tutorial 2 – Autonomous robot navigation](https://blog.pal-robotics.com/tiago-ros-simulation-tutorial-2-autonomous-robot-navigation/)  
+![TIAGo ROS Simulation Tutorial](http://blog.pal-robotics.com/wp-content/uploads/2016/12/TIAGogmapping-1.gif){:height="40%" width="40%"}  
