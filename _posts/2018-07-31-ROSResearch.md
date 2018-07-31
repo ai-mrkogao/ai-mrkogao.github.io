@@ -3,9 +3,10 @@ title: "ROS Research Topic"
 date: 2018-07-31
 classes: wide
 use_math: true
-tags: ROS Gazebo research pcl
+tags: ROS Gazebo research pcl opencv
 category: ros
 ---
+
 
 
 # An Introduction to Robot Operating System (ROS)
@@ -73,3 +74,18 @@ $ rosrun rviz rviz
 # Writing a ROS Python Makefile
 [Writing a ROS Python Makefile](http://wiki.ros.org/rospy_tutorials/Tutorials/Makefile)
 
+# How to remove system dependency packages for a ROS package?
+```
+sudo apt-get purge ros-*
+
+sudo apt-get purge python-ros*
+
+sudo apt-get autoremove
+```
+[How to remove system dependency packages for a ROS package?](https://askubuntu.com/questions/885734/how-to-remove-system-dependency-packages-for-a-ros-package)
+
+# How to remove ros-desktop from Ubuntu 16.04 (Xenial Xerus)
+[How to remove ros-desktop from Ubuntu 16.04 (Xenial Xerus)](https://www.howtoinstall.co/en/ubuntu/xenial/ros-desktop?action=remove)
+
+# Installing OpenCV in Ubuntu for Python 3
+[Installing OpenCV in Ubuntu for Python 3](http://cyaninfinite.com/tutorials/installing-opencv-in-ubuntu-for-python-3/)
