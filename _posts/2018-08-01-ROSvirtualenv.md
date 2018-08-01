@@ -16,6 +16,12 @@ virtualenv roskineticenv --python=python3.4 or pythonj3.5
 
 deactivate
 ```
+
+```
+workon tensorflow-gpu
+deactivate
+```
+
 - - - 
 
 # Setup virtualenv and virtualenvwrapper
