@@ -359,3 +359,588 @@ qtcreator
 
 ![](https://cafeptthumb-phinf.pstatic.net/20130921_275/passionvirus_13797326933283w65c_JPEG/src.png){:height="50%" width="50%"}
 
+## 로스 빌드 시스템
+
+로스의 빌드 시스템은 기본적으로 CMake(Cross Platform Make)[2] 를 이용하고 있고, 패키지 폴더에 CMakeLists.txt 라는 파일에 빌드 환경을 기술하고 있다. 로스에서는 CMake를 로스에 맞도록 수정하여 로스에 특화된 캐킨 빌드 시스템을 만들었다. 
+
+로스에서 CMake를 이용하고 있는 이유는 멀티플랫폼에서 로스 패키지를 빌드할 수 있도록 위함이다. Make[3]가 유닉스계열만 지원하는 것과 달리, CMake는 유닉스 계열인 리눅스, BSD, OS X 뿐만 아니라 윈도우 계열도 지원하기 때문이다. 또한, 마이크로소프트 비주얼 스튜디오도 지원하고 QT개발에도 쉽게 적용될 수 있다. 
+
+더욱이, 캐킨 빌드 시스템은 로스와 관련된 빌드, 패키지 관리, 패키지간의 의존관계 등을 편리하게 사용할 수 있도록 하고 있다. 
+
+## 패키지 생성
+
+로스 패키지를 생성하기 위해서는 다음과 같은 명령어를 이용한다. "catkin_create_pkg" 는 사용자가 패키지를 작성할때 캐킨 빌드 시스템에 꼭 필요한 CMakeLists.txt 와 package.xml 를 포함한 패키지 폴더를 생성한다. 실제로 간단한 패키지를 작성해 보자.
+
+```
+catkin_create_pkg <패키지이름> [의존하는패키지1] [의존하는패키지2] [의존하는패키지3]
+```
+
+1) 작업 폴더로 이동 
+
+```
+$ cd ~/catkin_ws/src
+```
+
+2) 패키지 생성
+
+"my_first_ros_pkg" 라는 이름의 패키지를 생성할 것이다. 
+
+로스에서는 패키지 이름에는 모두 소문자를 사용하며, 스페이스바와 같은 공백이 있으면 안된다. 그리고 일반적으로 하이픈 - 대신에 밑줄 _ 을 사용하여 각 단어를 이어붙이는 것을 관례로 하고 있다. 
+그리고 이번에는 의존하는 패키지로 "std_msgs"와 "roscpp"를 옵션으로 달아주었다. 로스의 표준 메시지 패키지인 std_msgs 와 로스에서 c/c++을 사용하기 위하여 클라이언트라이브러인 roscpp를 사용하겠다는 것으로 패키지 생성에 앞어서 미리 설치해야한다는 의미이다. 이러한 의존하는 패키지의 설정은 패키지 생성할 때 지정할 수도 있지만, 생성 후 package.xml 에서 직접 입력하여도 된다.
+
+```
+$ catkin_create_pkg my_first_ros_pkg std_msgs roscpp
+```
+
+위와 같이 패키지를 생성하였으면 " /catkin_ws/src "에 "my_first_ros_pkg" 라는 패키지 폴더 및 로스 패키지가 갖추어야할 기본 내부 폴더 및 CMakeLists.txt 와 package.xml가 생성된다. 다음과 같이 명령어로 ls 를 입력하여 내용을 보던가 윈도우의 탐색기와 같은 역할을 하는 GUI기반의 Nautilus를 이용하여 패키지 내부를 살펴보도록 하자
+
+![](../../pictures/ros/packagefolder.png){:height="50%" width="50%"}
+
+## 패키지 설정 파일 (package.xml) 수정
+
+로스의 필수 설정 파일 중 하나인 package.xml 은 패키지의 정보를 담은 XML 파일로써 패키지의 이름, 저작자, 라이선스, 의존성 패키지 등을 기술하고 있다. 처음에 아무런 수정을 가하지 않은 원본 파일은 다음과 같다.
+
+```xml
+    <?xml version="1.0"?>
+    <package>
+      <name>my_first_ros_pkg</name>
+      <version>0.0.0</version>
+      <description>The my_first_ros_pkg package</description>
+     
+      <maintainer email="rt@todo.todo">rt</maintainer>
+          
+      <license>TODO</license>
+     
+   
+      <buildtool_depend>catkin</buildtool_depend>
+      <build_depend>std_msgs</build_depend>
+      <build_depend>roscpp</build_depend>
+      <run_depend>std_msgs</run_depend>
+      <run_depend>roscpp</run_depend>
+     
+     
+      <!-- The export tag contains other, unspecified, tags -->
+      <export>
+        <!-- You can specify that this package is a metapackage here: -->
+        <!-- <metapackage/> -->
+     
+        <!-- Other tools can request additional information be placed here -->
+     
+      </export>
+    </package>
+
+<buildtool_depend> : 빌드 시스템의 의존성을 기술한다. 지금은 캐킨 빌드 시스템을 이용하고 있기 때문에 catkin 를 입력하면 된다.
+
+<build_depend> : 패키지를 빌드할 때 의존하는 패키지명을 적어준다.
+
+<run_depend> : 패키지를 실행할 때 의존하는 패키지명을 적어준다.
+
+<test_depend> : 패키지를 테스트할때 의존하는 패키지명을 적어준다. 테스트이외에는 사용하지 않는다.
+
+<export> : 로스에서 명시하지 않은 태그명을 사용할때 쓰인다. 일반적인 경우 쓸일이 없다.
+
+<metapackage/> : export 태그 안에서 사용하는 공식적인 태그로 현재의 패키지가 메타패키지의 경우 이를 선언한다.
+```
+
+## 빌드 설정 파일 (CMakeLists.txt) 수정
+
+로스의 빌드 시스템인 캐킨은 기본적으로 CMake를 이용하고 있어서 패키지 폴더에 CMakeLists.txt 라는 파일에 빌드 환경을 기술하고 있다. 이는 실행 파일 생성, 의존성 패키지 우선 빌드, 링크 생성 등을 설정하게 되어 있다. 처음에 아무런 수정을 가하지 않은 원본 파일은 다음과 같다.
+
+```c
+    cmake_minimum_required(VERSION 2.8.3)
+    project(my_first_ros_pkg)
+     
+    ## Find catkin macros and libraries
+    ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+    ## is used, also find other catkin packages
+    find_package(catkin REQUIRED COMPONENTS
+      roscpp
+      std_msgs
+    )
+     
+    ## System dependencies are found with CMake's conventions
+    # find_package(Boost REQUIRED COMPONENTS system)
+     
+     
+    ## Uncomment this if the package has a setup.py. This macro ensures
+    ## modules and global scripts declared therein get installed
+    ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
+    # catkin_python_setup()
+     
+    #######################################
+    ## Declare ROS messages and services ##
+    #######################################
+     
+    ## Generate messages in the 'msg' folder
+    # add_message_files(
+    #   FILES
+    #   Message1.msg
+    #   Message2.msg
+    # )
+     
+    ## Generate services in the 'srv' folder
+    # add_service_files(
+    #   FILES
+    #   Service1.srv
+    #   Service2.srv
+    # )
+     
+    ## Generate added messages and services with any dependencies listed here
+    # generate_messages(
+    #   DEPENDENCIES
+    #   std_msgs
+    # )
+     
+    ###################################
+    ## catkin specific configuration ##
+    ###################################
+    ## The catkin_package macro generates cmake config files for your package
+    ## Declare things to be passed to dependent projects
+    ## INCLUDE_DIRS: uncomment this if you package contains header files
+    ## LIBRARIES: libraries you create in this project that dependent projects also need
+    ## CATKIN_DEPENDS: catkin_packages dependent projects also need
+    ## DEPENDS: system dependencies of this project that dependent projects also need
+    catkin_package(
+    #  INCLUDE_DIRS include
+    #  LIBRARIES my_first_ros_pkg
+    #  CATKIN_DEPENDS roscpp std_msgs
+    #  DEPENDS system_lib
+    )
+     
+    ###########
+    ## Build ##
+    ###########
+     
+    ## Specify additional locations of header files
+    ## Your package locations should be listed before other locations
+    # include_directories(include)
+    include_directories(
+      ${catkin_INCLUDE_DIRS}
+    )
+     
+    ## Declare a cpp library
+    # add_library(my_first_ros_pkg
+    #   src/${PROJECT_NAME}/my_first_ros_pkg.cpp
+    # )
+     
+    ## Declare a cpp executable
+    # add_executable(my_first_ros_pkg_node src/my_first_ros_pkg_node.cpp)
+     
+    ## Add cmake target dependencies of the executable/library
+    ## as an example, message headers may need to be generated before nodes
+    # add_dependencies(my_first_ros_pkg_node my_first_ros_pkg_generate_messages_cpp)
+     
+    ## Specify libraries to link a library or executable target against
+    # target_link_libraries(my_first_ros_pkg_node
+    #   ${catkin_LIBRARIES}
+    # )
+     
+    #############
+    ## Install ##
+    #############
+     
+    # all install targets should use catkin DESTINATION variables
+    # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
+     
+    ## Mark executable scripts (Python etc.) for installation
+    ## in contrast to setup.py, you can choose the destination
+    # install(PROGRAMS
+    #   scripts/my_python_script
+    #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    # )
+     
+    ## Mark executables and/or libraries for installation
+    # install(TARGETS my_first_ros_pkg my_first_ros_pkg_node
+    #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    # )
+     
+    ## Mark cpp header files for installation
+    # install(DIRECTORY include/${PROJECT_NAME}/
+    #   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    #   FILES_MATCHING PATTERN "*.h"
+    #   PATTERN ".svn" EXCLUDE
+    # )
+     
+    ## Mark other files for installation (e.g. launch and bag files, etc.)
+    # install(FILES
+    #   # myfile1
+    #   # myfile2
+    #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+    # )
+     
+    #############
+    ## Testing ##
+    #############
+     
+    ## Add gtest based cpp test target and link libraries
+    # catkin_add_gtest(${PROJECT_NAME}-test test/test_my_first_ros_pkg.cpp)
+    # if(TARGET ${PROJECT_NAME}-test)
+    #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+    # endif()
+     
+    ## Add folders to be run by python nosetests
+    # catkin_add_nosetests(test)
+
+
+
+```    
+
+```python
+// 운영체제에 설치되어 있는 cmake의 최소한의 버전이다. 현재에는 2.8.3 버전으로 명시되어 있다. 이 보다 낮은 cmake를 사용하는 경우에는 버전 업데이트를 해줘야 한다.
+cmake_minimum_required(VERSION 2.8.3)
+
+// 패키지의 이름이다. package.xml 에서 입력한 패키지 이름을 그대로 사용하자.
+project(my_first_ros_pkg)
+
+// 캐킨 빌드를 할 때 요구되는 구성요소 패키지이다. 현재 의존성 패키지로 roscpp 및 std_msgs가 추가되어 있다. 여기에 입력된 패키지가 없는 경우 캐킨 빌드할 때 사용자에게 에러가 표시된다. 즉, 사용자가 만든 패키지가 의존하는 패키지를 먼저 설치하게 만드는 옵션이다. 
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  std_msgs
+)
+
+// 로스 이외의 패키지를 사용하는 경우에 사용되는 방법이다. 예를들어 다음의 경우, Boost를 사용할때 system 이라는 패키지가 설되어 있어야 한다. 기능은 위에서 설명한 의존하는 패키지를 먼저 설치하게 만드는 옵션이다.
+find_package(Boost REQUIRED COMPONENTS system)
+
+// 파이썬을 사용할 때 설정하는 옵션이다. 파이썬은 cmake를 사용할 필요없는 스크립트 언어이지만 패키지의 호환성을 위해 아래와 같이 독자적인 설정을 하게 되어 있다.
+catkin_python_setup()
+
+// 사용하는 메시지 파일을 추가하는 옵션이다. FILES를 사용하면 패키지 폴더의 "msg" 안의 .msg 파일들을 참조하게 된다. 다음의 예제에서는 Message1.msg 및 Message2.msg 의 메시지 파일을 이용하겠다는 옵션이다.
+add_message_files(
+  FILES
+  Message1.msg
+  Message2.msg
+)
+
+// 사용하는 서비스 파일을 추가하는 옵션이다. FILES를 사용하면 패키지 폴더의 "srv" 안의 .srv 파일들을 참조하게 된다. 다음의 예제에서는 Service1.srv 및 Service2.srv 의 서비스 파일을 이용하겠다는 옵션이다.
+add_service_files(
+  FILES
+  Service1.srv
+  Service2.srv
+)
+
+// 의존하는 메시지를 사용하겠다는 옵션이다. 다음의 예제에서는 DEPENDENCIES 옵션에 의하여 std_msgs 라는 메시지 패키지를 사용하겠다는 설정이다.
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+// 캐킨 빌드 옵션이다.
+// "INCLUDE_DIRS"는 뒤에 설정한 패키지 내부 폴더인 "include"의 헤더파일을 사용하겠다는 설정이다.
+// "LIBRARIES"는 뒤에 설정한 패키지의 라이브러리를 사용하겠다는 설정이다.
+//  "CATKIN_DEPENDS" 캐킨 빌드할 때 의존하는 패키지들이다. 현재  roscpp 및 std_msgs가 의존하고 있다는 설정이다.
+// "DEPENDS" 시스템 의존 패키지를 기술하는 설정이다.
+catkin_package(
+ INCLUDE_DIRS include
+ LIBRARIES my_first_ros_pkg
+ CATKIN_DEPENDS roscpp std_msgs
+ DEPENDS system_lib
+)
+
+// 인클루드 폴더를 지정할 수 있는 옵션이다. 현재 ${catkin_INCLUDE_DIRS} 라고 설정되어 있는데 이는 각 패키지안의 "include" 폴더를 의미하고 이안의 헤더파일을 이용하겠다는 설정이다.
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
+
+// cpp 라이브러리를 선언한다. src/${PROJECT_NAME}/my_first_ros_pkg.cpp 파일을 참조하여 my_first_ros_pkg 라는 라이브러리를 생성하게 된다.
+add_library(my_first_ros_pkg
+  src/${PROJECT_NAME}/my_first_ros_pkg.cpp
+)
+
+// cpp 실행 파일을 선언한다. src/my_first_ros_pkg_node.cpp 파일을 참조하여 my_first_ros_pkg_node 라는 실행파일을 생성한다.
+add_executable(my_first_ros_pkg_node src/my_first_ros_pkg_node.cpp)
+
+// 패키지를 빌드하기 앞서서 생성해야할 메시지 헤더파일이 있을 경우 빌드전에 우선적으로 메시지를 생성하라는 설정이다. 현재 my_first_ros_pkg_generate_messages_cpp 를 우선적으로 빌드하고 my_first_ros_pkg_node 를 빌드하게 하는 설정이다.
+add_dependencies(my_first_ros_pkg_node my_first_ros_pkg_generate_messages_cpp)
+
+// my_first_ros_pkg_node 를 생성하기 앞서서 링크해야하는 라이브러리 및 실행파일을 링크해주는 옵션이다.
+target_link_libraries(my_first_ros_pkg_node
+  ${catkin_LIBRARIES}
+)
+
+
+```
+
+```python
+    cmake_minimum_required(VERSION 2.8.3)
+    project(my_first_ros_pkg)
+     
+    find_package(catkin REQUIRED COMPONENTS
+      roscpp
+      std_msgs
+    )
+     
+    catkin_package(
+      INCLUDE_DIRS include
+      CATKIN_DEPENDS roscpp std_msgs
+      DEPENDS system_lib
+    )
+     
+    include_directories(
+      ${catkin_INCLUDE_DIRS}
+    )
+     
+    add_executable(hello_world_node src/hello_world_node.cpp)
+    add_dependencies(hello_world_node my_first_ros_pkg_generate_messages_cpp)
+    target_link_libraries(hello_world_node ${catkin_LIBRARIES})
+     
+```
+
+## 소스코드 작성
+
+위에서 필자가 작성한 CMakelists.txt 파일을 참고하길 바란다. 실행파일 생성 부분에서 다음과 같이 설정해 놓았다. 즉, 패키지의 "src" 폴더에 있는 "hello_world_node.cpp" 소스코드를 참고하여 "hello_world_node" 라는 실행파일을 생성하라는 설정이다. 여기서, "hello_world_node.cpp" 소스코드가 없기에 간단한 예제로 하나 작성해 보자. 다음의 예제에서는 nano라는 에디터를 사용하였으나 vi, gedit, qtcreator 등 자신이 원하는 편집기를 이용하면 된다.
+
+"add_executable(hello_world_node src/hello_world_node.cpp)"
+```
+$ cd src     (여기서 src 는 자신의 패키지 폴더안의 src 라는 소스코드를 담는 폴더를 말한다.)
+$ nano hello_world_node.cpp
+```
+
+```c
+#include <ros/ros.h>
+#include <std_msgs/String.h>
+
+#include <sstream>
+
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "hello_world_node");
+  ros::NodeHandle nh;
+  ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("say_hello_world", 1000);
+
+  ros::Rate loop_rate(10);
+  int count = 0;
+  while (ros::ok())
+  {
+    std_msgs::String msg;
+    std::stringstream ss;
+    ss << "hello world " << count;
+    msg.data = ss.str();
+    ROS_INFO("%s", msg.data.c_str());
+    chatter_pub.publish(msg);
+    ros::spinOnce();
+    loop_rate.sleep();
+    ++count;
+  }
+  return 0;
+}
+```
+
+## 패키지 빌드
+
+이제 패키지 빌드를 위한 모든 작업이 완료되었다.  빌드에 앞서서 다음의 명령어로 로스 패키지의 프로파일을 갱신시켜주자. 앞서 제작한 우리의 패키지를 로스 패키지 목록에 반영시켜주는 명령어이다. 필수 사항은 아니지만 새로 패키지를 생성한 후에 갱신해주면 이용하기 편하다.
+
+```
+$ rospack profile
+```
+다음은 캐킨 빌드 이다. 캐킨 작업 폴더로 이용하여 캐킨 빌드를 해주자.
+
+```
+$ cd ~/catkin_ws && catkin_make
+또는
+$ cm
+```
+이전 강좌인 "ROS 강좌  06. ROS 개발 환경 구축"에서 언급했듯이 bashrc 파일에 alias cm='cd /catkin_ws && catkin_make' 라고 설정해두면 터미널 창에서 "cm" 이라는 간단한 명령어로 위의 명령어를 대체할 수 있다. 유용한 만큼 이전 강좌를 보고 꼭 설정해 두도록 하자
+
+##  노드 실행
+
+에러 없이 빌드가 완료되었으면 "/catkin_ws/devel/lib/my_first_ros_pkg" 에 "hello_world_node" 라는 파일이 생성되었을 것이다. 한번 확인해 보자.
+
+다음 단계는 노드를 실행하는 것인데 노드 실행에 앞서서 roscore를 구동하자. 로스의 모든 노드는 roscore를 구동한 후에 이용할 수 있다.
+
+```
+$ roscore
+```
+마지막으로 새로운 터미널창을 열어 아래의 명령어로 노드를 실행해보자. my_first_ros_pkg 라는 패키지의 hello_world_node 라는 노드를 실행하라는 명령어이다.
+
+```
+$ rosrun my_first_ros_pkg hello_world_node 
+
+[ INFO] [1380598894.131775283]: hello world 0
+[ INFO] [1380598894.231826916]: hello world 1
+[ INFO] [1380598894.331798085]: hello world 2
+[ INFO] [1380598894.431796634]: hello world 3
+[ INFO] [1380598894.531808660]: hello world 4
+[ INFO] [1380598894.631800431]: hello world 5
+[ INFO] [1380598894.731805683]: hello world 6
+```
+
+노드를 실행하게 되면 위와 같이 hello world 1, 2 ,3 과 같은 메시지가 발행되는 것을 볼 수 있을 것이다. 이번 강좌는 로스의 빌드 시스템을 설명하기 위한 것이니 노드의 소스코드에 관해서는 다음 강좌를 통해 알아보도록 하자.
+
+## ROS 명령어
+
+[ROS 쉘 명령어]
+
+    roscd (★★★) ros+cd(changes directory) : ROS 패키지 또는 스택의 디렉토리 변경 명령어
+    rospd (☆☆☆) ros+pushd : ROS 디렉토리 인덱스에 디렉토리 추가
+    rosd (☆☆☆) ros+directory : ROS 디렉토리 인덱스 확인 명령어
+    rosls (★☆☆) ros+ls(lists files) : ROS 패키지의 파일 리스트를 확인하는 명령어
+    rosed (★☆☆) ros+ed(editor) : ROS 패키지의 파일을 편집하는 명령어
+    roscp (☆☆☆) ros+cp(copies files) : ROS 패키지의 파일 복사하는 명령어
+
+
+[ROS 실행 명령어]
+
+    roscore (★★★) ros+core : master (ROS 네임 서비스) + rosout (stdout/stderr) + parameter server (매개변수관리)
+    rosrun (★★★) ros+run : 패키지의 노드를 실행하는 명령어
+    roslaunch (★★★) ros+launch : 패키지의 노드를 복수개 실행하는 명령어
+    rosclean (★☆☆) ros+clean : ros 로그 파일을 체크하거나 삭제하는 명령어
+
+
+[ROS 정보 명령어]
+
+    rostopic (★★★) ros+topic : ROS 토픽 정보를 확인하는 명령어
+    rosservice (★★★) ros+service : ROS 서비스 정보를 확인하는 명령어
+    rosnode (★★★) ros+node : ROS의 노드 정보를 얻는 명령어
+    rosparam (★★★) ros+param(parameter) : ROS 파라미터 정보를 확인, 수정 가능한 명령어
+    rosmsg (★★☆) ros+msg : ROS 메세지 선언 정보를 확인하는 명령어
+    rossrv (★★☆) ros+srv : ROS 서비스 선언 정보를 확인하는 명령어
+    roswtf (☆☆☆) ros+wtf : ROS 시스템을 검사하는 명령어
+    rosversion (★☆☆) ros+version : ros 패키및 배포 릴리즈 버전의 정보를 확인하는 명령어
+    rosbag (★★★) ros+bag : ROS 메세지를 기록, 재생하는 명령어
+
+[ROS 캐킨 명령어]
+
+"로봇 운영체제 강좌 : 11. ROS 빌드 시스템"에서 일부 설명하였음
+
+    catkin_create_pkg (★★★) 캐킨 빌드 시스템에 의한 패키지 자동 생성
+    catkin_eclipse (★★☆) 캐킨 빌드 시스템에 의해 생성된 패키지를 이클립스에서 사용할 수 있도록 변경하는 명령어
+    catkin_find (☆☆☆) 캐킨 검색
+    catkin_generate_changelog (☆☆☆) 캐킨 변경로그 생성
+    catkin_init_workspace (★☆☆) 캐킨 빌드 시스템의 작업폴더 초기화
+    catkin_make (★★★) 캐킨 빌드 시스템을 기반으로한 빌드 명령어
+
+
+[ROS 패키지 명령어] 
+
+"로봇 운영체제 강좌 : 11. ROS 빌드 시스템"에서 일부 설명하였음
+
+    rosmake (☆☆☆) ros+make : ROS package 를 빌드한다. (구 ROS 빌드 시스템에서 사용됨)
+    rosinstall (★☆☆) ros+install : ROS 추가 패키지 설치 명령어
+    roslocate (☆☆☆) ros+locate : ROS 패키지 정보 관련 명령어 
+    roscreate-pkg (☆☆☆) ros+create-pkg : ROS 패키지를 자동 생성하는 명령어 (구 ROS 빌드 시스템에서 사용됨)
+    rosdep (★☆☆) ros+dep(endencies) : 해당 패키지의 의존성 파일들을 설치하는 명령어
+    rospack (★★☆) ros+pack(age) : ROS 패키지와 관련된 정보를 알아보는 명령어
+
+
+## ROS 도구
+
+    RVIZ : 3D visualization tool / 3차원 시각화 툴  
+    rqt_bag : Logging and Visualization Sensor Data, rosbag gui tool / 메시지 기록 GUI 유틸리티 툴  
+    rqt_plot : Data Plot Tool / 2차원 데이터 플롯 툴   
+    rqt_graph : GUI plugin for visualizing the ROS computation graph / 노드 및 메시지간의 상관 관계 툴  
+    rqt : Qt-based framework for GUI development / ROS GUI 개발 툴  
+
+
+## RViz 설치 및 실행
+
+ROS 설치시에 기본 설치라고도 부를 수 있는 "Desktop-Full Install" 를 설치하게되면 RViz는 기본적으로 설치되어 있다. 만약에 "Desktop-Full Install" 으로 설치하지 않았거나, RViz 가 설치되어 있지 않을 경우에는 아래의 명령어로 설치할 수있다.
+
+```
+sudo apt-get install ros-indigo-rviz
+```
+RViz 의 실행 명령어는 아래와 같다. (단, roscore 가 실행되어 있어야 한다.)
+
+```
+rosrun rviz rviz
+```
+
+1) 3D 뷰 (3D view)
+: 위 화면의 가운데의 검정색 부분을 가르킨다. 각종 데이타를 3차원으로 볼 수 있는 메인 화면이다.
+
+2) 디스플레이(Displays) 
+: 왼쪽에 있는 디스플레이 화면은 각종 토픽으로부터 사용자가 원하는 데이타의 뷰를 선택하는 화면이다.
+
+3) 메뉴 (Menu)
+: 메뉴는 상단에 놓여져 있다. 현재의 뷰 상태를 저장하거나 읽어오는 명령, 각종 패널의 뷰 옵션을 체크할 수 있다.
+
+4) 툴 (Tools)
+: 대부분 네비게이션에 필요한 툴들이 놓여져 있다. 상세한 설명은 네비게이션을 다룰때 설명하도록 하겠다.
+
+5) 뷰 (Views)
+: 3D 뷰의 시점을 변경한다.
+
+6) 시간 (Time)
+: 현재 시간과 ROS Time 을 실시간으로 보여준다.
+
+## rqt 설치
+
+ROS 설치시에 기본 설치라고도 부를 수 있는 "Desktop-Full Install" 를 설치하게되면 rqt는 기본적으로 설치되어 있다. 만약에 "Desktop-Full Install" 으로 설치하지 않았거나, rqt 가 설치되어 있지 않을 경우에는 아래의 명령어로 설치할 수있다.
+
+```
+sudo apt-get install ros-indigo-rqt ros-indigo-rqt-common-plugins
+```
+추가로, rqt_graph 에서는 그래프 생성을 위하여 추가적으로 설치해야할 파일이 있다. rqt_graph 에서는 PyQtGraph, MatPlot, QwtPlot 을 지원하는데 우리는 rqt_graph 가 추천하는 PyQtGraph 을 사용하도록 하자.
+
+http://www.pyqtgraph.org/downloads/python-pyqtgraph_0.9.8-1_all.deb 에서 deb 파일을 받고 클릭하여 설치하도록 하자. 그 뒤 아래와 같이 rqt_graph를 실행한 후, 프로그램의 오른쪽 상단에 있는 옵션을 의미하는 "기어" 모양의 아이콘을 클릭하면 아래의 첨부 그림과 같이 옵션을 선택할 수 있는데 PyQtGraph 를 선택해주면 된다. PyQtGraph 이외에도 MatPlot, QwtPlot 도 이용 가능하니 원하는 그래프 관련 라이브러리를 이용하면 된다.
+
+```
+rqt_graph
+```
+
+## rqt_plot
+
+rqt_plot 은 2차원 데이터 플롯 툴이다. 플롯이라하면 좌료를 그리다라는 의미이다. 즉, ROS 메시지를 받아서 이를 좌표에 뿌리게 되는 것을 의미한다. 예를들어 turtlesim 노드 pose 메시지의 x 좌표와  y좌표를 좌표에 표기해보도록 하자.
+
+우선, turtlesim 패키지의 turtlesim_node 을 구동하자.
+
+```
+rosrun turtlesim turtlesim_node 
+```
+
+다음으로, rqt_plot 을 아래의 조건으로 구동하여 좌표를 작성한다. (원래는 rqt 를 구동후에 Plot 플러그인을 불러와서 GUI환경에서 토픽을 설정하면 되야하지만, 현재 버전에서는 이상하게 구동하지 않는다. 그러므로 아래의 명령어로 대채하여 설명한다.)
+
+```
+rqt_plot /turtle1/pose/
+```
+
+다음으로, turtlesim 패키지의 turtle_teleop_key 을 구동하여, 화면속의 거북이를 이리저리 움직여보자.
+
+```
+rosrun turtlesim turtle_teleop_key
+```
+
+![](../../pictures/ros/pyqtgraph.png){:height="50%" width="50%"}
+
+## Image View
+
+카메라의 이미지 데이터를 표시하는 플러그인이다. 이미지 처리 프로세스는 아니지만, 단순히 영상을 확인하는 용도로는 매우 간단하기에 유용하다.
+
+일반 USB CAM의 경우, UVC을 지원하기에 ROS의 "uvc_camera" 패키지를 이용하면 된다. 우선, 아래의 명령어로 "uvc_camera" 패키지를 설치하도록 하자.
+
+```
+sudo apt-get install ros-indigo-uvc-camera 
+```
+
+USB CAM을 컴퓨터의 USB에 연결하고, 아래의 명령어로 uvc_camera 패키지의 uvc_camera_node 노드를 구동하자.
+
+```
+rosrun uvc_camera uvc_camera_node
+```
+
+그 후, 아래의 명령어로 rqt를 구동후, 플러그인(Plugins) 메뉴에서 이미지 뷰(Image View)를 선택한다. 그 뒤 왼쪽 상단의 메시지 선택란을 "/image_raw"를 선택하면 아래의 화면처럼 영상을 확인할 수 있다. 
+
+```
+rqt
+```
+
+![](../../pictures/ros/rqt.png){:height="50%" width="50%"}
+
+## rqt_bag
+
+메시지 기록을 시각화한 GUI 툴이다. "로봇 운영체제 강좌 : ROS 정보 명령어 (rosbag)" 에서 다룬 내용을 시각화하면 편집 가능한 툴로 이미지 값등과 함께 편집할 때 매우 유용한 툴이다.
+
+이를 테스트하기 위해서 위헤서 다룬 rqt_graph 및 Image View 에서 다룬 turtlesim 및 uvc camera 관련의 노드들을 전부 실행해 주자. 그 뒤, 아래의 명령어로 카메라의 "/image_raw " 와 터틀시뮬레이션의 "/turtle1/cmd_vel" 값을 bag 파일로 생성하자.
+
+```
+rosbag record /image_raw /turtle1/cmd_vel
+```
+
+그 후, 아래의 명령어로 rqt를 구동후, 플러그인(Plugins) 메뉴에서 Bag를 선택한다. 그 뒤 왼쪽 상단의 폴더 모양(Load Bag)의 아이콘을 선택하여 방금전에 기록해둔 .bag 파일을 불러오도록 하자. 그러면 아래의 화면처럼 영상 및 cmd_vel 값을 확인할 수 있다. 또한, 이를 확대, 재생, 시간별 데이터 수 등을 확인할 수 있으며, 오른쪽 마우스를 누르면 Publish 라는 옵션이 있는데 이를 통해 메시지를 다시 발행할 수도 있다.
+
+```
+rqt
+```
+
+![](../../pictures/ros/rqtbag.png){:height="50%" width="50%"}
