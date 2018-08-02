@@ -101,3 +101,7 @@ sudo apt-get autoremove
 
 # UnInstalling ROS completely from system in Ubuntu 
 [UnInstalling ROS completely from system in Ubuntu ](http://yasirkiani.blogspot.com/2013/10/un-installing-ros-completely-from-system.html)
+
+# Open source Structure-from-Motion and Multi-View Stereo tools with C++
+[Open source Structure-from-Motion and Multi-View Stereo tools with C++](http://ros-developer.com/tag/structure-from-motion/)
+

@@ -94,3 +94,13 @@ category: reinforcement learning
 - ### [Imitation Learning with Dataset Aggregation (DAGGER) on Torcs Env](https://github.com/zsdonghao/Imitation-Learning-Dagger-Torcs)
   > ![DAgger_Torch](../../pictures/topic/DAgger_Torch.png){:height="50%" width="50%"}
 
+- ### [Research tools for autonomous systems in Python ](https://github.com/spillai/pybot)
+  - structure from motion and other vision
+
+- ### [Open source Structure from Motion pipeline ](https://github.com/mapillary/OpenSfM)
+
+- ### [Structure-from-motion-python](https://github.com/aferral/Structure-from-motion-python)
+
+- ### [COLMAP - Structure-from-Motion and Multi-View Stereo](https://github.com/colmap/colmap)
+
+
