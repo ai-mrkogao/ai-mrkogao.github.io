@@ -163,3 +163,9 @@ sudo apt-get purge python-ros*
 
 sudo apt-get autoremove
 ```
+
+# Virtual Machine not launching Gazebo
+[Virtual Machine not launching Gazebo](http://answers.gazebosim.org/question/13214/virtual-machine-not-launching-gazebo/)
+
+VMware: vmw_ioctl_command error Invalid argument.
+
