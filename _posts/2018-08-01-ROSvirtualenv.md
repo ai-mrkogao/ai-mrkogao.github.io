@@ -138,3 +138,28 @@ sudo apt-get install -f
 sudo apt-get autoremove
 cat /etc/apt/sources.list
 ```
+
+# Opencv install
+[OpenCV install](https://askubuntu.com/questions/783956/how-to-install-opencv-3-1-for-python-3-5-on-ubuntu-16-04-lts)
+
+[OpenCV install](http://www.techgazet.com/install-opencv/)
+
+[Opencv 3 with python3](https://www.pyimagesearch.com/2016/12/05/macos-install-opencv-3-and-python-3-5/)
+
+# Installing OpenCV in Ubuntu for Python 3
+(Installing OpenCV in Ubuntu for Python 3)[http://cyaninfinite.com/tutorials/installing-opencv-in-ubuntu-for-python-3/]
+
+
+# Gazebo install
+[Gazabo install](http://gazebosim.org/tutorials?tut=install_ubuntu)
+
+# How to remove system dependency packages for a ROS package?
+[How to remove system dependency packages for a ROS package?](https://askubuntu.com/questions/885734/how-to-remove-system-dependency-packages-for-a-ros-package)
+
+```
+sudo apt-get purge ros-*
+
+sudo apt-get purge python-ros*
+
+sudo apt-get autoremove
+```

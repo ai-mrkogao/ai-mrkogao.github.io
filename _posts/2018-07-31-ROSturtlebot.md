@@ -1,9 +1,9 @@
 ---
-title: "ROS basic and turtlebot example"
+title: "ROS basic and turtlebot example, Ubuntu command error"
 date: 2018-07-31
 classes: wide
 use_math: true
-tags: ROS Gazebo turtlebot
+tags: ROS Gazebo turtlebot ubuntu command python_error
 category: ros
 ---
 
@@ -140,3 +140,27 @@ rosrun rqt_plot rqt_plot
 # Reference sites
 [ROS(Robot Operating System) 개념과 활용 - 2. ROS의 동작 구조와 적용 사례](http://enssionaut.com/xe/index.php?mid=board_robotics&page=2&document_srl=421)
 
+# After install ROS Kinetic, cannot import OpenCV
+
+```python
+Python 3.5.2 (default, Nov 17 2016, 17:05:23) 
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import cv2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ImportError: /opt/ros/kinetic/lib/python2.7/dist-packages/cv2.so: undefined symbol: PyCObject_Type
+```
+[After install ROS Kinetic, cannot import OpenCV](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv)
+
+
+It looks like this problem is caused by ROS adding /opt/ros/kinetic/lib/python2.7/dist-packages to the python path. This actually happens when you activate ROS with the command source /opt/ros/kinetic/setup.bash. This line is often added at the end of your bashrc file, in /home/username/.bashrc.
+
+A workaround is to remove this line from the bashrc file. This way the python3 opencv packages will be correctly used, and you can still run source /opt/ros/kinetic/setup.bash to use ROS. However, this does mean you cannot use ROS and python3 from the same environment.
+
+Hopefully someone can come up with a better answer, but this should work until then.
+
+# Change folder permissions and ownership
+```
+sudo chown -R username:group directory
+```
