@@ -147,7 +147,7 @@ cat /etc/apt/sources.list
 [Opencv 3 with python3](https://www.pyimagesearch.com/2016/12/05/macos-install-opencv-3-and-python-3-5/)
 
 # Installing OpenCV in Ubuntu for Python 3
-(Installing OpenCV in Ubuntu for Python 3)[http://cyaninfinite.com/tutorials/installing-opencv-in-ubuntu-for-python-3/]
+[Installing OpenCV in Ubuntu for Python 3](http://cyaninfinite.com/tutorials/installing-opencv-in-ubuntu-for-python-3/)
 
 
 # Gazebo install
