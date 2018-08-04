@@ -169,3 +169,15 @@ sudo apt-get autoremove
 
 VMware: vmw_ioctl_command error Invalid argument.
 
+# ros-kinetic-desktop-full can not be installed after installing gazebo
+[ros-kinetic-desktop-full can not be installed after installing gazebo](http://answers.gazebosim.org/question/15568/ros-kinetic-desktop-full-can-not-be-installed-after-installing-gazebo/)
+
+```bash
+sudo apt-get remove '.*gazebo.*' '.*sdformat.*' '.*ignition-math.*' '.*ignition-msgs.*' '.*ignition-transport.*'
+
+sudo apt-get install ros-kinetic-desktop-full
+```
+
+# ImportError: No module named 'cv2' Python3
+[ImportError: No module named 'cv2' Python3](https://stackoverflow.com/questions/45643650/importerror-no-module-named-cv2-python3)
+
