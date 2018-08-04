@@ -181,3 +181,15 @@ sudo apt-get install ros-kinetic-desktop-full
 # ImportError: No module named 'cv2' Python3
 [ImportError: No module named 'cv2' Python3](https://stackoverflow.com/questions/45643650/importerror-no-module-named-cv2-python3)
 
+# After install ROS Kinetic, cannot import OpenCV
+[After install ROS Kinetic, cannot import OpenCV](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv)
+
+```python
+import sys
+print(sys.path)
+
+#You will see several path, among which you should notice:
+#'/opt/ros/kinetic/lib/python2.7/dist-packages'
+
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
+```
