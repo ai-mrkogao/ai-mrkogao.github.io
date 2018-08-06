@@ -104,3 +104,53 @@ category: reinforcement learning
 - ### [COLMAP - Structure-from-Motion and Multi-View Stereo](https://github.com/colmap/colmap)
 
 
+- ### [CVPR 2017 Tutorial Geometric and Semantic 3D Reconstruction](https://people.eecs.berkeley.edu/~chaene/cvpr17tut/)
+Schedule:
+  
+  >Srikumar:
+      Feature-based and deep learning techniques for single-view problems
+      Depth estimation
+      Semantic segmentation
+      Semantic boundary labeling
+  
+  
+  > Jakob:
+      Geometric visual-SLAM: Feature-based and Direct methods
+      Sparse, Dense, Semi-dense methods
+      Stereo, and RGB-D vSLAM
+      Semantic SLAM
+  
+  > Sudipta:
+      Semi-global stereo matching (SGM) and variants
+      Discrete and continuous optimization in stereo
+      Deep learning in stereo
+      Efficient scene flow estimation from stereoscopic video
+  
+  > Christian:
+      Volumetric Reconstruction, Depth Map Fusion
+      Semantic 3D Reconstruction
+      3D Object Shape Priors
+  
+  > Christian:
+      3D Prediction using ConvNets
+  
+  > Various Visual-SLAM demos (if time permitted)
+
+- ### [3D Machine Learning](https://github.com/timzhang642/3D-Machine-Learning)
+  
+    Table of Contents
+    - [Courses](#courses)
+    - [Datasets](#datasets)
+      - [3D Models](#3d_models)
+      - [3D Scenes](#3d_scenes)
+    - [3D Pose Estimation](#pose_estimation)
+    - [Single Object Classification](#single_classification)
+    - [Multiple Objects Detection](#multiple_detection)
+    - [Scene/Object Semantic Segmentation](#segmentation)
+    - [3D Model Synthesis/Reconstruction](#3d_synthesis)
+      - [Parametric Morphable Model-based methods](#3d_synthesis_model_based)
+      - [Part-based Template Learning methods](#3d_synthesis_template_based)
+      - [Deep Learning Methods](#3d_synthesis_dl_based)
+    - [Style Transfer](#style_transfer)
+    - [Scene Synthesis/Reconstruction](#scene_synthesis)
+    - [Scene Understanding](#scene_understanding)
