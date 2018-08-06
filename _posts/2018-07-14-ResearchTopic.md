@@ -154,3 +154,10 @@ Schedule:
     - [Style Transfer](#style_transfer)
     - [Scene Synthesis/Reconstruction](#scene_synthesis)
     - [Scene Understanding](#scene_understanding)
+
+- ### [Vision Project](http://www.zeeshanzia.com/research.htm)  
+![](http://www.zeeshanzia.com/research_teasers/Saleh_arxiv.png){:height="50%" width="50%"}  
+![](http://www.zeeshanzia.com/research_teasers/cvpr2017.png){:height="50%" width="50%"}
+
+![](http://www.zeeshanzia.com/research_teasers/SLAMBench.png){:height="50%" width="50%"}    
+![](http://www.zeeshanzia.com/research_teasers/ijcv_teaser.png){:height="50%" width="50%"}    
