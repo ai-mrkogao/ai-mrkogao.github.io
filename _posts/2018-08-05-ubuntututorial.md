@@ -1,5 +1,5 @@
 ---
-title: "Ubuntu tutorial(pycharm,eclipse,vim and etc)"
+title: "Ubuntu tutorial(pycharm,eclipse,vim,java,pyqt4 and etc)"
 date: 2018-08-05
 classes: wide
 use_math: true
@@ -24,3 +24,5 @@ sudo mount -t fuse.vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
 # How To Install Java with Apt-Get on Ubuntu 16.04 
 [How To Install Java with Apt-Get on Ubuntu 16.04 ](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04)
 
+# How to install PyQt5 in Python 3 (Ubuntu 14.04)
+[How to install PyQt5 in Python 3 (Ubuntu 14.04)](https://stackoverflow.com/questions/36757752/how-to-install-pyqt5-in-python-3-ubuntu-14-04)
