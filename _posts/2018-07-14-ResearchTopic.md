@@ -3,7 +3,7 @@ title: "Research Topic"
 date: 2018-07-14
 classes: wide
 use_math: true
-tags: reinforcement_learning tensorflow topic ROS robot autonomous_driving
+tags: reinforcement_learning tensorflow topic ROS robot autonomous_driving slam 3d
 category: reinforcement learning
 ---
 
