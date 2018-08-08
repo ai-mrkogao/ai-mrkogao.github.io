@@ -26,3 +26,10 @@ sudo mount -t fuse.vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
 
 # How to install PyQt5 in Python 3 (Ubuntu 14.04)
 [How to install PyQt5 in Python 3 (Ubuntu 14.04)](https://stackoverflow.com/questions/36757752/how-to-install-pyqt5-in-python-3-ubuntu-14-04)
+
+# How can I empty the trash using terminal?
+[How can I empty the trash using terminal?](https://askubuntu.com/questions/468721/how-can-i-empty-the-trash-using-terminal)
+
+```bash
+sudo rm -rf ~/.local/share/Trash/*
+```
