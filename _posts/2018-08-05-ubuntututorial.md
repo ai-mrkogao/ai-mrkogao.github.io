@@ -36,3 +36,16 @@ sudo rm -rf ~/.local/share/Trash/*
 
 # How do I mount shared folders in Ubuntu using VMware tools?
 [How do I mount shared folders in Ubuntu using VMware tools?](https://askubuntu.com/questions/29284/how-do-i-mount-shared-folders-in-ubuntu-using-vmware-tools)
+
+# VirtualBox/SharedFolders
+[VirtualBox/SharedFolders](https://help.ubuntu.com/community/VirtualBox/SharedFolders)
+
+# Mounting Shared Folders in a Linux Guest
+[Mounting Shared Folders in a Linux Guest](https://pubs.vmware.com/workstation-9/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-AB5C80FE-9B8A-4899-8186-3DB8201B1758.html)
+
+```bash
+sudo mount -t vmhgfs .host:/ushare /home/home9/Downloads
+```
+
+
+
