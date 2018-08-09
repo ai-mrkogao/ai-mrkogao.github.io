@@ -3,7 +3,7 @@ title: "Economic Data and Index"
 date: 2018-08-08
 classes: wide
 use_math: true
-tags: economic index
+tags: economic index debt fred outlook forecast gdp
 category: economic
 ---
 
@@ -78,4 +78,26 @@ KOSIS 공유서비스에서는 KOSIS에 수록된 통계정보를 이용하여 �
 # Household Debt to GDP for Republic of Korea (HDTGPDKRQ163N)
 [ Household Debt to GDP for Republic of Korea (HDTGPDKRQ163N)](https://fred.stlouisfed.org/series/HDTGPDKRQ163N)
 
+# Euro Area Manufacturing PMI
+[](https://tradingeconomics.com/euro-area/manufacturing-pmi)
+
+# South Korea Households Debt To Gdp
+[South Korea Households Debt To Gdp](https://tradingeconomics.com/south-korea/households-debt-to-gdp)
+
+![](../../pictures/economicData/koreadebt.png){:height="50%" width="50%"}
+
+# China Households Debt To Gdp
+[](https://tradingeconomics.com/china/households-debt-to-gdp)
+
+![](../../pictures/economicData/chinadebt.png){:height="50%" width="50%"}
+
+# South Korea - Economic Forecasts - 2018-2020 Outlook
+[](https://tradingeconomics.com/south-korea/forecast)
+
+![](../../pictures/economicData/koreaforecast.png){:height="50%" width="50%"}
+
+# Households Debt to GDP | Asia
+[](https://tradingeconomics.com/country-list/households-debt-to-gdp?continent=asia)
+
+![](../../pictures/economicData/asiadebt.png){:height="50%" width="50%"}
 
