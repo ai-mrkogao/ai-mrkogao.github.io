@@ -68,3 +68,14 @@ KOSIS 공유서비스에서는 KOSIS에 수록된 통계정보를 이용하여 �
 ![](../../pictures/economicData/excessreserves.png){:height="50%" width="50%"}
 
 
+![](../../pictures/economicData/chinahouseprice.png){:height="50%" width="50%"}
+
+![](../../pictures/economicData/koreahouseprice.png){:height="50%" width="50%"}
+
+# Consumer Price Index: Housing for Korea (KORCPIHOUMINMEI)
+[Consumer Price Index: Housing for Korea (KORCPIHOUMINMEI)](https://fred.stlouisfed.org/series/KORCPIHOUMINMEI)
+
+# Household Debt to GDP for Republic of Korea (HDTGPDKRQ163N)
+[ Household Debt to GDP for Republic of Korea (HDTGPDKRQ163N)](https://fred.stlouisfed.org/series/HDTGPDKRQ163N)
+
+
