@@ -26,4 +26,45 @@ KOSIS 공유서비스에서는 KOSIS에 수록된 통계정보를 이용하여 �
 # fred economic research
 [fred economic research](https://fred.stlouisfed.org/)
 
+# Gross Domestic Product (GDP)
+[Gross Domestic Product (GDP)](https://fred.stlouisfed.org/series/GDP)
+
+# Federal Debt: Total Public Debt as Percent of Gross Domestic Product (GFDEGDQ188S)
+[Federal Debt: Total Public Debt as Percent of Gross Domestic Product (GFDEGDQ188S)](https://fred.stlouisfed.org/series/GFDEGDQ188S)
+
+![](../../pictures/economicData/gdpfederaldebt.png){:height="50%" width="50%"}
+
+# Customize Data, Add Series to Existing Line
+[Customize Data, Add Series to Existing Line](https://fredhelp.stlouisfed.org/fred/graphs/customize-a-fred-graph/data-transformation-add-series-to-existing-line/)
+
+# Federal Government Current Receipts (FGRECPT)
+[Federal Government Current Receipts (FGRECPT)](https://fred.stlouisfed.org/series/FGRECPT)
+
+![](../../pictures/economicData/federaldebtfederalreceipts.png){:height="50%" width="50%"}
+
+- Gross Domestic Product (GDP) /(0.001*Federal Debt: Total Public Debt)
+- (0.001 * Federal Debt: Total Public Debt)/Federal Government Current Receipts
+
+# Households and Nonprofit Organizations; Net Worth, Level (TNWBSHNO)
+[Households and Nonprofit Organizations; Net Worth, Level (TNWBSHNO)](https://fred.stlouisfed.org/series/TNWBSHNO)
+
+![](../../pictures/economicData/households.png){:height="50%" width="50%"}
+
+![](../../pictures/economicData/gdpmonetarybase.png){:height="50%" width="50%"}
+
+
+![](../../pictures/economicData/unemploymentrate.png){:height="50%" width="50%"}
+
+
+![](../../pictures/economicData/Wilshire5000.png){:height="50%" width="50%"}
+
+
+![](../../pictures/economicData/receiptsexpenditures.png){:height="50%" width="50%"}
+
+
+![](../../pictures/economicData/M1monetarybase.png){:height="50%" width="50%"}
+
+
+![](../../pictures/economicData/excessreserves.png){:height="50%" width="50%"}
+
 
