@@ -267,14 +267,14 @@ In [13]: t.date() == datetime.date(2013, 12, 25)
 Out[13]: True
 ```
 
-# datetime to string with series in python pandas
+## datetime to string with series in python pandas
 ```python
 date = dataframe.index #date is the datetime index
 date = dates.strftime('%Y-%m-%d') #this will return you a numpy array, element is string.
 dstr = date.tolist()
 ```
 
-# Python NumPy: Get the values and indices of the elements that are bigger than 10 in a given array
+## Python NumPy: Get the values and indices of the elements that are bigger than 10 in a given array
 
 - ![](https://www.w3resource.com/w3r_images/python-numpy-image-exercise-31.png){:height="30%" width="30%"}
 
