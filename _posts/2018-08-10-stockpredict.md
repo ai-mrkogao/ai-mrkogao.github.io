@@ -293,6 +293,51 @@ Values bigger than 10 = [20 20 30 40]
 Their indices are  (array([0, 1, 1, 1]), array([2, 0, 1, 2]))
 ```
 
+## add datetimeindex in the other datetime index
+```python
+for i in range(data_preidxintrp.shape[0]):
+    basestr = data_preidxintrp.index[i]
+    basevalue = data_preidxintrp['value'][i]
+    
+    if basestr not in dfkospinew.index:
+    
+        while(True):
+            if basestr in dfkospinew.index:
+                basestr_timestamptostr = basestr.strftime('%Y-%m-%d')
+                dfkospinew[basestr_timestamptostr:basestr_timestamptostr] = basevalue
+                break
+            basestr += pd.DateOffset(1)
+```
+
+## numpy.zeros() in Python
+```python
+# Python Program illustrating
+# numpy.zeros method
+ 
+import numpy as geek
+ 
+b = geek.zeros(2, dtype = int)
+print("Matrix b : \n", b)
+ 
+a = geek.zeros([2, 2], dtype = int)
+print("\nMatrix a : \n", a)
+ 
+c = geek.zeros([3, 3])
+print("\nMatrix c : \n", c)
+```
+
+## Find the B-spline representation of 1-D curve (Interpolation)
+```python
+import matplotlib.pyplot as plt
+from scipy.interpolate import splev, splrep
+x = np.linspace(0, 10, 10)
+y = np.sin(x)
+spl = splrep(x, y)
+x2 = np.linspace(0, 10, 200)
+y2 = splev(x2, spl)
+plt.plot(x, y, 'o', x2, y2)
+plt.show()
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
