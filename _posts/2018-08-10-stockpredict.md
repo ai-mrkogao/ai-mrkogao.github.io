@@ -204,6 +204,96 @@ del df['column_name']
 ```
 
 
+## Data Interpolation
+```python
+from scipy import interpolate
+from scipy.optimize import fsolve
+import math
+
+x = np.array([10,20,30,40,50])
+y = np.array([0.2,0.6,-0.2,-0.5,0.7])
+
+tck = interpolate.splrep(x, y, s=0)
+
+xnew = np.arange(10,50,1)
+ynew = interpolate.splev(xnew, tck, der=0)
+# ynewder1 = interpolate.splev(xnew, tck, der=1)
+# ynewder2 = interpolate.splev(xnew, tck, der=2)
+
+plt.scatter(xnew,ynew)
+
+```
+
+## How can I replace all the NaN values with Zero's in a column of a pandas dataframe
+```python
+df[1].fillna(0, inplace=True)
+```
+
+## How to add an empty column to a dataframe?
+```python
+df = pd.DataFrame({"A": [1,2,3], "B": [2,3,4]})
+df
+Out[18]:
+   A  B
+0  1  2
+1  2  3
+2  3  4
+
+df.assign(C="",D=np.nan)
+Out[21]:
+   A  B C   D
+0  1  2   NaN
+1  2  3   NaN
+2  3  4   NaN
+```
+
+## Pandas add one day to column
+```python
+montdist['date'] + pd.DateOffset(1)
+pd.DatetimeIndex(df.date) + pd.offsets.Hour(1)
+mondist['shifted_date']=mondist.date + datetime.timedelta(days=1)
+df['newdate'] = pd.to_datetime(df['date']).apply(pd.DateOffset(1))
+df['newdate'] = pd.Series(index=df.index).tshift(periods=1, freq='D').index
+```
+
+## Pandas: Convert Timestamp to datetime.date
+```python
+In [11]: t = pd.Timestamp('2013-12-25 00:00:00')
+
+In [12]: t.date()
+Out[12]: datetime.date(2013, 12, 25)
+
+In [13]: t.date() == datetime.date(2013, 12, 25)
+Out[13]: True
+```
+
+# datetime to string with series in python pandas
+```python
+date = dataframe.index #date is the datetime index
+date = dates.strftime('%Y-%m-%d') #this will return you a numpy array, element is string.
+dstr = date.tolist()
+```
+
+# Python NumPy: Get the values and indices of the elements that are bigger than 10 in a given array
+
+- ![](https://www.w3resource.com/w3r_images/python-numpy-image-exercise-31.png){:height="30%" width="30%"}
+
+```python
+import numpy as np
+x = np.array([[0, 10, 20], [20, 30, 40]])
+print("Original array: ")
+print(x)
+print("Values bigger than 10 =", x[x>10])
+print("Their indices are ", np.nonzero(x > 10))
+
+Original array:                                                        
+[[ 0 10 20]                                                            
+ [20 30 40]]                                                           
+Values bigger than 10 = [20 20 30 40]                                  
+Their indices are  (array([0, 1, 1, 1]), array([2, 0, 1, 2]))
+```
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
