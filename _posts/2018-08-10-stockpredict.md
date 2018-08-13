@@ -390,6 +390,25 @@ array([[1],
 
 ```
 
+## Keras: How to save model and continue training?
+[Keras: How to save model and continue training?](https://stackoverflow.com/questions/45393429/keras-how-to-save-model-and-continue-training)
+```python
+model.save('partly_trained.h5')
+del model
+load_model('partly_trained.h5')
+
+filepath="LPT-{epoch:02d}-{loss:.4f}.h5"
+checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
+callbacks_list = [checkpoint]
+# fit the model
+model.fit(x, y, epochs=60, batch_size=50, callbacks=callbacks_list)
+
+try:
+    model.load_weights(path_checkpoint)
+except Exception as error:
+    print("Error trying to load checkpoint.")
+    print(error)
+```
 
 
 # Reference 
