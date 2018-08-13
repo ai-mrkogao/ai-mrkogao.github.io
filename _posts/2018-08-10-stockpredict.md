@@ -339,6 +339,59 @@ plt.plot(x, y, 'o', x2, y2)
 plt.show()
 ```
 
+## Deleting multiple columns based on column names in Pandas
+[Deleting multiple columns based on column names in Pandas](https://stackoverflow.com/questions/28538536/deleting-multiple-columns-based-on-column-names-in-pandas)
+
+```python
+yourdf.drop(['columnheading1', 'columnheading2'], axis=1, inplace=True)
+
+for col in df.columns:
+    if 'Unnamed' in col:
+        del df[col]
+
+df.drop([col for col in df.columns if "Unnamed" in col], axis=1, inplace=True)
+
+df.drop(df.columns[22:56], axis=1, inplace=True)        
+```
+
+
+## How to add column to numpy array
+[How to add column to numpy array](https://stackoverflow.com/questions/15815854/how-to-add-column-to-numpy-array)
+```python
+my_data = np.random.random((210,8)) #recfromcsv('LIAB.ST.csv', delimiter='\t')
+new_col = my_data.sum(1)[...,None] # None keeps (n, 1) shape
+new_col.shape
+#(210,1)
+all_data = np.append(my_data, new_col, 1)
+all_data.shape
+#(210,9)
+
+all_data = np.hstack((my_data, new_col))
+#or
+all_data = np.concatenate((my_data, new_col), 1)
+```
+
+## Numpy expand dims
+```python
+>>> y = np.expand_dims(x, axis=0)
+>>> y
+array([[1, 2]])
+>>> y.shape
+(1, 2)
+
+>>>
+
+>>> y = np.expand_dims(x, axis=1)  # Equivalent to x[:,np.newaxis]
+>>> y
+array([[1],
+       [2]])
+>>> y.shape
+(2, 1)
+
+```
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
