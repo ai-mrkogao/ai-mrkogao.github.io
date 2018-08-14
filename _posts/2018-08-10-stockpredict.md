@@ -3,7 +3,7 @@ title: "Stock Predict Experiment 1"
 date: 2018-08-10
 classes: wide
 use_math: true
-tags: economic index python stock utils kospi keras tensorflow pandas numpy
+tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm
 category: stock
 ---
 
@@ -409,6 +409,58 @@ except Exception as error:
     print("Error trying to load checkpoint.")
     print(error)
 ```
+
+```python
+self.saver = tf.train.Saver()
+
+model_name = self.model_name + ".model"
+self.saver.save(
+    self.sess,
+    os.path.join(self.model_logs_dir, model_name),
+    global_step=step
+)
+
+ckpt = tf.train.get_checkpoint_state(self.model_logs_dir)
+if ckpt and ckpt.model_checkpoint_path:
+    ckpt_name = os.path.basename(ckpt.model_checkpoint_path)
+    self.saver.restore(self.sess, os.path.join(self.model_logs_dir, ckpt_name))
+```        
+
+
+## How to prevent tensorflow from allocating the totality of a GPU memory?
+[How to prevent tensorflow from allocating the totality of a GPU memory?](https://stackoverflow.com/questions/34199233/how-to-prevent-tensorflow-from-allocating-the-totality-of-a-gpu-memory)
+
+```python
+# Assume that you have 12GB of GPU memory and want to allocate ~4GB:
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
+
+sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+```
+
+## Build Multiple Layer LSTM network
+```python
+"[p0,p1,p3][p4,p5,p6] => 2 num steps, 3 input size"
+"[p7,p8,p9] => 3 output size"
+self.inputs = tf.placeholder(tf.float32, [None, self.num_steps, self.input_size], name="inputs")
+self.targets = tf.placeholder(tf.float32, [None, self.input_size], name="targets")
+
+def _create_one_cell():
+    lstm_cell = tf.contrib.rnn.LSTMCell(self.lstm_size, state_is_tuple=True)
+    lstm_cell = tf.contrib.rnn.DropoutWrapper(lstm_cell, output_keep_prob=self.keep_prob)
+    return lstm_cell
+
+cell = tf.contrib.rnn.MultiRNNCell(
+    [_create_one_cell() for _ in range(self.num_layers)],
+    state_is_tuple=True
+    )
+val, state_ = tf.nn.dynamic_rnn(cell, self.inputs_with_embed, dtype=tf.float32, scope="dynamic_rnn")
+
+ws = tf.Variable(tf.truncated_normal([self.lstm_size, self.input_size]), name="w")
+bias = tf.Variable(tf.constant(0.1, shape=[self.input_size]), name="b")
+self.pred = tf.matmul(last, ws) + bias
+```
+
+
 
 
 # Reference 
