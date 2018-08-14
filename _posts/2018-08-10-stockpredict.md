@@ -460,7 +460,41 @@ bias = tf.Variable(tf.constant(0.1, shape=[self.input_size]), name="b")
 self.pred = tf.matmul(last, ws) + bias
 ```
 
+## Normalization seq data
+```python
+seq = [np.array([520.95]), np.array([521.43]), np.array([558.02]), np.array([580.85]), np.array([586.65]), np.array([589.92])]
 
+print('seq[0] {} seq[0][0] {}'.format(seq[0],seq[0][0]))
+
+seq = [seq[0] / seq[0][0] - 1.0] + [
+    curr / seq[i][-1] - 1.0 for i, curr in enumerate(seq[1:])]
+
+seq
+
+>> seq[0] [520.95] seq[0][0] 520.95
+
+Out[19]:
+
+[array([0.]),
+ array([0.00092139]),
+ array([0.07017241]),
+ array([0.04091251]),
+ array([0.00998537]),
+ array([0.00557402])]
+```
+
+## numpy arrary to list
+```python
+>>> a = np.array([1, 2])
+>>> a.tolist()
+[1, 2]
+>>> a = np.array([[1, 2], [3, 4]])
+>>> list(a)
+[array([1, 2]), array([3, 4])]
+>>> a.tolist()
+[[1, 2], [3, 4]]
+
+```
 
 
 # Reference 
