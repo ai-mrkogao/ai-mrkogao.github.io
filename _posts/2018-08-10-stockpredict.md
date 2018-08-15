@@ -3,7 +3,7 @@ title: "Stock Predict Experiment 1"
 date: 2018-08-10
 classes: wide
 use_math: true
-tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm
+tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm experiments
 category: stock
 ---
 
