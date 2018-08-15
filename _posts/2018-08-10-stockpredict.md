@@ -1,5 +1,5 @@
 ---
-title: "Stock Predict Experiment 1"
+title: "Stock Predict Experiments"
 date: 2018-08-10
 classes: wide
 use_math: true
