@@ -496,6 +496,254 @@ Out[19]:
 
 ```
 
+## Show DataFrame as table in iPython Notebook
+[Show DataFrame as table in iPython Notebook](https://stackoverflow.com/questions/26873127/show-dataframe-as-table-in-ipython-notebook)
+```python
+from IPython.display import display, HTML
+
+# Assuming that dataframes df1 and df2 are already defined:
+print "Dataframe 1:"
+display(df1)
+print "Dataframe 2:"
+display(HTML(df2.to_html()))
+```
+
+## Tensor manipulation
+```python
+t = np.array([[1., 2., 3.], [4., 5., 6.], [7., 8., 9.], [10., 11., 12.]])
+pp.pprint(t)
+print(t.ndim) # rank
+print(t.shape) # shape
+
+t = tf.constant([1,2,3,4])
+tf.shape(t).eval()
+>>array([4], dtype=int32)
+
+
+>>array([ 1.5,  3.5], dtype=float32)
+
+matrix1 = tf.constant([[3., 3.]])
+matrix2 = tf.constant([[2., 2.]])
+(matrix1+matrix2).eval()
+>>array([[ 5.,  5.]], dtype=float32)
+
+tf.random_normal([3]).eval()
+>>array([ 2.20866942, -0.73225045,  0.33533147], dtype=float32)
+
+x = [[1., 2.],
+     [3., 4.]]
+tf.reduce_mean(x).eval()
+>>2.5
+
+tf.reduce_mean(x, axis=0).eval()
+>>array([ 2.,  3.], dtype=float32)
+
+tf.reduce_mean(x, axis=1).eval()
+>>array([ 1.5,  3.5], dtype=float32)
+
+x = [[0, 1, 2],
+     [2, 1, 0]]
+tf.argmax(x, axis=0).eval()
+>>array([1, 0, 0])
+
+tf.argmax(x, axis=1).eval()
+>>array([2, 0])
+
+t = np.array([[[0, 1, 2], 
+               [3, 4, 5]],
+              
+              [[6, 7, 8], 
+               [9, 10, 11]]])
+t.shape
+>>(2, 2, 3)
+
+tf.squeeze([[0], [1], [2]]).eval()
+>>array([0, 1, 2], dtype=int32)
+
+tf.expand_dims([0, 1, 2], 1).eval()
+>>array([[0],
+       [1],
+       [2]], dtype=int32)
+
+tf.one_hot([[0], [1], [2], [0]], depth=3).eval()
+>>array([[[ 1.,  0.,  0.]],
+
+       [[ 0.,  1.,  0.]],
+
+       [[ 0.,  0.,  1.]],
+
+       [[ 1.,  0.,  0.]]], dtype=float32)
+
+tf.cast([1.8, 2.2, 3.3, 4.9], tf.int32).eval()
+>>array([1, 2, 3, 4], dtype=int32)
+
+x = [1, 4]
+y = [2, 5]
+z = [3, 6]
+
+# Pack along first dim.
+tf.stack([x, y, z]).eval()
+>>array([[1, 4],
+       [2, 5],
+       [3, 6]], dtype=int32)
+
+tf.stack([x, y, z], axis=1).eval()
+>>array([[1, 2, 3],
+       [4, 5, 6]], dtype=int32)
+
+```
+
+```python
+import tensorflow as tf
+
+a, b, c = 2, 3, 4
+x = tf.Variable(tf.random_normal([a, b, c], mean=0.0, stddev=1.0, dtype=tf.float32))
+s = tf.shape(x)
+
+init = tf.initialize_all_variables()
+sess = tf.Session()
+sess.run(init)
+v1, v2, v3 = sess.run(s)
+y = tf.reshape(x, [v1 * v2, v3])
+shape = tf.shape(y)
+
+print (sess.run(y))
+print (sess.run(shape))
+```
+
+```python
+a = tf.constant([[30, 29, 19, 17, 12, 11],
+   [30, 27, 20, 16,  5,  1],
+   [28, 25, 17, 14,  7,  2],
+   [28, 26, 21, 14,  6,  4]], dtype=tf.int32)
+print(a.get_shape())
+>>(4, 6)
+a = tf.expand_dims(a, axis=2)
+print(a.get_shape())
+>>(4, 6, 1)
+```
+
+```python
+sess = tf.InteractiveSession()
+init = tf.global_variables_initializer()
+sess.run(init)
+y_pred = sess.run([Y_pred], feed_dict={
+                                X: trainX, Y: trainY})
+print(y_pred[0].shape,type(y_pred))
+new_y_pred = y_pred[0]
+new_y_pred = tf.expand_dims(new_y_pred,axis=0)
+print(new_y_pred.get_shape())
+axis1 = new_y_pred.get_shape()[1]
+print(int(int(axis1)/5))
+axis1 = int(int(axis1)/5)
+#new_y_pred = tf.reshape(new_y_pred,[])
+new_y_pred = tf.reshape(new_y_pred,[axis1,5,1])
+print(new_y_pred.get_shape())
+>>(3005, 1) "<class 'list'>"
+>>(1, 3005, 1)
+>>601
+>>(601, 5, 1)
+```
+
+## matplotlib legend
+```python
+plt.figure(figsize=(12, 6))
+plt.plot(days, truths, label='truth')
+plt.plot(days, preds, label='pred')
+plt.legend(loc='upper left', frameon=False)
+plt.xlabel("day")
+plt.ylabel("normalized price")
+plt.ylim((min(truths), max(truths)))
+plt.grid(ls='--')
+plt.savefig(figname, format='png', bbox_inches='tight')#, transparent=True)
+```
+
+## Adding new column to existing DataFrame in Python pandas
+[Adding new column to existing DataFrame in Python pandas](https://stackoverflow.com/questions/12555323/adding-new-column-to-existing-dataframe-in-python-pandas)
+```python
+df1['e'] = pd.Series(np.random.randn(sLength), index=df1.index)
+
+>>> df1.loc[:,'f'] = p.Series(np.random.randn(sLength), index=df1.index)
+>>> df1
+          a         b         c         d         e         f
+6 -0.269221 -0.026476  0.997517  1.294385  1.757167 -0.050927
+8  0.917438  0.847941  0.034235 -0.448948  2.228131  0.006109
+>>> 
+
+df1 = df1.assign(e=p.Series(np.random.randn(sLength)).values)
+```
+
+## numpy generating random sin curve
+```python
+import matplotlib.pylab as plt
+>>> x = np.linspace(-np.pi, np.pi, 201)
+>>> plt.plot(x, np.sin(x))
+>>> plt.xlabel('Angle [rad]')
+>>> plt.ylabel('sin(x)')
+>>> plt.axis('tight')
+>>> plt.show()
+```
+## calculate turning points / pivot points in trajectory (path)
+[calculate turning points / pivot points in trajectory (path)](https://stackoverflow.com/questions/14631776/calculate-turning-points-pivot-points-in-trajectory-path)
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.ndimage
+
+def first_derivative(x) :
+    return x[2:] - x[0:-2]
+
+def second_derivative(x) :
+    return x[2:] - 2 * x[1:-1] + x[:-2]
+
+def curvature(x, y) :
+    x_1 = first_derivative(x)
+    x_2 = second_derivative(x)
+    y_1 = first_derivative(y)
+    y_2 = second_derivative(y)
+    return np.abs(x_1 * y_2 - y_1 * x_2) / np.sqrt((x_1**2 + y_1**2)**3)
+
+def plot_turning_points(x, y, turning_points=10, smoothing_radius=3,
+                        cluster_radius=10) :
+    if smoothing_radius :
+        weights = np.ones(2 * smoothing_radius + 1)
+        new_x = scipy.ndimage.convolve1d(x, weights, mode='constant', cval=0.0)
+        new_x = new_x[smoothing_radius:-smoothing_radius] / np.sum(weights)
+        new_y = scipy.ndimage.convolve1d(y, weights, mode='constant', cval=0.0)
+        new_y = new_y[smoothing_radius:-smoothing_radius] / np.sum(weights)
+    else :
+        new_x, new_y = x, y
+    k = curvature(new_x, new_y)
+    turn_point_idx = np.argsort(k)[::-1]
+    t_points = []
+    while len(t_points) < turning_points and len(turn_point_idx) > 0:
+        t_points += [turn_point_idx[0]]
+        idx = np.abs(turn_point_idx - turn_point_idx[0]) > cluster_radius
+        turn_point_idx = turn_point_idx[idx]
+    t_points = np.array(t_points)
+    t_points += smoothing_radius + 1
+    plt.plot(x,y, 'k-')
+    plt.plot(new_x, new_y, 'r-')
+    print('t_points {}'.format(t_points))
+    plt.plot(x[t_points], y[t_points], 'o')
+    plt.show()
+#x, y = np.genfromtxt('bla.data')
+y = np.array([0,2,3,4,5,2,1,2,3,4,5,6,7,8,7,6,5,4,5,6])
+
+#x = np.arange(len(y))
+x = np.linspace(-np.pi, np.pi, 50)
+y = np.sin(x)*np.random.randint(10,size=1)
+
+#print(x,y)
+plot_turning_points(x, y, turning_points=20, smoothing_radius=1,cluster_radius=10)
+```
+## The Ramer-Douglas-Peucker algorithm implemented in Python 
+[The Ramer-Douglas-Peucker algorithm implemented in Python ](https://github.com/sebleier/RDP/)
+
+## Ramer–Douglas–Peucker algorithm
+[Ramer–Douglas–Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm)  
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Douglas-Peucker_animated.gif/220px-Douglas-Peucker_animated.gif){:height="20%" width="20%"}
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
