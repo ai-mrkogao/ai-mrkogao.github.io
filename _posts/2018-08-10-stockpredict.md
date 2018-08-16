@@ -3,7 +3,7 @@ title: "Stock Predict Experiments"
 date: 2018-08-10
 classes: wide
 use_math: true
-tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm experiments
+tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm experiments asmatrix hstack
 category: stock
 ---
 
@@ -744,6 +744,47 @@ plot_turning_points(x, y, turning_points=20, smoothing_radius=1,cluster_radius=1
 [Ramer–Douglas–Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm)  
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Douglas-Peucker_animated.gif/220px-Douglas-Peucker_animated.gif){:height="20%" width="20%"}
 
+
+## numpy.asmatrix
+[numpy.asmatrix](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.asmatrix.html)
+```python
+>>> x = np.array([[1, 2], [3, 4]])
+>>> m = np.asmatrix(x)
+>>> x[0,0] = 5
+>>> m
+matrix([[5, 2],
+        [3, 4]])
+
+```
+
+## numpy.hstack
+```python
+>>> a = np.array((1,2,3))
+>>> b = np.array((2,3,4))
+>>> np.hstack((a,b))
+array([1, 2, 3, 2, 3, 4])
+>>> a = np.array([[1],[2],[3]])
+>>> b = np.array([[2],[3],[4]])
+>>> np.hstack((a,b))
+array([[1, 2],
+       [2, 3],
+       [3, 4]])
+```
+
+## tensorflow saver and restore
+```python
+saver = tf.train.Saver()
+save_dir = 'checkpoints/'
+
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
+save_path = os.path.join(save_dir, 'best_validation')
+
+saver.save(sess=session, save_path=save_path)
+
+saver.restore(sess=session, save_path=save_path)    
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
