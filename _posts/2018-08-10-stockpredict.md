@@ -1,9 +1,9 @@
 ---
-title: "Stock Predict Experiments"
+title: "Predict Experiments"
 date: 2018-08-10
 classes: wide
 use_math: true
-tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm experiments asmatrix hstack
+tags: economic index python stock utils kospi keras tensorflow pandas numpy gpu rnn lstm experiments asmatrix hstack scatter
 category: stock
 ---
 
@@ -773,7 +773,7 @@ array([[1, 2],
 
 ## tensorflow saver and restore
 ```python
-saver = tf.train.Saver()
+Zsaver = tf.train.Saver()
 save_dir = 'checkpoints/'
 
 if not os.path.exists(save_dir):
@@ -784,6 +784,102 @@ save_path = os.path.join(save_dir, 'best_validation')
 saver.save(sess=session, save_path=save_path)
 
 saver.restore(sess=session, save_path=save_path)    
+```
+
+## tensorflow global step variable
+```python
+tf.summary.scalar('loss',loss)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+
+# Why 0 as the first parameter of the global_step tf.Variable?
+global_step = tf.Variable(0, name='global_step',trainable=False)
+
+train_op = optimizer.minimize(loss, global_step=global_step)
+```
+[TensorFlow-Tutorials/10_save_restore_net.py](https://github.com/nlintz/TensorFlow-Tutorials/blob/master/10_save_restore_net.py)
+```python
+global_step = tf.Variable(0, name='global_step', trainable=False)
+
+ckpt = tf.train.get_checkpoint_state(ckpt_dir)
+if ckpt and ckpt.model_checkpoint_path:
+    print(ckpt.model_checkpoint_path)
+    saver.restore(sess, ckpt.model_checkpoint_path) # restore all variables
+
+start = global_step.eval() # get last global_step
+print("Start from:", start)
+"train "
+global_step.assign(i).eval() # set and update(eval) global_step with index, i
+saver.save(sess, ckpt_dir + "/model.ckpt", global_step=global_step)
+```
+
+## Search A pandas Column For A Value
+[Search A pandas Column For A Value](https://chrisalbon.com/python/data_wrangling/pandas_search_column_for_value/)
+```python
+
+df['preTestScore'].where(df['postTestScore'] > 50)
+```
+
+## Selection and Indexing Methods for Pandas DataFrames
+[Selection and Indexing Methods for Pandas DataFrames](https://www.shanelynn.ie/select-pandas-dataframe-rows-and-columns-using-iloc-loc-and-ix/)
+
+
+## 12 Useful Pandas Techniques in Python for Data Manipulation
+[12 Useful Pandas Techniques in Python for Data Manipulation](https://www.analyticsvidhya.com/blog/2016/01/12-pandas-techniques-python-data-manipulation/)
+
+## Pandas Cheat Sheet for Data Science in Python
+[Pandas Cheat Sheet for Data Science in Python](https://www.datacamp.com/community/blog/python-pandas-cheat-sheet)
+
+## making matplotlib scatter plots from dataframes in Python's pandas
+[making matplotlib scatter plots from dataframes in Python's pandas](https://stackoverflow.com/questions/14300137/making-matplotlib-scatter-plots-from-dataframes-in-pythons-pandas)
+```python
+import matplotlib.pylab as plt
+# df is a DataFrame: fetch col1 and col2 
+# and drop na rows if any of the columns are NA
+mydata = df[["col1", "col2"]].dropna(how="any")
+# Now plot with matplotlib
+vals = mydata.values
+plt.scatter(vals[:, 0], vals[:, 1])
+
+mydata = df.dropna(how="any", subset=["col1", "col2"])
+# plot a scatter of col1 by col2, with sizes according to col3
+scatter(mydata(["col1", "col2"]), s=mydata["col3"])
+```
+
+
+## Pandas Dataframe: Plot Examples with Matplotlib and Pyplot
+[Pandas Dataframe: Plot Examples with Matplotlib and Pyplot](http://queirozf.com/entries/pandas-dataframe-plot-examples-with-matplotlib-pyplot)
+
+## scatter plot
+```python
+buysignals = df_result['actions'].where(df_result['actions'] == 1)
+sellsignals = df_result['actions'].where(df_result['actions'] == 0)
+holdsignals = df_result['actions'].where(df_result['actions'] == 2)
+
+df_result['buy'] = buysignals
+df_result['sell'] = sellsignals
+df_result['hold'] = holdsignals
+
+df_result['buy'] = df_result['Close'].where(df_result['buy'] ==1)
+df_result['sell'] = df_result['Close'].where(df_result['sell'] == 0)
+df_result['hold'] = df_result['Close'].where(df_result['hold'] == 2)
+df_result['datetime'] = df_result.index
+
+import matplotlib, datetime
+import matplotlib.pyplot as plt
+
+def scatter_date(df, x, y, datetimeformat):
+  if not isinstance(y, list):
+      y = [y]
+  for yi in y:
+      plt.plot_date(df[x].apply(
+          lambda z: matplotlib.dates.date2num(
+              datetime.datetime.strptime(z, datetimeformat))), df[yi], label=yi)
+  plt.legend()
+  plt.xlabel(x)
+
+# Example Usage
+plt.figure(figsize=(10,10))
+scatter_date(df_result, x='datetime', y=['Close','buy','sell','hold'], datetimeformat='%Y-%m-%d')
 ```
 
 # Reference 
