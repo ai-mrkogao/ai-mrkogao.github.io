@@ -882,6 +882,39 @@ plt.figure(figsize=(10,10))
 scatter_date(df_result, x='datetime', y=['Close','buy','sell','hold'], datetimeformat='%Y-%m-%d')
 ```
 
+## pandas access value by index number
+```python
+In [28]: x = pd.DataFrame({'x': [1, 2, 3], 'y': [3, 4, 5]})
+
+In [29]: x.iloc[1] = dict(x=9, y=99)
+
+In [30]: x
+Out[30]: 
+   x   y
+0  1   3
+1  9  99
+2  3   5
+```
+
+## pandas zero column creation and insert value
+```python
+df_total['turnpoint'] = np.zeros(len(df_total))
+df_total['turnpoint'].iloc[newx[1]] = newy[1]
+df_total['turnpoint'].iloc[newx[1]]
+```
+
+## Set value for particular cell in pandas DataFrame using index
+[Set value for particular cell in pandas DataFrame using index](https://stackoverflow.com/questions/13842088/set-value-for-particular-cell-in-pandas-dataframe-using-index)
+```python
+df.loc[df[<some_column_name>] == <condition>, <another_column_name>] = <value_to_add>
+df.loc[row_index,col_indexer] = value
+df.iloc[[2], [0]] = 10
+x = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+x.iloc[1] = dict(A=10, B=-10)
+```
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
