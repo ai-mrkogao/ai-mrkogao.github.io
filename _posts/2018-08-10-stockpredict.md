@@ -1,5 +1,5 @@
 ---
-title: "Predict Experiments"
+title: "Predict DL Experiments"
 date: 2018-08-10
 classes: wide
 use_math: true
@@ -254,6 +254,44 @@ pd.DatetimeIndex(df.date) + pd.offsets.Hour(1)
 mondist['shifted_date']=mondist.date + datetime.timedelta(days=1)
 df['newdate'] = pd.to_datetime(df['date']).apply(pd.DateOffset(1))
 df['newdate'] = pd.Series(index=df.index).tshift(periods=1, freq='D').index
+```
+## covert pandas index to datetime index
+```python
+import re
+import datetime as dt
+
+indexstrs = df_train.index
+#indexstrs[0] = '2001-01-01'
+
+years = [ int(re.sub(r'\D+','',rowstr.split('-')[0])) for rowstr in indexstrs] 
+months = [ int(re.sub(r'\D+','',rowstr.split('-')[1])) for rowstr in indexstrs] 
+days = [ int(re.sub(r'\D+','',rowstr.split('-')[2])) for rowstr in indexstrs] 
+
+indexnewstrs = [dt.datetime(years[i],months[i],days[i]) for i in range(len(years))]
+#indexnewstrs
+df_train['timeindex'] = indexnewstrs
+df_train.index = pd.DatetimeIndex(indexnewstrs)
+del df_train['timeindex']
+df_train.head()
+```
+```python
+prevtpdate = df_train.index[0]
+nexttpdate = df_train.index[0]
+reward = 0
+for curdate in df_train.index:
+    if curdate >= nexttpdate and prevtpdate < nexttpdate:
+        prevtpdate = nexttpdate
+    for _idx in df_turnpoints.index:
+        if curdate < _idx:
+            nexttpdate = _idx
+#             print("prevtpdate {} curdate {} nexttpdate {}".format(prevtpdate,curdate,nexttpdate))
+            break
+    curdatetostr = curdate.strftime('%Y-%m-%d')
+    nexttptostr = nexttpdate.strftime('%Y-%m-%d')
+    nextval = df_train[nexttptostr:nexttptostr]['Close'].values[0]
+    curval = df_train[curdatetostr:curdatetostr]['Close'].values[0]
+    reward = nextval - curval
+    print("reward {}".format(reward))
 ```
 
 ## Pandas: Convert Timestamp to datetime.date
