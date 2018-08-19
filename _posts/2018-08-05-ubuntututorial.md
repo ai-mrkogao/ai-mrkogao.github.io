@@ -45,7 +45,25 @@ sudo rm -rf ~/.local/share/Trash/*
 
 ```bash
 sudo mount -t vmhgfs .host:/ushare /home/home9/Downloads
+sudo mount -t vmhgfs .host:/home/home9/Downloads /ushare
+```
+# Access VMware Workstation Host Folders from Ubuntu 17.10 Guest Machines
+[Access VMware Workstation Host Folders from Ubuntu 17.10 Guest Machines](https://websiteforstudents.com/access-vmware-host-folders-guest-machine-ubuntu-17-10/)
+
+```bash
+sudo /tmp/vmware-tools-distrib/vmware-install.pl -d
 ```
 
 
+# unable to see shared folders in ubuntu(guest) installed in vmware
+[unable to see shared folders in ubuntu(guest) installed in vmware](https://askubuntu.com/questions/331671/unable-to-see-shared-folders-in-ubuntuguest-installed-in-vmware)
+
+
+```bash
+sudo vmware-config-tools.pl
+sudo ./vmware-intsll.pl
+chmod o+rx /mnt
+chmod o+rx /mnt/hgfs/
+chmod o+rx /mnt/hgfs/foldername 
+```
 
