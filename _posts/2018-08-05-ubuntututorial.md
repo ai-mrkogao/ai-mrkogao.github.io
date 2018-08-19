@@ -67,3 +67,7 @@ chmod o+rx /mnt/hgfs/
 chmod o+rx /mnt/hgfs/foldername 
 ```
 
+## share folder problem solved
+```bash
+sudo mount -t fuse.vmhgfs-fuse .host:/home/home9/Downloads /mnt/hgfs/ushare -o allow_other
+```
