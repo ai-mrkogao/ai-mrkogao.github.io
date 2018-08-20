@@ -76,3 +76,9 @@ sudo mount -t fuse.vmhgfs-fuse .host:/home/home9/Downloads /mnt/hgfs/ushare -o a
 ## How to get a drive formatted with exfat working?
 [How to get a drive formatted with exfat working?](https://askubuntu.com/questions/370398/how-to-get-a-drive-formatted-with-exfat-working)
 
+## shared folder
+```bash
+reinstall vmware tools
+sudo vmware-config-tools.pl -d --clobber-kernel-modules=vmhgfs
+mount -t vmhgfs .host:/share /mnt/hgfs/ where host is the host you are connecting to share is the share name and /mnt/hgfs is the mount point for the share in your system.
+```
