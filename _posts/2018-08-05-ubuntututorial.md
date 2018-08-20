@@ -71,3 +71,8 @@ chmod o+rx /mnt/hgfs/foldername
 ```bash
 sudo mount -t fuse.vmhgfs-fuse .host:/home/home9/Downloads /mnt/hgfs/ushare -o allow_other
 ```
+[Enabling shared folders with open-vm-tools](https://askubuntu.com/questions/580319/enabling-shared-folders-with-open-vm-tools)
+
+## How to get a drive formatted with exfat working?
+[How to get a drive formatted with exfat working?](https://askubuntu.com/questions/370398/how-to-get-a-drive-formatted-with-exfat-working)
+

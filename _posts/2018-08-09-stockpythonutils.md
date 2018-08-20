@@ -115,3 +115,31 @@ df_krx = fdr.StockListing('KRX')
 # S&P 500 symbols
 df_spx = fdr.StockListing('S&P500')
 ```
+
+
+## 거래소 상장회사검색 
+[거래소 상장회사검색](http://marketdata.krx.co.kr/contents/MKD/04/0406/04060100/MKD04060100.jsp)
+
+## 네이버재무제표 가져오기
+[네이버재무제표 가져오기](https://gist.github.com/KimMyungSam?page=2)
+
+## KRX 종목 마스터 만들기 
+[KRX 종목 마스터 만들기 ](https://gist.github.com/KimMyungSam?page=2)
+
+## 종목마스터+만들기mysql과+sqlalchemy.ipynb
+[종목마스터+만들기mysql과+sqlalchemy.ipynb](https://gist.github.com/KimMyungSam?page=2)
+
+## mysql install
+```bash
+pip3 install mysqlclient
+sudo apt-get install python3-dev libmysqlclient-dev
+pip3 install mysql-connector
+pip3 install configparser
+sudo apt-get install -y python3-mysqldb
+sudo apt-get install libmysqlclient-dev
+sudo pip3 install mysqlclient
+pip3 install MySQL-python
+
+sudo apt-get install python3-mysql.connector # import mysql 
+sudo pip3 install sqlalchemy
+```
