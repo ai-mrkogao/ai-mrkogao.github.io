@@ -966,6 +966,17 @@ dftotalname['A'] = dftotalname['A'].apply(s).astype(int)
 df = df.reset_index(drop=True)
 ```
 
+## How can I fill out a Python string with spaces?
+[How can I fill out a Python string with spaces?](https://stackoverflow.com/questions/5676646/how-can-i-fill-out-a-python-string-with-spaces)
+```python
+print  ('%06d'%123)
+>> '000123'
+'hi'.ljust(10)
+>>'hi        '
+'{0: <6}'.format('Hi')
+>>'Hi   '
+```
+
 
 
 # Reference 

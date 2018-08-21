@@ -158,3 +158,25 @@ pip install --upgrade pip
 ```
 
 
+## The Trading Economics Application Programming Interface (API)
+[The Trading Economics Application Programming Interface (API)](http://docs.tradingeconomics.com/#introduction)
+
+```python
+pip install tradingeconomics
+import tradingeconomics as te
+te.login('Your_Key:Your_Secret')
+te.login()
+te.getIndicatorData(country=['united states', 'china'], output_type='df')
+
+Output:
+           Country         ...             PreviousValueDate
+0    United States         ...           2018-04-30T00:00:00
+1    United States         ...           2018-06-15T00:00:00
+2    United States         ...           2017-12-31T00:00:00
+               ...         ...                           ...
+314          China         ...           2016-12-31T00:00:00
+315  United States         ...           2016-12-31T00:00:00
+316  United States         ...           2018-04-30T00:00:00
+317  United States         ...           2018-04-30T00:00:00
+
+```
