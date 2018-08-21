@@ -951,15 +951,20 @@ x = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
 x.iloc[1] = dict(A=10, B=-10)
 ```
 
-## distutils install problem
-[Upgrading to pip 10: It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall](https://github.com/pypa/pip/issues/5247)
+## Pandas sort
+```python
+df = df.sort_values(['c1','c2'], ascending=[False,True])
+```
+## pandas convert string to integer 
+```python
+s = lambda f: f.replace(',','')
+dftotalname['A'] = dftotalname['A'].apply(s).astype(int)
+```
 
-Reduced version,
-pip install --upgrade --force-reinstall pip==9.0.3
-Tried to re-install package
-pip install xxx --disable-pip-version-check
-At last, recover the latest version for pip
-pip install --upgrade pip
+## pandas reset index
+```python
+df = df.reset_index(drop=True)
+```
 
 
 

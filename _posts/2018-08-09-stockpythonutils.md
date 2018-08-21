@@ -143,3 +143,18 @@ pip3 install MySQL-python
 sudo apt-get install python3-mysql.connector # import mysql 
 sudo pip3 install sqlalchemy
 ```
+
+
+## distutils install problem
+[Upgrading to pip 10: It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall](https://github.com/pypa/pip/issues/5247)
+
+Reduced version,
+```bash
+pip install --upgrade --force-reinstall pip==9.0.3
+#Tried to re-install package
+pip install xxx --disable-pip-version-check
+#At last, recover the latest version for pip
+pip install --upgrade pip
+```
+
+
