@@ -977,7 +977,83 @@ print  ('%06d'%123)
 >>'Hi   '
 ```
 
+## Read all files in the Directory
+```python
 
+import glob   
+path = '/home/mypc/download/*.html'   
+files=glob.glob(path)   
+for file in files:     
+    f=open(file, 'r')  
+    print '%s' % f.readlines()   
+    f.close()
+
+```
+
+
+## Moving Average- Pandas
+```python
+MovingAverage = pd.rolling_mean(Exchange,5)
+df['MA'] = df.rolling(window=5).mean()
+```
+
+## pandas df.pct_change()
+```python
+df.pct_change()
+```
+
+## In PANDAS, how to get the index of a known value?
+[In PANDAS, how to get the index of a known value?](https://stackoverflow.com/questions/16683701/in-pandas-how-to-get-the-index-of-a-known-value)
+
+```python
+In [48]: a
+Out[48]: 
+   c1  c2
+0   0   1
+1   2   3
+2   4   5
+3   6   7
+4   8   9
+
+In [49]: a.c1[a.c1 == 8].index.tolist()
+Out[49]: [4]
+
+In [25]: a.loc[a['c1'] == 8].index[0]
+Out[25]: 4
+
+In [17]: a.set_index('c1').index.get_loc(8)
+Out[17]: 4
+
+import numpy as np
+import pandas as pd
+
+In [800]: df = pd.DataFrame(np.arange(10).reshape(5,2),columns=['c1','c2'])
+
+In [801]: df
+Out[801]: 
+   c1  c2
+0   0   1
+1   2   3
+2   4   5
+3   6   7
+4   8   9
+
+In [802]: np.where(df["c1"]==6)
+Out[802]: (array([3]),)
+
+In [803]: indices = list(np.where(df["c1"]==6)[0])
+
+In [804]: df.iloc[indices]
+Out[804]: 
+   c1  c2
+3   6   7
+
+In [805]: df.iloc[indices].index
+Out[805]: Int64Index([3], dtype='int64')
+
+In [806]: df.iloc[indices].index.tolist()
+Out[806]: [3]
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)

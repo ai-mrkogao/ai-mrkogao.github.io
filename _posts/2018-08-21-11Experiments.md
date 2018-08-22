@@ -1,5 +1,5 @@
 ---
-title: "11 Experiments (Sector Selection)"
+title: "11 Experiments (reward environment design)"
 date: 2018-08-21
 classes: wide
 use_math: true
@@ -29,6 +29,11 @@ dftotalname = dftotalname.reset_index(drop=True)
 ```
 
 - ## request the historical data from the server
-```python
+  - more than 2000 stocks gathered
 
-```
+## RDP turning point simulation
+- apply RDP points in the long term with 0.2 epsilon
+- apply curvature values in the short term 
+- RDP could find the turning points but reward values sometimes are not suitable
+
+
