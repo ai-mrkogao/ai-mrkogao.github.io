@@ -1055,6 +1055,20 @@ In [806]: df.iloc[indices].index.tolist()
 Out[806]: [3]
 ```
 
+## matplotlib datetime plot
+```python
+import matplotlib, datetime
+import matplotlib.pyplot as plt
+datetimeformat='%Y-%m-%d'
+
+x= [matplotlib.dates.date2num(datetime.datetime.strptime(idx.strftime('%Y-%m-%d'),datetimeformat)) for idx in _y.index]
+
+y = dfstock['Close'][_y.index]
+
+plt.plot_date(x,y)
+```
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 

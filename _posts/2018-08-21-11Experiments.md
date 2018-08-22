@@ -1,5 +1,5 @@
 ---
-title: "11 Experiments (reward environment design)"
+title: "11 Experiments (reward environment design and gathering history data)"
 date: 2018-08-21
 classes: wide
 use_math: true
