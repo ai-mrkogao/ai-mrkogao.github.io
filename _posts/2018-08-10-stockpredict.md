@@ -1,5 +1,5 @@
 ---
-title: "Predict DL Experiments"
+title: "Predict DL Experiments (python tutorial)"
 date: 2018-08-10
 classes: wide
 use_math: true
@@ -1068,6 +1068,27 @@ y = dfstock['Close'][_y.index]
 plt.plot_date(x,y)
 ```
 
+## Python : How to Merge / Join two or more lists
+```python
+def main():
+    list1 = ["This" , "is", "a", "sample", "program"]
+    list2 = [10, 2, 45, 3, 5, 7, 8, 10]
+    
+    print("list1 : ", list1)
+    print("list2 : ", list2)
+    finalList = list1 + list2
+    print("Merged List : " , finalList)
+    list1.extend(list2)
+    print("extended list1  : " , list1)
+    list1 = ["This" , "is", "a", "sample", "program"]
+    list2 = [10, 2, 45, 3, 5, 7, 8, 10]
+    list3 = [11, 12, 13]
+    finalList = list1 + list2 + list3
+    print("Merged List : " , finalList)
+if __name__ == '__main__':
+    main()
+
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
