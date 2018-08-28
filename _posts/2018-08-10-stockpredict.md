@@ -1090,6 +1090,16 @@ if __name__ == '__main__':
 
 ```
 
+
+## Pandas data copy
+```python
+import copy
+df_result =copy.deepcopy(df_test[SEQ_SIZE:])
+```
+
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
