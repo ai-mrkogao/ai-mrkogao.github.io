@@ -1117,6 +1117,77 @@ print(new_a) #Prints `[1, 2, 5, 6, 8, 9]`
 
 ```
 
+
+## How To Concatenate Arrays in NumPy?
+```python
+array2D_1 = array.reshape((3,3))
+array2D_1
+ 
+array([[0, 1, 2],
+       [3, 4, 5],
+       [6, 7, 8]])
+
+array2D_2 = np.arange(10,19).reshape(3,3)
+array2D_2
+ 
+array([[10, 11, 12],
+       [13, 14, 15],
+       [16, 17, 18]])
+
+np.concatenate((array2D_1,array2D_2))
+ 
+array([[ 0,  1,  2],
+       [ 3,  4,  5],
+       [ 6,  7,  8],
+       [10, 11, 12],
+       [13, 14, 15],
+       [16, 17, 18]])
+
+np.vstack((array2D_1, array2D_2))
+ 
+array([[ 0,  1,  2],
+       [ 3,  4,  5],
+       [ 6,  7,  8],
+       [10, 11, 12],
+       [13, 14, 15],
+       [16, 17, 18]])
+
+np.hstack((array2D_1, array2D_2))
+ 
+array([[ 0,  1,  2, 10, 11, 12],
+       [ 3,  4,  5, 13, 14, 15],
+       [ 6,  7,  8, 16, 17, 18]])
+
+np.append([[1, 2, 3], [4, 5, 6]], [[7, 8, 9]], axis=0)
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+```
+
+## Pandas merged
+```python
+ser1 = pd.Series(['A', 'B', 'C'], index=[1, 2, 3])
+ser2 = pd.Series(['D', 'E', 'F'], index=[4, 5, 6])
+pd.concat([ser1, ser2])
+
+1    A
+2    B
+3    C
+4    D
+5    E
+6    F
+
+df1 = make_df('AB', [1, 2])
+df2 = make_df('AB', [3, 4])
+display('df1', 'df2', 'pd.concat([df1, df2])')
+
+
+```
+
+[Pandas Merge, join, and concatenate](https://pandas.pydata.org/pandas-docs/stable/merging.html)
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 

@@ -1,5 +1,5 @@
 ---
-title: "23 Experiments (targetDQN + predict LSTM)"
+title: "23 Experiments (targetDQN + predict LSTM + trainingSet merged)"
 date: 2018-08-28
 classes: wide
 use_math: true
@@ -10,3 +10,6 @@ category: stock
 
 ## Data gen fix
 - yesterday + today open
+
+## Training Set merged to avoid correlation
+
