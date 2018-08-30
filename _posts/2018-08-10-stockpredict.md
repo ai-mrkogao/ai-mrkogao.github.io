@@ -631,6 +631,24 @@ tf.stack([x, y, z], axis=1).eval()
 
 ```
 
+## Numpy squeeze
+```python
+>>> x = np.array([[[0], [1], [2]]])
+>>> x.shape
+(1, 3, 1)
+>>> np.squeeze(x).shape
+(3,)
+>>> np.squeeze(x, axis=0).shape
+(3, 1)
+>>> np.squeeze(x, axis=1).shape
+Traceback (most recent call last):
+...
+ValueError: cannot select an axis to squeeze out which has size not equal to one
+>>> np.squeeze(x, axis=2).shape
+(1, 3)
+```
+
+
 ```python
 import tensorflow as tf
 
@@ -1186,6 +1204,22 @@ display('df1', 'df2', 'pd.concat([df1, df2])')
 
 [Pandas Merge, join, and concatenate](https://pandas.pydata.org/pandas-docs/stable/merging.html)
 
+## Keras load model
+```python
+try:
+    # load json and create model
+    json_file = open(save_dir+'model.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    model = model_from_json(loaded_model_json)
+    # load weights into new model
+    model.load_weights(filename)
+    print("Loaded model from disk")
+except :
+    PrintException()
+
+model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+```        
 
 
 # Reference 
