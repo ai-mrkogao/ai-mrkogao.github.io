@@ -3,7 +3,7 @@ title: "27 Experiments (LSTM prediction training with result signal from targetD
 date: 2018-08-31
 classes: wide
 use_math: true
-tags: economic index python stock utils kospi keras tensorflow reinforcement_learning svm lstm regression 
+tags: economic index python stock utils kospi keras tensorflow reinforcement_learning svm lstm regression multiple_model logging
 category: stock
 ---
 
@@ -168,4 +168,146 @@ useless_op = tf.multiply(x, add_op, name='Useless')
 with tf.Session() as sess:
     pow_out, useless_out = sess.run([pow_op, useless_op])
  
+```
+
+- The checkpoint file is just a bookkeeping file that you can use in combination of high-level helper for loading different time saved chkp files.
+- The .meta file holds the compressed Protobufs graph of your model and all the metadata associated (collections, learning rate, operations, etc.)
+- The .index file holds an immutable key-value table linking a serialised tensor name and where to find its data in the chkp.data files
+- The .data files hold the data (weights) itself (this one is usually quite big in size). There can be many data files because they can be sharded and/or created on multiple timestep while training.
+- Finally, the events file store everything you need to visualise your model and all the data measured while you were training using summaries. This has nothing to do with saving/restoring your models itself.
+
+## Importing TensorFlow Model
+```python
+import tensorflow as tf
+    ### Linear Regression ###
+    # Input placeholders
+    x = tf.placeholder(tf.float32, name='x')
+    y = tf.placeholder(tf.float32, name='y')
+    # Model parameters
+    W1 = tf.Variable([0.1], tf.float32)
+    W2 = tf.Variable([0.1], tf.float32)
+    W3 = tf.Variable([0.1], tf.float32)
+    b = tf.Variable([0.1], tf.float32)
+    
+    # Output
+    linear_model = tf.identity(W1 * x + W2 * x**2 + W3 * x**3 + b,
+                               name='activation_opt')
+    
+    # Loss
+    loss = tf.reduce_sum(tf.square(linear_model - y), name='loss')
+    # Optimizer and training step
+    optimizer = tf.train.AdamOptimizer(0.001)
+    train = optimizer.minimize(loss, name='train_step')
+    
+    # Remember output operation for later aplication
+    # Adding it to a collections for easy acces
+    # This is not required if you NAME your output operation
+    tf.add_to_collection("activation", linear_model)
+    
+    ## Start the session ##
+    sess = tf.Session()
+    sess.run(tf.global_variables_initializer())
+    #  CREATE SAVER
+    saver = tf.train.Saver()
+    
+    # Training loop
+    for i in range(10000):
+        sess.run(train, {x: data, y: expected})
+        if i % 1000 == 0:
+            # You can also save checkpoints using global_step variable
+            saver.save(sess, "models/model_name", global_step=i)
+    
+    # SAVE TensorFlow graph into path models/model_name
+    saver.save(sess, "models/model_name")
+```
+
+## Multiple Models (Graphs)
+```python
+import tensorflow as tf
+    
+class ImportGraph():
+    """  Importing and running isolated TF graph """
+    def __init__(self, loc):
+        # Create local graph and use it in the session
+        self.graph = tf.Graph()
+        self.sess = tf.Session(graph=self.graph)
+        with self.graph.as_default():
+            # Import saved model from location 'loc' into local graph
+            saver = tf.train.import_meta_graph(loc + '.meta',
+                                               clear_devices=True)
+            saver.restore(self.sess, loc)
+            # There are TWO options how to get activation operation:
+              # FROM SAVED COLLECTION:            
+            self.activation = tf.get_collection('activation')[0]
+              # BY NAME:
+            self.activation = self.graph.get_operation_by_name('activation_opt').outputs[0]
+
+    def run(self, data):
+        """ Running the activation operation previously imported """
+        # The 'x' corresponds to name of input placeholder
+        return self.sess.run(self.activation, feed_dict={"x:0": data})
+      
+      
+### Using the class ###
+data = 50         # random data
+model = ImportGraph('models/model_name')
+result = model.run(data)
+print(result)
+```
+
+```python
+class ImportGraph():
+    """  Importing and running isolated TF graph """
+    def __init__(self, loc):
+        # Create local graph and use it in the session
+        self.graph = tf.Graph()
+        self.sess = tf.Session(graph=self.graph)
+        with self.graph.as_default():
+            # Import saved model from location 'loc' into local graph
+            saver = tf.train.import_meta_graph(loc + '.meta',
+                                               clear_devices=True)
+
+            saver.restore(self.sess, loc)
+
+            
+            # There are TWO options how to get activation operation:
+              # FROM SAVED COLLECTION:            
+            self.activation = tf.get_collection('activation')[0]
+              # BY NAME:
+            self.activation = self.graph.get_operation_by_name('activation_opt').outputs[0]
+
+    def run(self, data):
+        """ Running the activation operation previously imported """
+        # The 'x' corresponds to name of input placeholder
+        return self.sess.run(self.activation, feed_dict={"x:0": data})
+
+
+
+```
+
+
+## tensorflow graph information search
+
+```python
+
+graph = tf.Graph()
+sess = tf.Session(graph=self.graph)
+loc = './26Experiments/26Experiments.model-46903'
+with graph.as_default():
+    # Import saved model from location 'loc' into local graph
+    saver = tf.train.import_meta_graph(loc + '.meta',
+                                       clear_devices=True)
+
+    saver.restore(self.sess, loc)
+
+    for op in tf.get_default_graph().get_operations():
+        print str(op.name) 
+
+```
+
+
+
+## tensorflow loggin level
+```python
+tf.logging.set_verbosity(tf.logging.ERROR)
 ```
