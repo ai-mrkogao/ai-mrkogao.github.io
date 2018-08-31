@@ -1,5 +1,5 @@
 ---
-title: "25 Experiments (multiple input/ouput LSTM prediction model + targetDQN)"
+title: "26 Experiments (targetDQN with LSTM prediction simulation)"
 date: 2018-08-28
 classes: wide
 use_math: true

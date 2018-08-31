@@ -1221,6 +1221,12 @@ except :
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 ```        
 
+## tensorflow log level turnoff
+```python
+tf.logging.set_verbosity(tf.logging.ERROR)
+```
+
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
