@@ -311,3 +311,51 @@ with graph.as_default():
 ```python
 tf.logging.set_verbosity(tf.logging.ERROR)
 ```
+
+
+```python
+if a == 0 or allsigs[j] == 9 :
+    nextsix = [x for x in six if x > j]
+    minwindow = min(len(nextsix),2)
+    minnextsix = nextsix[:minwindow]
+    searchlist = np.nonzero(close[minnextsix] > close[j])
+    searchlist = searchlist[0]
+    close_sell_list = close[minnextsix]
+    if len(searchlist) >0:
+        _sellprice1 = np.max(close_sell_list[searchlist])
+        _sellprice2 = np.min(close_sell_list[searchlist])
+        _gain1 = _sellprice1 -close[j]
+        _gain2 = _sellprice2 -close[j]
+        if _gain1 > 0 :
+            gain = _gain1
+        else:
+            gain = -1
+    else:
+        # _sellprice = np.min(close_sell_list)
+        gain = -1
+
+    r = gain        
+
+elif a == 1 or allsigs[j] == -9:
+    prevbix = [x for x in bix if x < j]
+    minwindow = min(len(prevbix),2)
+    minprevbix = prevbix[:minwindow]
+    searchlist = np.nonzero(close[minprevbix] < close[j])
+    searchlist = searchlist[0]
+    close_buy_list = close[minprevbix]
+    if len(searchlist) >0:
+        _buyprice1 = np.min(close_buy_list[searchlist])
+        _buyprice2 = np.max(close_buy_list[searchlist])
+        _gain1 = close[j] - _buyprice1
+        _gain2 = close[j] - _buyprice2
+        if _gain1 > 0 :#and _gain2 > 0:
+            gain = _gain1 #+ _gain2
+        else:
+            gain = -1
+#           gain = close[j] - _buyprice +1
+    else:
+#       _buyprice = np.max(close_buy_list)
+#       gain = close[j] - _buyprice
+        gain = -1
+
+```
