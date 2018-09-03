@@ -180,3 +180,65 @@ Output:
 317  United States         ...           2018-04-30T00:00:00
 
 ```
+
+## yahoo finance
+```python
+pip install yahoo-finance
+from yahoo_finance import Share
+import pandas as pd
+from pandas import DataFrame, Series
+samsung = Share('005930.KS') 
+df = DataFrame(samsung.get_historical('2016-07-04','2016-07-08'))
+
+```
+
+## google finance
+```python
+from googlefinance.get import get_code
+# get_code('NASDAQ')
+get_code('KOSPI')
+
+Code 	Code_int 	Google 	Name
+0 	001040 	1040 	KRX:001040 	CJ
+1 	012630 	12630 	KRX:012630 	HDC
+2 	082740 	82740 	KRX:082740 	HSD엔진
+```
+
+```python
+
+Getting Historical Financial Data
+
+Getting the Only Single Company’s Historical Financial Data
+
+    code = ‘NASDAQ: code list’
+    period = ‘30d’: 30 days (default), ‘1M’ : Month , ‘1Y’ : year
+    interval = 86400 : 1 day (default), 60 * integer (seconds)
+
+>>> from googlefinance.get import get_datum
+>>> df = get_datum('KRX:005930', period='2M'， interval =86400)
+date        Open     High     Low      Close    Volume
+2018-05-04  53000.0  53900.0  51800.0  51900.0  39290305
+2018-05-08  52600.0  53200.0  51900.0  52600.0  22907823
+2018-05-09  52600.0  52800.0  50900.0  50900.0  15914664
+
+```
+
+
+```python
+import pandas as pd
+pd.core.common.is_list_like = pd.api.types.is_list_like
+
+from pandas_datareader import data
+import fix_yahoo_finance as yf
+yf.pdr_override()
+
+start_date = '1996-05-06' #startdate를 1996년으로 설정해두면 가장 오래된 데이터부터 전부 가져올 수 있다.
+tickers = ['067160.KQ', '035420.KS'] #1 아프리카tv와 네이버의 ticker(종목코드)
+afreeca = data.get_data_yahoo(tickers[0], start_date)
+naver = data.get_data_yahoo(tickers[1], start_date)
+skhynix = data.get_data_yahoo('000660.KS', start_date)
+kospi = data.get_data_yahoo('^KS11', start_date)
+```
+
+
+[파이썬으로 주식 데이터 가져오기](https://gomjellie.github.io/%ED%8C%8C%EC%9D%B4%EC%8D%AC/pandas/%EC%A3%BC%EC%8B%9D/2017/06/09/pandas-datareader-stock.html)
