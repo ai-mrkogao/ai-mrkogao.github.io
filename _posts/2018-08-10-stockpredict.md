@@ -1226,7 +1226,11 @@ model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 tf.logging.set_verbosity(tf.logging.ERROR)
 ```
 
-
+## ipython notebook module reload
+```python
+import importlib
+importlib.reload(pp)
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
