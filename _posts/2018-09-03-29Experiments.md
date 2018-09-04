@@ -9,9 +9,6 @@ category: stock
 
 
 ## Signal Gen
+- from Experiments 22(target DQN),20(DQN)
+- RDP from Experiments 6,12
 
-
-## quandl example
-```python
-
-```
