@@ -1232,6 +1232,39 @@ import importlib
 importlib.reload(pp)
 ```
 
+## How to deal with SettingWithCopyWarning in Pandas?
+[How to deal with SettingWithCopyWarning in Pandas?](https://stackoverflow.com/questions/20625582/how-to-deal-with-settingwithcopywarning-in-pandas)
+```python
+df[df['A'] > 2]['B'] = new_val  # new_val not set in df
+df.loc[df['A'] > 2, 'B'] = new_val
+
+df = df[df['A'] > 2]
+df['B'] = new_val
+
+pd.options.mode.chained_assignment = None  # default='warn'
+
+df.ix[:,'Score']
+# Select 2nd row and 3rd column value
+ 
+df.iloc[1,2]
+
+# select 1st and 4thcolumn
+df.iloc[:,[0,3]]
+
+# select first 2 columns
+ 
+df.iloc[:,:2]
+```
+
+```python
+df.loc[[1,2,3,4,5],['Name','Score']]
+```
+
+![](http://www.datasciencemadesimple.com/wp-content/uploads/2017/11/Indexing-with-iloc-loc-and-ix-in-pandas-python-8.png)
+
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
