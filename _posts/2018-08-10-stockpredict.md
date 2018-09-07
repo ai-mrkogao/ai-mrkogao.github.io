@@ -1263,6 +1263,12 @@ df.loc[[1,2,3,4,5],['Name','Score']]
 ![](http://www.datasciencemadesimple.com/wp-content/uploads/2017/11/Indexing-with-iloc-loc-and-ix-in-pandas-python-8.png)
 
 
+## python reversed enumerate
+```python
+for _fix,_val in reversed(list(enumerate(_holdlist))):
+    print(_fix,_val)
+```
+    
 
 
 # Reference 
