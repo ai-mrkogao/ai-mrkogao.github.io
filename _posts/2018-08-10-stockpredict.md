@@ -1269,7 +1269,13 @@ for _fix,_val in reversed(list(enumerate(_holdlist))):
     print(_fix,_val)
 ```
     
-
+## tensorflow memory config
+```python
+config = tf.ConfigProto(allow_soft_placement=True)
+config.gpu_options.allocator_type = 'BFC'
+config.gpu_options.per_process_gpu_memory_fraction = 0.40
+config.gpu_options.allow_growth = True
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
