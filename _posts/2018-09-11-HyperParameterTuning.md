@@ -159,5 +159,71 @@ search_result.x
 space.point_to_dict(search_result.x)
 search_result.fun
 sorted(zip(search_result.func_vals, search_result.x_iters))
+fig, ax = plot_histogram(result=search_result,
+                         dimension_name='activation')
+```
+
+
+[Bayesian Optimization Blog](http://krasserm.github.io/2018/03/21/bayesian-optimization/)
+
+![](http://krasserm.github.io/img/2018-03-21/output_10_0.png)
+
+### Scikit-optimize
+```python
+from sklearn.base import clone
+from skopt import gp_minimize
+from skopt.learning import GaussianProcessRegressor
+from skopt.learning.gaussian_process.kernels import ConstantKernel, Matern
+
+# Use custom kernel and estimator to match previous example
+m52 = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5)
+gpr = GaussianProcessRegressor(kernel=m52, alpha=noise**2)
+
+r = gp_minimize(lambda x: -f(np.array(x))[0], 
+                bounds.tolist(),
+                base_estimator=gpr,
+                acq_func='EI',      # expected improvement
+                xi=0.01,            # exploitation-exploration trade-off
+                n_calls=10,         # number of iterations
+                n_random_starts=0,  # initial samples are provided
+                x0=X_init.tolist(), # initial samples
+                y0=-Y_init.ravel())
+
+# Fit GP model to samples for plotting results
+gpr.fit(r.x_iters, -r.func_vals)
+
+# Plot the fitted model and the noisy samples
+plot_approximation(gpr, X, Y, r.x_iters, -r.func_vals, show_legend=True)
 
 ```
+
+![](http://krasserm.github.io/img/2018-03-21/output_14_0.png)
+
+### GPyOpt
+```python
+import GPy
+import GPyOpt
+
+from GPyOpt.methods import BayesianOptimization
+
+kernel = GPy.kern.Matern52(input_dim=1, variance=1.0, lengthscale=1.0)
+bds = [{'name': 'X', 'type': 'continuous', 'domain': bounds.ravel()}]
+
+optimizer = BayesianOptimization(f=f, 
+                                 domain=bds,
+                                 model_type='GP',
+                                 kernel=kernel,
+                                 acquisition_type ='EI',
+                                 acquisition_jitter = 0.01,
+                                 X=X_init,
+                                 Y=-Y_init,
+                                 noise_var = noise**2,
+                                 exact_feval=False,
+                                 normalize_Y=False,
+                                 maximize=True)
+
+optimizer.run_optimization(max_iter=10)
+optimizer.plot_acquisition()
+```
+
+![](http://krasserm.github.io/img/2018-03-21/output_17_0.png)
