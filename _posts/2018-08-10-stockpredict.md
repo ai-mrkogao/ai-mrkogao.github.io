@@ -1277,6 +1277,24 @@ config.gpu_options.per_process_gpu_memory_fraction = 0.40
 config.gpu_options.allow_growth = True
 ```
 
+## Multiple Models load
+```python
+import glob   
+path = ''
+dirnames=glob.glob(path)   
+model_len = len(dirnames)
+models = []
+for dirname in dirnames:     
+
+    graph = tf.Graph()
+    sess = tf.Session(graph=graph)
+    with graph.as_default():
+        model = modelclass(sess,...)
+        model.load()
+        models.append(model)
+```   
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
