@@ -9,6 +9,6 @@ category: reinforcement learning
 
 [Welcome to the Deep Time Series Project](https://github.com/pipidog/DeepTimeSeries)
 
-![](https://raw.githubusercontent.com/pipidog/DeepTimeSeries/master/Doc/models.png){}{:height="30%" width="30%"}
+![](https://raw.githubusercontent.com/pipidog/DeepTimeSeries/master/Doc/models.png){:height="30%" width="30%"}
 
 
