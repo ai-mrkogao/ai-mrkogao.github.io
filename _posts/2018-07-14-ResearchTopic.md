@@ -161,3 +161,10 @@ Schedule:
 
 ![](http://www.zeeshanzia.com/research_teasers/SLAMBench.png){:height="50%" width="50%"}    
 ![](http://www.zeeshanzia.com/research_teasers/ijcv_teaser.png){:height="50%" width="50%"}    
+
+
+## Self driving car in GTAV with Deep Learning 
+[Self driving car in GTAV with Deep Learning ](https://github.com/ikergarcia1996/GTAV-Self-driving-car)
+
+![](https://github.com/eritzyg/GTAV-Self-driving-car/raw/master/images/video1.JPG?raw=true){:height="50%" width="50%"}    
+
