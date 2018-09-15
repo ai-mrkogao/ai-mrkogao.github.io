@@ -1294,6 +1294,15 @@ for dirname in dirnames:
         models.append(model)
 ```   
 
+## File delete or remove in directory
+```python
+files = glob.glob('./23/*')
+for f in files:
+    os.remove(f)
+
+os.rmdir(logs_dir)    
+```
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
