@@ -1,5 +1,5 @@
 ---
-title: "LSTM RNN anomaly detection and Machine Translation"
+title: "LSTM RNN anomaly detection and Machine Translation and CNN 1D convolution"
 date: 2018-09-15
 classes: wide
 use_math: true
@@ -26,7 +26,8 @@ category: reinforcement learning
 
 ## CNN Long Short-Term Memory Networks
 [CNN Long Short-Term Memory Networks](https://machinelearningmastery.com/cnn-long-short-term-memory-networks/)
-![](https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2017/07/Convolutional-Neural-Network-Long-Short-Term-Memory-Network-Archiecture.png){:height="50%" width="50%"}
+
+![](https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2017/07/Convolutional-Neural-Network-Long-Short-Term-Memory-Network-Archiecture.png){:height="10%" width="10%"}
 
 ## Sequence to Sequence (seq2seq) Recurrent Neural Network (RNN) for Time Series Prediction
 [Sequence to Sequence (seq2seq) Recurrent Neural Network (RNN) for Time Series Prediction](https://github.com/guillaume-chevalier/seq2seq-signal-prediction)
