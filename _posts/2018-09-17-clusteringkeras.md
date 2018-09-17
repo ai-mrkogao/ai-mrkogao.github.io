@@ -182,6 +182,23 @@ clustering_layer
 ![](../../pictures/clusterkeras/model.png){:height="40%" width="40%"}
 
 
+![Unsupervised Deep Embedding for Clustering Analysis](https://arxiv.org/pdf/1511.06335.pdf)
+
+![](../../pictures/clusterkeras/KL.png){:height="40%" width="40%"}
+
+
+
+## Writing your own Keras layers
+
+For simple, stateless custom operations, you are probably better off using layers.core.Lambda layers. But for any custom operation that has trainable weights, you should implement your own layer.
+
+Here is the skeleton of a Keras layer, as of Keras 2.0 (if you have an older version, please upgrade). There are only three methods you need to implement:
+
+    build(input_shape): this is where you will define your weights. This method must set self.built = True at the end, which can be done by calling super([Layer], self).build().
+    call(x): this is where the layer's logic lives. Unless you want your layer to support masking, you only have to care about the first argument passed to call: the input tensor.
+    compute_output_shape(input_shape): in case your layer modifies the shape of its input, you should specify here the shape transformation logic. This allows Keras to do automatic shape inference.
+
+[Writing your own Keras layers](https://keras.io/layers/writing-your-own-keras-layers/)
 
 
 
