@@ -1303,6 +1303,16 @@ for f in files:
 os.rmdir(logs_dir)    
 ```
 
+## Tensorflow save checkpoint option
+```python
+
+# we don’t want to write the meta-graph we use this:
+saver.save(sess, 'my-model', global_step=step,write_meta_graph=False)
+# If you want to keep only 4 latest models and want to save one model after every 2 hours during training you can use max_to_keep and keep_checkpoint_every_n_hours like this.
+saver = tf.train.Saver(max_to_keep=4, keep_checkpoint_every_n_hours=2)
+
+```
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
