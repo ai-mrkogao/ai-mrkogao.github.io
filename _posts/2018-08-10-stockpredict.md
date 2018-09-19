@@ -1313,6 +1313,15 @@ saver = tf.train.Saver(max_to_keep=4, keep_checkpoint_every_n_hours=2)
 
 ```
 
+## Shuffle Random 
+```python
+sentiment_data = pd.DataFrame()
+from sklearn.utils import shuffle
+sentiment_data = shuffle(sentiment_data)
+```
+
+
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
