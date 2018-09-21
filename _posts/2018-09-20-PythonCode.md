@@ -32,5 +32,11 @@ vocab_to_int
 
 ```
 
-
+## Numpy save and load
+```python
+In  [8]: np.save('test3.npy', a)    # .npy extension is added if not given
+In  [9]: d = np.load('test3.npy')
+In [10]: a == d
+Out[10]: array([ True,  True,  True,  True], dtype=bool)
+```
 
