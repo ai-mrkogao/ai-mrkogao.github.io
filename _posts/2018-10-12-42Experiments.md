@@ -15,6 +15,6 @@ category: stock
 - softmax dense network to classify the future type
 
 ## Network prediction
-- network predicts the future profit with clustering result and techincal result and reinforement learning result
+- network predicts the future profit with clustering result and techincal result and reinforcement learning result
 
 
