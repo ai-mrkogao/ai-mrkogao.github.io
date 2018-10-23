@@ -23,6 +23,14 @@ image_model = VGG16(include_top=True, weights='imagenet')
 transfer_layer = image_model.get_layer('fc2')
 ```
 
+## Transfer Network
+```python
+image_model_transfer = Model(inputs=image_model.input,
+                             outputs=transfer_layer.output)
+```
+
+
+
 ## Training
 ```python
 %%time

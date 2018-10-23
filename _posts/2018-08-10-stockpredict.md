@@ -1335,6 +1335,22 @@ nums = np.random.choice(x, size = 10000, p = prob)
 plt.hist(nums, bins = len(x))
 ```
 
+
+## Cache Tutorial
+```python
+from cache import cache
+# If the cache-file already exists then reload it,
+# otherwise process all images and save their transfer-values
+# to the cache-file so it can be reloaded quickly.
+transfer_values = cache(cache_path=cache_path,
+                        fn=process_images,
+                        data_dir=coco.train_dir,
+                        filenames=filenames_train)
+```
+
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
