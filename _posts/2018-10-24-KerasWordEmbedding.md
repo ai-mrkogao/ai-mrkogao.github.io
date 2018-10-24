@@ -199,3 +199,14 @@ print("Loss: ", sequence_loss.eval())
 
 
 ```
+
+
+```python
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adadelta')
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+sgd = opt.SGD(lr=0.005, decay=1e-6, momentum=0., nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, class_mode='categorical')
+model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+
+```
