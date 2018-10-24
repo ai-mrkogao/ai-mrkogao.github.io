@@ -40,3 +40,62 @@ In [10]: a == d
 Out[10]: array([ True,  True,  True,  True], dtype=bool)
 ```
 
+
+## Python numpy insert
+```python
+alist = np.array([1,2,3,4,5])
+alist = np.insert(alist,0,-1)
+alist = np.append(alist,-9)
+alist
+
+
+>>> a = np.array([[1, 1], [2, 2], [3, 3]])
+>>> a
+array([[1, 1],
+       [2, 2],
+       [3, 3]])
+>>> np.insert(a, 1, 5)
+array([1, 5, 1, 2, 2, 3, 3])
+>>> np.insert(a, 1, 5, axis=1)
+array([[1, 5, 1],
+       [2, 5, 2],
+       [3, 5, 3]])
+
+Difference between sequence and scalars:
+>>>
+
+>>> np.insert(a, [1], [[1],[2],[3]], axis=1)
+array([[1, 1, 1],
+       [2, 2, 2],
+       [3, 3, 3]])
+>>> np.array_equal(np.insert(a, 1, [1, 2, 3], axis=1),
+...                np.insert(a, [1], [[1],[2],[3]], axis=1))
+True
+
+>>>
+
+>>> b = a.flatten()
+>>> b
+array([1, 1, 2, 2, 3, 3])
+>>> np.insert(b, [2, 2], [5, 6])
+array([1, 1, 5, 6, 2, 2, 3, 3])
+
+>>>
+
+>>> np.insert(b, slice(2, 4), [5, 6])
+array([1, 1, 5, 2, 6, 2, 3, 3])
+
+>>>
+
+>>> np.insert(b, [2, 2], [7.13, False]) # type casting
+array([1, 1, 7, 0, 2, 2, 3, 3])
+
+>>>
+
+>>> x = np.arange(8).reshape(2, 4)
+>>> idx = (1, 3)
+>>> np.insert(x, idx, 999, axis=1)
+array([[  0, 999,   1,   2, 999,   3],
+       [  4, 999,   5,   6, 999,   7]])
+
+```
