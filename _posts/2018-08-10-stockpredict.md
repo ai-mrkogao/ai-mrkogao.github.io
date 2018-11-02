@@ -1349,7 +1349,15 @@ transfer_values = cache(cache_path=cache_path,
 ```
 
 
+## searching datetime index 
+```python
+1. index count finds the DateTimeIndex 
+dffault['index'] = np.arange(df_merged_test.shape[0])
+tempdf = dffault['index'].iloc[int(startday):int(endday)].index
+2. set the DateTimeIndex 
+dffault.ix[tempdf]
 
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
