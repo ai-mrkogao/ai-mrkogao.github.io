@@ -1359,6 +1359,24 @@ dffault.ix[tempdf]
 
 ```
 
+
+## Using Dropout with Keras and LSTM/GRU cell
+```python
+
+#In Keras you can specify a dropout layer like this:
+
+model.add(Dropout(0.5))
+
+#But with a GRU cell you can specify the dropout as a parameter in the constructor:
+
+model.add(GRU(units=512,
+        return_sequences=True,
+        dropout=0.5,
+        input_shape=(None, features_size,)))
+
+```
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
