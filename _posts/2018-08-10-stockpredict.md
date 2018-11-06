@@ -1376,6 +1376,24 @@ model.add(GRU(units=512,
 
 ```
 
+## pandas floor 
+```python
+floored_data = data.apply(np.floor)
+```
+
+## signal display
+```python
+%matplotlib notebook
+dftmp = augRLmergeddt[0][2]
+dftmp[['Close']].plot()
+buyindex = dftmp['signal_5ma'][dftmp['signal_5ma']==9].index
+sellindex = dftmp['signal_5ma'][dftmp['signal_5ma']==-9].index
+
+plt.scatter(buyindex,dftmp['Close'][buyindex],c='red')
+plt.scatter(sellindex,dftmp['Close'][sellindex],c='green')
+```
+
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
