@@ -1,5 +1,5 @@
 ---
-title: "Time Series Anomaly Detection"
+title: "Time Series Anomaly Detection & RL time series"
 date: 2018-11-21
 classes: wide
 use_math: true
@@ -19,6 +19,8 @@ category: reinforcement learning
 [CVAE-Financial-Anomaly-Detection](https://github.com/amunategui/CVAE-Financial-Anomaly-Detection/blob/master/Financial%20Compliance%20and%20Fraud%20Detection%20with%20Conditional%20Variational%20Autoencoders%20%28CVAE%29%20and%20Tensorflow.ipynb)
 
 [Probabilistic reasoning and statistical analysis in TensorFlow](https://github.com/tensorflow/probability)
+
+[ RL & SL Methods and Envs For Quantitative Trading](https://github.com/ceruleanacg/Personae)
 
 # CVAE
 
