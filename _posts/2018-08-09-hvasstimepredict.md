@@ -3,7 +3,7 @@ title: "Hvass Time series prediction"
 date: 2018-08-09
 classes: wide
 use_math: true
-tags: tensorflow hvass stock rnn lstm economic keras
+tags: tensorflow hvass stock rnn lstm economic keras KL divergence
 category: stock
 ---
 
@@ -299,6 +299,35 @@ model.fit_generator(generator=generator,
                     callbacks=callbacks)
 ```
 
+
+## python KL divergence
+```python
+import numpy as np
+
+def KL(P,Q):
+""" Epsilon is used here to avoid conditional code for
+checking that neither P nor Q is equal to 0. """
+     epsilon = 0.00001
+
+     # You may want to instead make copies to avoid changing the np arrays.
+     P = P+epsilon
+     Q = Q+epsilon
+
+     divergence = np.sum(P*np.log(P/Q))
+     return divergence
+
+# Should be normalized though
+values1 = np.asarray([1.346112,1.337432,1.246655])
+values2 = np.asarray([1.033836,1.082015,1.117323])
+
+# Note slight difference in the final result compared to Dawny33
+print KL(values1, values2) # 0.775278939433
+```
+
+## KL divergence between two univariate Gaussians
+[KL divergence between two univariate Gaussians](https://stats.stackexchange.com/questions/7440/kl-divergence-between-two-univariate-gaussians)
+
+ - KL(p, q) = \log \frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2 \sigma_2^2} - \frac{1}{2}
 
 
 
