@@ -156,4 +156,15 @@ KOSIS 공유서비스에서는 KOSIS에 수록된 통계정보를 이용하여 �
 # Home Price Trends
 [Home Price Trends](https://www.globalpropertyguide.com/home-price-trends/China)
 
+# FRED API
+[FRED API](https://github.com/mortada/fredapi)
+[FRED API blog](http://www.telafinance.com/blog/python-fred-excel.html)
+[Python Client for FRED® API](https://github.com/avelkoski/FRB)
 
+# World Band API
+[A python library for accessing world bank data ](https://github.com/OliverSherouse/wbdata)
+[A python library for accessing world bank data](https://blogs.worldbank.org/opendata/accessing-world-bank-data-apis-python-r-ruby-stata)
+
+[Python interface to the World Bank Indicators and Climate APIs ](https://github.com/mattduck/wbpy)
+
+[Python 3.6 examples of using economic data APIs and working with economic microdata. Includes bd CPS. ](https://github.com/bdecon/econ_data)
