@@ -168,3 +168,10 @@ KOSIS 공유서비스에서는 KOSIS에 수록된 통계정보를 이용하여 �
 [Python interface to the World Bank Indicators and Climate APIs ](https://github.com/mattduck/wbpy)
 
 [Python 3.6 examples of using economic data APIs and working with economic microdata. Includes bd CPS. ](https://github.com/bdecon/econ_data)
+
+# Qualdl API
+[USD Exchange Rates (FRED)](https://blog.quandl.com/api-for-currency-data)
+
+# Quandl 
+[Treasury Yield Curve Rates chart](https://www.quandl.com/data/USTREASURY/YIELD-Treasury-Yield-Curve-Rates)
+[Gold commodity](https://blog.quandl.com/api-for-commodity-data?utm_source=google&utm_medium=organic&utm_campaign=&utm_content=category/api-usage-guides/page/2)

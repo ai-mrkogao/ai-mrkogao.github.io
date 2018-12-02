@@ -1573,6 +1573,24 @@ fig.tight_layout()
 plt.show()
 ```
 
+## Fill in missing pandas data with previous non-missing value, grouped by key
+```python
+df['x'] = df.groupby('id').fillna(method='ffill')
+```
+
+## pandas merge
+[Working with missing data](https://pandas.pydata.org/pandas-docs/stable/missing_data.html)
+```python
+dfmerge = pd.merge(dfstock,dfval, left_index = True,right_index=True,how='left')
+dfmerge = pd.merge(dfstock,dfval, left_index = True,right_index=True,how='inner')
+dfmerge.fillna(method='bfill')
+dfmerge.fillna(method='ffill')
+pd.isna(df2['one'])
+```
+
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
