@@ -124,6 +124,11 @@ category: reinforcement learning
 - ### [Deep Reinforcement Learning: Playing a Racing Game](https://lopespm.github.io/machine_learning/2016/10/06/deep-reinforcement-learning-racing-game.html)
   > ![Deep Reinforcement Learning: Playing a Racing Game ](https://lopespm.github.io/files/dqn_outrun/overall_view_play.png){:height="30%" width="30%"}
 
+- ### [A TensorFlow implementation of this Nvidia paper: https://arxiv.org/pdf/1604.07316.pdf with some changes ](https://github.com/SullyChen/Autopilot-TensorFlow)
+  > ![NVIDIA](https://devblogs.nvidia.com/wp-content/uploads/2016/08/training-624x291.png){:height="30%" width="30%"}
+- ### [End-to-End Deep Learning for Self-Driving Cars](https://devblogs.nvidia.com/deep-learning-self-driving-cars/)
+  > ![NVIDIA](https://devblogs.nvidia.com/wp-content/uploads/2016/08/training-624x291.png){:height="30%" width="30%"}
+  
 
 - ### [CVPR 2017 Tutorial Geometric and Semantic 3D Reconstruction](https://people.eecs.berkeley.edu/~chaene/cvpr17tut/)
 Schedule:
