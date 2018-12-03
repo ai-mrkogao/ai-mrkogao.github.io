@@ -103,6 +103,27 @@ category: reinforcement learning
 
 - ### [COLMAP - Structure-from-Motion and Multi-View Stereo](https://github.com/colmap/colmap)
 
+- ### [Using reinforcement learning to teach a car to avoid obstacles. ](https://github.com/harvitronix/reinforcement-learning-car)
+    # Using reinforcement learning to train an autonomous vehicle to avoid obstacles
+
+    **NOTE: If you're coming here from parts 1 or 2 of the Medium posts, you want to visit the releases section and check out version 1.0.0, as the code has evolved passed that.**
+
+    This is a hobby project I created to learn the basics of reinforcement learning. It uses Python3, Pygame, Pymunk, Keras and Theanos. It employes a Q-learning (unsupervised) algorithm to learn how to move an object around a screen (drive itself) without running into obstacles.
+
+    The purpose of this project is to eventually use the learnings from the game to operate a real-life remote-control car, using distance sensors. I am carrying on that project in another GitHub repo here: https://github.com/harvitronix/rl-rc-car
+
+- ### [Driving a car in simulation with deep learning ](https://github.com/neerajdixit/Self-driving-car-with-Deep-learning)
+  > ![Driving a car in simulation with deep learning](https://raw.githubusercontent.com/neerajdixit/Self-driving-car-with-Deep-learning/master/track1.png){:height="30%" width="30%"}
+
+- ### [End-to-end simulation for self-driving cars https://deepdrive.io](https://github.com/deepdrive/deepdrive/)
+
+- ### [Deep learning project to automate vehicle driving in a simulator ](https://github.com/JavonDavis/Autonomous-Vehicle-Simulator)
+  > ![Deep learning project to automate vehicle driving in a simulator ](https://raw.githubusercontent.com/JavonDavis/Autonomous-Vehicle-Simulator/master/readme_images/left_sample.jpg){:height="30%" width="30%"}
+
+
+- ### [Deep Reinforcement Learning: Playing a Racing Game](https://lopespm.github.io/machine_learning/2016/10/06/deep-reinforcement-learning-racing-game.html)
+  > ![Deep Reinforcement Learning: Playing a Racing Game ](https://lopespm.github.io/files/dqn_outrun/overall_view_play.png){:height="30%" width="30%"}
+
 
 - ### [CVPR 2017 Tutorial Geometric and Semantic 3D Reconstruction](https://people.eecs.berkeley.edu/~chaene/cvpr17tut/)
 Schedule:
