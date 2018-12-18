@@ -75,7 +75,7 @@ The weights of the critic network can be updated with the gradients obtained fro
 
 ![DDPG_theorem](../../pictures/policy_gradient/DDPG_theorem.png){:height="90%" width="90%"}
 
-Eq.6 is exactly waht we want.
+Eq.6 is exactly what we want.
 
 ## Pendulum Example
 Pendulum has a low dimensional state space and a single continuous action within [-2,2]
