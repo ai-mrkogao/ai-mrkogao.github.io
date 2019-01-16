@@ -1588,6 +1588,17 @@ dfmerge.fillna(method='ffill')
 pd.isna(df2['one'])
 ```
 
+[Python Pandas : How to add rows in a DataFrame using dataframe.append() loc[] iloc[]](https://thispointer.com/python-pandas-how-to-add-rows-in-a-dataframe-using-dataframe-append-loc-iloc/)
+
+## remove brakets in pandas cell
+```python
+portlogs = portlogs.append({'Date':curday,'Buy':buys,'Sell':sells},ignore_index=True)
+# portlogs = portlogs.apply(lambda x: ",".join(x) if isinstance(x, list) else x)
+portlogs['Buy'] = pd.DataFrame([str(line).strip('[').strip(']') for line in portlogs['Buy']])
+portlogs['Sell'] = pd.DataFrame([str(line).strip('[').strip(']') for line in portlogs['Sell']])
+```                
+
+
 
 
 
