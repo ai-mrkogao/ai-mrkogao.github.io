@@ -40,4 +40,10 @@ category: reinforcement learning
   > - High Frequency Trading  
   > - Portfolio Management  
 
+  ## Using the latest advancements in deep learning to predict stock price movements
+  [Using the latest advancements in deep learning to predict stock price movements](https://towardsdatascience.com/aifortrading-2edd6fac689d)
+
+  ![](https://cdn-images-1.medium.com/max/800/1*h6eC4YRmN1JDbnJO4kd11A.jpeg)
+  [Using the latest advancements in AI to predict stock market movements](https://github.com/borisbanushev/stockpredictionai)
+
   
