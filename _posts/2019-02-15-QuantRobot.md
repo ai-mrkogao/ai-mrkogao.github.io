@@ -82,3 +82,19 @@ class Robov1(CRobot):
     
 ```
 
+## Pandas GUI
+```python
+df['컬럼'] = df['업종코드'] + " : " + df['업종명']
+df = df.sort_values(['업종코드', '업종명'], ascending=[True, True])
+```
+
+
+## Xing API
+```python
+#Inblock,outblock
+
+self.MYNAME = self.__class__.__name__
+self.INBLOCK = "%sInBlock" % self.MYNAME
+
+```
+
