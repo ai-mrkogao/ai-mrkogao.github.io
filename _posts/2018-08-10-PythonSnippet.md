@@ -1598,7 +1598,17 @@ portlogs['Buy'] = pd.DataFrame([str(line).strip('[').strip(']') for line in port
 portlogs['Sell'] = pd.DataFrame([str(line).strip('[').strip(']') for line in portlogs['Sell']])
 ```                
 
+## class name, function name
+```python
+클래스이름 = self.__class__.__name__
+함수이름 = inspect.currentframe().f_code.co_name
+```
 
+## get current directory
+```python
+import os,sys
+os.getcwd()
+```
 
 
 

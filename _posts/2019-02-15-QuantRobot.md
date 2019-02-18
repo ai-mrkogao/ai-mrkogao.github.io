@@ -98,3 +98,25 @@ self.INBLOCK = "%sInBlock" % self.MYNAME
 
 ```
 
+## Xing szTrCode
+```python
+OnReceiveRealData
+'KOSPI체결 '
+class S3_(XAReal): 
+
+'KOSDAQ체결 '
+class K3_(XAReal): 
+
+'주식주문체결'
+class SC1(XAReal):
+
+
+OnReceiveData
+t1857
+
+OnReceiveSearchRealData
+t1857
+
+클래스이름 = self.__class__.__name__
+함수이름 = inspect.currentframe().f_code.co_name
+```
