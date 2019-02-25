@@ -1610,7 +1610,14 @@ import os,sys
 os.getcwd()
 ```
 
+## today searching datetimeindex, datetime
+```python
+import datetime 
+today = datetime.date.today()
+print(str(today))
 
+dfstock.loc[str(today)]
+```
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
