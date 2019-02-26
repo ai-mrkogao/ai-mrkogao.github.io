@@ -7,4 +7,4 @@ tags: flask mongodb python server
 category: python_api
 ---
 
-[flask login](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
+[flask login](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins)
