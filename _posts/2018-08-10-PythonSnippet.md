@@ -347,6 +347,13 @@ for i in range(data_preidxintrp.shape[0]):
             basestr += pd.DateOffset(1)
 ```
 
+```python
+xingdates = dfxing['날짜'].values
+
+dates = pd.to_datetime(pd.Series(xingdates), format = '%Y%m%d')
+dates.apply(lambda x: x.strftime('%Y-%m-%d'))
+```
+
 ## numpy.zeros() in Python
 ```python
 # Python Program illustrating
