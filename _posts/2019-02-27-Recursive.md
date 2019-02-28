@@ -74,3 +74,93 @@ word_split('themanran',['clown','ran','man'])
 >>['ran', 'man']
 ```
 
+## reverse string
+
+```python
+def reverse(s):
+    
+    # Base Case
+    if len(s) <= 1:
+        return s
+
+    # Recursion
+    return reverse(s[1:]) + s[0]
+def reverse(s):
+    
+    # Base Case
+    if len(s) <= 1:
+        return s
+
+    # Recursion
+    return s[-1]+reverse(s[:-1])
+reverse('hello world')
+```
+
+## Permutation
+```python
+def permute(s):
+    out = []
+    
+    # Base Case
+    if len(s) == 1:
+        out = [s]
+        print("last {}".format(s))
+    else:
+        # For every letter in string
+        print("s {}".format(s))
+        for i, let in enumerate(s):
+            print("let {}".format(let))
+            # For every permutation resulting from Step 2 and 3 described above
+            for perm in permute(s[:i] + s[i+1:]):
+                print("perm {}".format(perm))
+                # Add it to output
+                out += [let + perm]
+
+    return out
+permute('abc')
+s abc
+let a
+s bc
+let b
+last c
+perm c
+out ['bc']
+let c
+last b
+perm b
+out ['bc', 'cb']
+perm bc
+out ['abc']
+perm cb
+out ['abc', 'acb']
+let b
+s ac
+let a
+last c
+perm c
+out ['ac']
+let c
+last a
+perm a
+out ['ac', 'ca']
+perm ac
+out ['abc', 'acb', 'bac']
+perm ca
+out ['abc', 'acb', 'bac', 'bca']
+let c
+s ab
+let a
+last b
+perm b
+out ['ab']
+let b
+last a
+perm a
+out ['ab', 'ba']
+perm ab
+out ['abc', 'acb', 'bac', 'bca', 'cab']
+perm ba
+out ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+
+['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+```
