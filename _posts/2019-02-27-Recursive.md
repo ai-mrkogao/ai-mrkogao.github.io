@@ -164,3 +164,27 @@ out ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
 
 ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
 ```
+
+## Coin change
+
+```python
+def change(C, V, res=None):
+    res = [] if res is None else res
+    if len(V) == 0:
+        return len(res), res
+    maxx = max(V)
+    V.remove(maxx)
+    ans = C//maxx
+    if ans == 0 and maxx < C :
+        print("ans {} maxx {} C {}".format(ans,maxx,C))
+        res += [maxx] * ans
+        return len(res), res
+    else:
+        print("ans {} maxx {} C {} V {}".format(ans,maxx,C,V))
+        res += [maxx] * ans
+        print("res {}".format(res))
+        return  change(C % maxx, V, res)
+    
+# print (change(48,[1, 5, 10, 25, 50]))
+# print (change(30,[25, 10, 2, 3, 1]))
+```
