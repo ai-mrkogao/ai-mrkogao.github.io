@@ -1626,6 +1626,25 @@ print(str(today))
 dfstock.loc[str(today)]
 ```
 
+
+## dictionary append  
+[dictionary append](https://stackoverflow.com/questions/5946236/how-to-merge-multiple-dicts-with-same-key)
+```python
+from collections import defaultdict
+
+d1 = {1: 2, 3: 4}
+d2 = {1: 6, 3: 7}
+
+dd = defaultdict(list)
+
+for d in (d1, d2): # you can list as many input dicts as you want here
+    for key, value in d.iteritems():
+        dd[key].append(value)
+
+print(dd)
+```
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
