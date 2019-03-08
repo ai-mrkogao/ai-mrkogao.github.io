@@ -1748,6 +1748,27 @@ plt.tight_layout()
 plt.show()
 ```
 
+## pandas_datareader issue
+```python
+import pandas as pd
+pd.core.common.is_list_like = pd.api.types.is_list_like
+import pandas_datareader
+import datetime
+```
+
+## pandas_datareader FRED
+```python
+import pandas_datareader.data as web
+
+import datetime
+
+start = datetime.datetime(2010, 1, 1)
+
+end = datetime.datetime(2017, 1, 1)
+
+gdp = web.DataReader("GDP", "fred", start, end)
+```
+
 
 
 # Reference 
