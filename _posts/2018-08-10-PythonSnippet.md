@@ -28,7 +28,7 @@ xl.sheet_names
 df = xl.parse("Sheet1")
 df.head()
 ```
-
+  
 ```python
 parsed = pd.io.parsers.ExcelFile.parse(xl, "Sheet1")
 parsed.columns
