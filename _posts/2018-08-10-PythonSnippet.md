@@ -1645,6 +1645,111 @@ print(dd)
 ```
 
 
+## Matplotlib pandas plot  
+```python
+mcdon['Adj. Close'].plot(xlim=['2007-01-01','2009-01-01'])
+
+mcdon['Adj. Close'].plot(xlim=['2007-01-01','2009-01-01'],ylim=[0,50])
+
+mcdon['Adj. Close'].plot(xlim=['2007-01-01','2007-05-01'],ylim=[0,40],ls='--',c='r')
+
+idx = mcdon.loc['2007-01-01':'2007-05-01'].index
+stock = mcdon.loc['2007-01-01':'2007-05-01']['Adj. Close']
+
+# pandas datetime index to matplotlib x input
+import matplotlib.pyplot as plt 
+import matplotlib.dates as dates
+fig, ax = plt.subplots()
+ax.plot_date(idx, stock,'-')
+plt.tight_layout()
+plt.show()
+
+
+fig, ax = plt.subplots()
+ax.plot_date(idx, stock,'-')
+ax.yaxis.grid(True)
+ax.xaxis.grid(True)
+fig.autofmt_xdate() # Auto fixes the overlap!
+plt.tight_layout()
+plt.show()
+```
+
+```python
+fig, ax = plt.subplots()
+ax.plot_date(idx, stock,'-')
+
+# Grids
+ax.yaxis.grid(True)
+ax.xaxis.grid(True)
+
+# Major Axis
+ax.xaxis.set_major_locator(dates.MonthLocator())
+ax.xaxis.set_major_formatter(dates.DateFormatter('%b\n%Y'))
+
+fig.autofmt_xdate() # Auto fixes the overlap!
+plt.tight_layout()
+plt.show()
+```
+
+```python
+fig, ax = plt.subplots()
+ax.plot_date(idx, stock,'-')
+
+# Grids
+ax.yaxis.grid(True)
+ax.xaxis.grid(True)
+
+# Major Axis
+ax.xaxis.set_major_locator(dates.MonthLocator())
+ax.xaxis.set_major_formatter(dates.DateFormatter('\n\n\n\n%Y--%B'))
+
+fig.autofmt_xdate() # Auto fixes the overlap!
+plt.tight_layout()
+plt.show()
+```
+
+```python
+fig, ax = plt.subplots()
+ax.plot_date(idx, stock,'-')
+
+
+# Major Axis
+ax.xaxis.set_major_locator(dates.MonthLocator())
+ax.xaxis.set_major_formatter(dates.DateFormatter('\n\n%Y--%B'))
+
+# Minor Axis
+ax.xaxis.set_minor_locator(dates.WeekdayLocator())
+ax.xaxis.set_minor_formatter(dates.DateFormatter('%d'))
+
+# Grids
+ax.yaxis.grid(True)
+ax.xaxis.grid(True)
+
+fig.autofmt_xdate() # Auto fixes the overlap!
+plt.tight_layout()
+plt.show()
+```
+
+```python
+fig, ax = plt.subplots(figsize=(10,8))
+ax.plot_date(idx, stock,'-')
+
+  
+# Major Axis
+ax.xaxis.set_major_locator(dates.WeekdayLocator(byweekday=1))
+ax.xaxis.set_major_formatter(dates.DateFormatter('%B-%d-%a'))
+# Grids
+ax.yaxis.grid(True)
+ax.xaxis.grid(True)
+
+fig.autofmt_xdate() # Auto fixes the overlap!
+
+plt.tight_layout()
+plt.show()
+```
+
+
+
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
