@@ -1770,6 +1770,23 @@ gdp = web.DataReader("GDP", "fred", start, end)
 ```
 
 
+## Numpy gzip save and load  
+```python
+np_train = outdfs['ECONET_INPUT_30'][0][0]
+np_train.shape
+
+import gzip
+import numpy
+
+f = gzip.GzipFile("./InputData/input_np_train.npy.gz", "w")
+np.save(file=f, arr=np_train)
+f.close()
+
+with gzip.open("./InputData/input_np_train.npy.gz", 'r') as infile:
+    np_train_load= np.load(infile)
+```
+
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
