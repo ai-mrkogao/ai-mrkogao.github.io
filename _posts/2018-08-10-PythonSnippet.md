@@ -1787,6 +1787,15 @@ with gzip.open("./InputData/input_np_train.npy.gz", 'r') as infile:
 ```
 
 
+## Assign new value in pandas  
+```python
+df.loc[df[<some_column_name>] == <condition>, [<another_column_name>]] = <value_to_add>
+df_train['id'] = 0
+df_train.loc[(df_train['signal_5ma'] == 9) | (df_train['signal_5ma'] == 8), ['id']] = 1
+df_train.loc[(df_train['signal_5ma'] == -9) | (df_train['signal_5ma'] == 0), ['id']] = -1
+
+```
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
