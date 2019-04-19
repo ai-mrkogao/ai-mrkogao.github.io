@@ -1796,6 +1796,20 @@ df_train.loc[(df_train['signal_5ma'] == -9) | (df_train['signal_5ma'] == 0), ['i
 
 ```
 
+## numpy one hot encoding  
+```python
+
+id_PMLR = df_train['id'].values
+print(id_PMLR.shape)
+nb_classes = 2
+targets = id_PMLR
+one_hot_targets = np.eye(nb_classes)[targets]
+one_hot_targets.shape
+
+```
+
+
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
