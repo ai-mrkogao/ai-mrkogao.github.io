@@ -1810,6 +1810,26 @@ one_hot_targets.shape
 
 
 
+## Keras one hot encoding
+```python
+df_train = mergeddata[0][2]
+
+df_train['id'] = 0
+df_train.loc[(df_train['signal_5ma'] == 9) , ['id']] = 1
+df_train.loc[(df_train['signal_5ma'] == 8) , ['id']] = 2
+df_train.loc[(df_train['signal_5ma'] == -9) , ['id']] = 3
+df_train.loc[(df_train['signal_5ma'] == 0) , ['id']] = 0
+
+_val = df_train['id'].values
+_val.shape
+
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+one_hot = OneHotEncoder() # one hot encode the target classes
+np_target = one_hot.fit_transform(np.reshape(_val, (-1,1)) ).toarray()
+
+```
+
+
 
 # Reference 
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
