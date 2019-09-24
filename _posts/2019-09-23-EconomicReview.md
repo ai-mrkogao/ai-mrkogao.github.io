@@ -1,5 +1,5 @@
 ---
-title: "Economic Review"
+title: "Economic Review 09-24-2019"
 date: 2019-09-24
 classes: wide
 use_math: true

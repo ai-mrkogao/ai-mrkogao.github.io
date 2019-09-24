@@ -1,3 +1,4 @@
+---
 title: "Variation Autoencoder in Tensorflow"
 date: 2019-03-28
 classes: wide
@@ -16,12 +17,12 @@ class VariationAutoencoder:
 		self.X = tf.placeholder(tf.float32,shape=(None,InputDim))
 
 		###################
-		# encoder 
+		# encoder
 		###################
 		self.encoder_layers = []
 
 		DimIn = InputDim
-		MIn = self.X 
+		MIn = self.X
 
 		for DimOut in HiddenDim[:-1]:
 			hidden_weight = tf.Variable(tf.random_normal(shape=(DimIn,DimOut)) * 2 / np.sqrt(DimIn))
@@ -33,13 +34,11 @@ class VariationAutoencoder:
 			MIn = h
 
 
-        # we need 2 times hidden units 
+        # we need 2 times hidden units
         # 2 times MOut means , MOut variances
-        
+
 ```
 
 [Variation Autoencoder](http://kvfrans.com/variational-autoencoders-explained/)  
 
 ### Mean Vector, Standard Deviation Vector : double size?  
-
-
