@@ -28,3 +28,8 @@ category: stock
 - 20190925 : sell pct 0.31 buy pct 0.69
 - Blue points represent buying power is greater than selling power so right now buying power is still superior to selling but buy percentage is decreasing(0.69 from 0.83)
 - Key level is 27300 in Kodex200 ETF, if it is broken down and Red points appears we must prepare for massive selling
+
+
+### SK hynix
+![](../../pictures/stock_analysis/20190925_skhy.png)  
+- SK Hynix also is changing its uptrend to downward in Blue points of above figure, be careful to changing trend
