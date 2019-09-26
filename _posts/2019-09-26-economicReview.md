@@ -1,0 +1,36 @@
+---
+title: "Economic Review 09-26-2019"
+date: 2019-09-26
+classes: wide
+use_math: true
+tags: reinforcement learning stock dow anomaly detection kosdaq kospi
+category: stock
+---
+
+## 2019-09-25 Dow,SPY,IXIC Position (!! Critical !!)
+
+## This is deep learning analysis of Dow index about anomaly detection and reinforcement_learning for how to decide the trading
+
+- Today Dow index is in the same status as 95% anomaly , that means Dow and other major index is still in dangerous level
+
+### 2019-09-26 DJI
+![](../../pictures/stock_analysis/20190926_dji.png)  
+
+### 2019-09-26 SPY
+![](../../pictures/stock_analysis/20190926_spy_trade.png)  
+
+- Today SPY generates the __Sell signal__, starts the short position slowly
+
+### Korea Kosdaq index is also facing the important level
+
+![](../../pictures/stock_analysis/20190926_kq11.png)  
+- Above figure, Kosdaq(Korea Russel2000) index is moving sideways but I think we will see the inflection point soon
+- purple points is going down and if it will go down for 2-3 days we will see the down trend
+
+### Korea Kospi trend analysis  
+
+![](../../pictures/stock_analysis/20190926_kodex200.png)  
+- 20190926 : sell pct 0.17 buy pct 0.83
+- 20190925 : sell pct 0.31 buy pct 0.69
+- 20190924 : sell pct 0.17 buy pct 0.83
+- Key level is 27300 in Kodex200 ETF, still Blue points
