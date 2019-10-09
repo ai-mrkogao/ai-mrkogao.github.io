@@ -18,7 +18,7 @@ category: stock
 pip3 install xlrd
 ```
 
-## Read Excel 
+## Read Excel
 
 ```python
 xl = pd.ExcelFile("dummydata.xlsx")
@@ -28,7 +28,7 @@ xl.sheet_names
 df = xl.parse("Sheet1")
 df.head()
 ```
-  
+
 ```python
 parsed = pd.io.parsers.ExcelFile.parse(xl, "Sheet1")
 parsed.columns
@@ -102,7 +102,7 @@ col2  3  4
 ```python
 df.rename(columns={'pop':'population',
                           'lifeExp':'life_exp',
-                          'gdpPercap':'gdp_per_cap'}, 
+                          'gdpPercap':'gdp_per_cap'},
                  inplace=True)
 ```
 
@@ -111,13 +111,13 @@ df.rename(columns={'pop':'population',
 import datetime as dt
 import pandas as pd
 
-df = pd.DataFrame({'year': [2015, 2016], 
-                   'month': [12, 1], 
-                   'day': [31, 1], 
+df = pd.DataFrame({'year': [2015, 2016],
+                   'month': [12, 1],
+                   'day': [31, 1],
                    'hour': [23, 1]})
 
 # returns datetime objects
-df['Timestamp'] = df.apply(lambda row: dt.datetime(row.year, row.month, row.day, row.hour), 
+df['Timestamp'] = df.apply(lambda row: dt.datetime(row.year, row.month, row.day, row.hour),
                            axis=1)
 
 # converts to pandas timestamps if desired
@@ -158,7 +158,7 @@ print df
 ```python
 value = re.sub(r"[^0-9]+", "", value)
 df['pricing'] = re.sub(r"[^0-9]+", "", df['pricing'])
-df['Pricing'].replace(to_replace='[^0-9]+', value='',inplace==True,regex=True) 
+df['Pricing'].replace(to_replace='[^0-9]+', value='',inplace==True,regex=True)
 ```
 
 ```python
@@ -198,7 +198,7 @@ $     # end of string
 [^0-9]+([0-9]+)[^0-9]+([0-9]+).+
 ```
 
-## Delete column from pandas DataFrame 
+## Delete column from pandas DataFrame
 ```python
 del df['column_name']
 ```
@@ -263,9 +263,9 @@ import datetime as dt
 indexstrs = df_train.index
 #indexstrs[0] = '2001-01-01'
 
-years = [ int(re.sub(r'\D+','',rowstr.split('-')[0])) for rowstr in indexstrs] 
-months = [ int(re.sub(r'\D+','',rowstr.split('-')[1])) for rowstr in indexstrs] 
-days = [ int(re.sub(r'\D+','',rowstr.split('-')[2])) for rowstr in indexstrs] 
+years = [ int(re.sub(r'\D+','',rowstr.split('-')[0])) for rowstr in indexstrs]
+months = [ int(re.sub(r'\D+','',rowstr.split('-')[1])) for rowstr in indexstrs]
+days = [ int(re.sub(r'\D+','',rowstr.split('-')[2])) for rowstr in indexstrs]
 
 indexnewstrs = [dt.datetime(years[i],months[i],days[i]) for i in range(len(years))]
 #indexnewstrs
@@ -336,9 +336,9 @@ Their indices are  (array([0, 1, 1, 1]), array([2, 0, 1, 2]))
 for i in range(data_preidxintrp.shape[0]):
     basestr = data_preidxintrp.index[i]
     basevalue = data_preidxintrp['value'][i]
-    
+
     if basestr not in dfkospinew.index:
-    
+
         while(True):
             if basestr in dfkospinew.index:
                 basestr_timestamptostr = basestr.strftime('%Y-%m-%d')
@@ -358,15 +358,15 @@ dates.apply(lambda x: x.strftime('%Y-%m-%d'))
 ```python
 # Python Program illustrating
 # numpy.zeros method
- 
+
 import numpy as geek
- 
+
 b = geek.zeros(2, dtype = int)
 print("Matrix b : \n", b)
- 
+
 a = geek.zeros([2, 2], dtype = int)
 print("\nMatrix a : \n", a)
- 
+
 c = geek.zeros([3, 3])
 print("\nMatrix c : \n", c)
 ```
@@ -594,10 +594,10 @@ tf.argmax(x, axis=0).eval()
 tf.argmax(x, axis=1).eval()
 >>array([2, 0])
 
-t = np.array([[[0, 1, 2], 
+t = np.array([[[0, 1, 2],
                [3, 4, 5]],
-              
-              [[6, 7, 8], 
+
+              [[6, 7, 8],
                [9, 10, 11]]])
 t.shape
 >>(2, 2, 3)
@@ -731,7 +731,7 @@ df1['e'] = pd.Series(np.random.randn(sLength), index=df1.index)
           a         b         c         d         e         f
 6 -0.269221 -0.026476  0.997517  1.294385  1.757167 -0.050927
 8  0.917438  0.847941  0.034235 -0.448948  2.228131  0.006109
->>> 
+>>>
 
 df1 = df1.assign(e=p.Series(np.random.randn(sLength)).values)
 ```
@@ -800,7 +800,7 @@ y = np.sin(x)*np.random.randint(10,size=1)
 #print(x,y)
 plot_turning_points(x, y, turning_points=20, smoothing_radius=1,cluster_radius=10)
 ```
-## The Ramer-Douglas-Peucker algorithm implemented in Python 
+## The Ramer-Douglas-Peucker algorithm implemented in Python
 [The Ramer-Douglas-Peucker algorithm implemented in Python ](https://github.com/sebleier/RDP/)
 
 ## Ramer–Douglas–Peucker algorithm
@@ -896,7 +896,7 @@ df['preTestScore'].where(df['postTestScore'] > 50)
 [making matplotlib scatter plots from dataframes in Python's pandas](https://stackoverflow.com/questions/14300137/making-matplotlib-scatter-plots-from-dataframes-in-pythons-pandas)
 ```python
 import matplotlib.pylab as plt
-# df is a DataFrame: fetch col1 and col2 
+# df is a DataFrame: fetch col1 and col2
 # and drop na rows if any of the columns are NA
 mydata = df[["col1", "col2"]].dropna(how="any")
 # Now plot with matplotlib
@@ -952,7 +952,7 @@ In [28]: x = pd.DataFrame({'x': [1, 2, 3], 'y': [3, 4, 5]})
 In [29]: x.iloc[1] = dict(x=9, y=99)
 
 In [30]: x
-Out[30]: 
+Out[30]:
    x   y
 0  1   3
 1  9  99
@@ -980,7 +980,7 @@ x.iloc[1] = dict(A=10, B=-10)
 ```python
 df = df.sort_values(['c1','c2'], ascending=[False,True])
 ```
-## pandas convert string to integer 
+## pandas convert string to integer
 ```python
 s = lambda f: f.replace(',','')
 dftotalname['A'] = dftotalname['A'].apply(s).astype(int)
@@ -1032,7 +1032,7 @@ df.pct_change()
 
 ```python
 In [48]: a
-Out[48]: 
+Out[48]:
    c1  c2
 0   0   1
 1   2   3
@@ -1055,7 +1055,7 @@ import pandas as pd
 In [800]: df = pd.DataFrame(np.arange(10).reshape(5,2),columns=['c1','c2'])
 
 In [801]: df
-Out[801]: 
+Out[801]:
    c1  c2
 0   0   1
 1   2   3
@@ -1069,7 +1069,7 @@ Out[802]: (array([3]),)
 In [803]: indices = list(np.where(df["c1"]==6)[0])
 
 In [804]: df.iloc[indices]
-Out[804]: 
+Out[804]:
    c1  c2
 3   6   7
 
@@ -1098,7 +1098,7 @@ plt.plot_date(x,y)
 def main():
     list1 = ["This" , "is", "a", "sample", "program"]
     list2 = [10, 2, 45, 3, 5, 7, 8, 10]
-    
+
     print("list1 : ", list1)
     print("list2 : ", list2)
     finalList = list1 + list2
@@ -1147,20 +1147,20 @@ print(new_a) #Prints `[1, 2, 5, 6, 8, 9]`
 ```python
 array2D_1 = array.reshape((3,3))
 array2D_1
- 
+
 array([[0, 1, 2],
        [3, 4, 5],
        [6, 7, 8]])
 
 array2D_2 = np.arange(10,19).reshape(3,3)
 array2D_2
- 
+
 array([[10, 11, 12],
        [13, 14, 15],
        [16, 17, 18]])
 
 np.concatenate((array2D_1,array2D_2))
- 
+
 array([[ 0,  1,  2],
        [ 3,  4,  5],
        [ 6,  7,  8],
@@ -1169,7 +1169,7 @@ array([[ 0,  1,  2],
        [16, 17, 18]])
 
 np.vstack((array2D_1, array2D_2))
- 
+
 array([[ 0,  1,  2],
        [ 3,  4,  5],
        [ 6,  7,  8],
@@ -1178,7 +1178,7 @@ array([[ 0,  1,  2],
        [16, 17, 18]])
 
 np.hstack((array2D_1, array2D_2))
- 
+
 array([[ 0,  1,  2, 10, 11, 12],
        [ 3,  4,  5, 13, 14, 15],
        [ 6,  7,  8, 16, 17, 18]])
@@ -1252,14 +1252,14 @@ pd.options.mode.chained_assignment = None  # default='warn'
 
 df.ix[:,'Score']
 # Select 2nd row and 3rd column value
- 
+
 df.iloc[1,2]
 
 # select 1st and 4thcolumn
 df.iloc[:,[0,3]]
 
 # select first 2 columns
- 
+
 df.iloc[:,:2]
 ```
 
@@ -1275,7 +1275,7 @@ df.loc[[1,2,3,4,5],['Name','Score']]
 for _fix,_val in reversed(list(enumerate(_holdlist))):
     print(_fix,_val)
 ```
-    
+
 ## tensorflow memory config
 ```python
 config = tf.ConfigProto(allow_soft_placement=True)
@@ -1320,7 +1320,7 @@ saver = tf.train.Saver(max_to_keep=4, keep_checkpoint_every_n_hours=2)
 
 ```
 
-## Shuffle Random 
+## Shuffle Random
 ```python
 sentiment_data = pd.DataFrame()
 from sklearn.utils import shuffle
@@ -1335,7 +1335,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 x = np.arange(-10, 11)
-xU, xL = x + 0.5, x - 0.5 
+xU, xL = x + 0.5, x - 0.5
 prob = ss.norm.cdf(xU, scale = 3) - ss.norm.cdf(xL, scale = 3)
 prob = prob / prob.sum() #normalize the probabilities so their sum is 1
 nums = np.random.choice(x, size = 10000, p = prob)
@@ -1356,12 +1356,12 @@ transfer_values = cache(cache_path=cache_path,
 ```
 
 
-## searching datetime index 
+## searching datetime index
 ```python
-1. index count finds the DateTimeIndex 
+1. index count finds the DateTimeIndex
 dffault['index'] = np.arange(df_merged_test.shape[0])
 tempdf = dffault['index'].iloc[int(startday):int(endday)].index
-2. set the DateTimeIndex 
+2. set the DateTimeIndex
 dffault.ix[tempdf]
 
 ```
@@ -1383,7 +1383,7 @@ model.add(GRU(units=512,
 
 ```
 
-## pandas floor 
+## pandas floor
 ```python
 floored_data = data.apply(np.floor)
 ```
@@ -1467,7 +1467,7 @@ array([[ 0.,  1.,  0.,  0.,  0.,  0.],
        [ 0.,  1.,  0.,  0.,  0.,  0.]])
 ```
 
-## sklearn train_test_split 
+## sklearn train_test_split
 ```python
 You can use train_test_split twice. I think this is most straightforward.
 
@@ -1619,7 +1619,7 @@ os.getcwd()
 
 ## today searching datetimeindex, datetime
 ```python
-import datetime 
+import datetime
 today = datetime.date.today()
 print(str(today))
 
@@ -1657,7 +1657,7 @@ idx = mcdon.loc['2007-01-01':'2007-05-01'].index
 stock = mcdon.loc['2007-01-01':'2007-05-01']['Adj. Close']
 
 # pandas datetime index to matplotlib x input
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import matplotlib.dates as dates
 fig, ax = plt.subplots()
 ax.plot_date(idx, stock,'-')
@@ -1734,7 +1734,7 @@ plt.show()
 fig, ax = plt.subplots(figsize=(10,8))
 ax.plot_date(idx, stock,'-')
 
-  
+
 # Major Axis
 ax.xaxis.set_major_locator(dates.WeekdayLocator(byweekday=1))
 ax.xaxis.set_major_formatter(dates.DateFormatter('%B-%d-%a'))
@@ -1829,9 +1829,13 @@ np_target = one_hot.fit_transform(np.reshape(_val, (-1,1)) ).toarray()
 
 ```
 
+## Copy and add the last line of a python pandas data frame
+```python
+df_data = df_data.append(pd.DataFrame(index=['2019-10-08'], data=df_data.tail(1).values, columns=df_data.columns))
+```
 
 
-# Reference 
+# Reference
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
 
 - [How To Change Column Names and Row Indexes Simultaneously in Pandas](http://cmdlinetips.com/2018/03/how-to-change-column-names-and-row-indexes-in-pandas/)
