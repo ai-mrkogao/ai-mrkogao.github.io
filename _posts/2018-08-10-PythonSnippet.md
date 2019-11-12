@@ -1834,6 +1834,33 @@ np_target = one_hot.fit_transform(np.reshape(_val, (-1,1)) ).toarray()
 df_data = df_data.append(pd.DataFrame(index=['2019-10-08'], data=df_data.tail(1).values, columns=df_data.columns))
 ```
 
+## Inserting row in pandas dataframe based on date using datetime index  
+```python
+               col_A    vi_B    data_source index_as_date
+2017-01-21  0.000000  0.199354         sat       2017-01-21
+2017-01-22  0.000000  0.204250         NaN           NaT
+2017-01-23  0.000000  0.208077         NaN           NaT
+2017-01-27  0.000000  0.215081         NaN           NaT
+2017-01-28  0.000000  0.215300         NaN           NaT
+
+#if necessary convert to datetime
+df.index = pd.to_datetime(df.index)
+df['index_as_date'] = pd.to_datetime(df['index_as_date'])
+
+df.loc[pd.to_datetime('2017-01-24')] = [0.01,0.4,'sat', pd.NaT]
+df = df.sort_index()
+print (df)
+
+            col_A      vi_B data_source index_as_date
+2017-01-21   0.00  0.199354         sat    2017-01-21
+2017-01-22   0.00  0.204250         NaN           NaT
+2017-01-23   0.00  0.208077         NaN           NaT
+2017-01-24   0.01  0.400000         sat           NaT
+2017-01-27   0.00  0.215081         NaN           NaT
+2017-01-28   0.00  0.215300         NaN           NaT
+```
+[Inserting row in pandas dataframe based on date using datetime index ](https://stackoverflow.com/questions/46701131/inserting-row-in-pandas-dataframe-based-on-date-using-datetime-index) 
+
 
 # Reference
 - [Accessing pandas dataframe columns, rows, and cells](https://pythonhow.com/accessing-dataframe-columns-rows-and-cells/)
